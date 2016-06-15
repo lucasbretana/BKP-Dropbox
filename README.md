@@ -1,2 +1,0 @@
-# BKP-Dropbox
-Dropbox backup
