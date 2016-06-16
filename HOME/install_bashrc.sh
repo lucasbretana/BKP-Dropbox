@@ -12,16 +12,18 @@
 FILE="bashrc"
 export $FILE;
 
-COMM="mv $FILE $HOME/.$FILE"
+COMM="cp ./$FILE $HOME/.$FILE"
 
 echo "--- Putting the file $FILE on $HOME folder as .$FILE ---";
 if [ -f "$HOME/.$FILE" ]; then
-	echo -e "\nThe file exists, override? (It will be saved as $HOME/.$FILE.old)";
 	while true; do
+		echo -e "\nThe file exists, override? (It will be saved as $HOME/.$FILE.old)";
 		echo -e "\ny/N";
-		read -n 1 $OP;
+		read -n 1 OP;
 		echo -e "\n";
 		if [ "$OP" = "y" ] || [ "$OP" = "Y" ]; then
+			COMM="cp $HOME/.$FILE $HOME/.$FILE.old && "$COMM;
+			echo -e "\n$COMM\n";
 			$COMM && echo -e "\nDone";
 			if [ $? -ne 0 ]; then
 				echo -e "\nSomething went wrong!";
@@ -32,6 +34,8 @@ if [ -f "$HOME/.$FILE" ]; then
 			break;
 		fi
 	done;
+else
+	$COMM && echo -e "\nDone";
 fi
 
 ## Manual execute after creating a new of this kind
