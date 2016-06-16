@@ -8,6 +8,7 @@
 # TODO
 	- Create the installer for the vimrc in HOME
 	- Test the installer for the bashrc in HOME
+	- Test the installer for the bash_aliases in HOME
 
 # References
 		* http://vim.wikia.com/wiki/Example_vimrc
