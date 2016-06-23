@@ -37,5 +37,5 @@
 --------------------------------------------------------------------------------
 
 # NormalFiles: those files do not require root permissions to be "installed"
-# SysFiles: thos files do require some privilegies to be installed, like sudo, or su. If you don't have it ask for the system administrator to install them
+# SysFiles: those files do require some privilegies to be installed, like sudo, or su. If you don't have it ask for the system administrator to install them
 		
