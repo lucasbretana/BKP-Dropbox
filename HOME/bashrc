@@ -50,12 +50,12 @@ define() {
 	curl -s "http://www.collinsdictionary.com/dictionary/english/$*" | sed -n '/class="def"/p' | awk '{gsub(/.*<span class="def">|<\/span>.*/,"");print}' | sed "s/<[^>]\+>//g";
 }
 
-getweather () { 
-	if [ -n $@ ]; then 
-		curl http://wttr.in/$@; 
-	else 
-		curl http://wttr.in/Pelotas; 
-	fi; 
+getweather () {
+	if [ -n $@ ]; then
+		curl http://wttr.in/$@;
+	else
+		curl http://wttr.in/Pelotas;
+	fi;
 }
 
 # Used to convert some manual to a PDF file
@@ -75,4 +75,3 @@ toup (){
 tolow (){
 	echo $1 | tr '[:upper:]' '[:lower:]'
 }
-
