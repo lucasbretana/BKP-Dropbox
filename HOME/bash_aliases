@@ -4,7 +4,7 @@ alias cp='cp -i'
 alias su='su -l'
 alias less='less -x 2'
 alias open='xdg-open'
-alias ping='echo Miau ; ping'
+alias ping='figlet Miau ; ping'
 alias mv='mv -i'
 ##
 # usefull commands, as aliases
@@ -17,24 +17,25 @@ alias pingg='ping www.google.com.br'
 alias cls='clear && ls'
 alias whereamirly='pwd -P'
 alias whereami='pwd -L'
-alias sayHi='echo "Hello '$(whoami)!' Hope you are having a good day!"'
 alias getlogo='screenfetch'
 alias myip='hostname -I | cut -d" " -f 1'
 alias myexip='curl "www.echoip.net" ; echo '
 alias goreal='cd $(whereamirly)'
-alias connecthp='ssh -l lucas lucasbretana.no-ip.org'
+alias connecthp='ssh -l lucas debian-hp'
 alias connectlups='ssh -l lucasbretana lups.inf.ufpel.edu.br'
 alias connectphi='ssh -p 8080 ufpel@164.41.209.67'
 alias connectgoodtwin='ssh -l lups goodtwin'
-# alias for java 8
-alias java8='/usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java'
-alias javac8='/usr/lib/jvm/java-8-openjdk-amd64/bin/javac'
-alias jar8='/usr/lib/jvm/java-8-openjdk-amd64/bin/jar'
-# alias for java 7
-alias java7='/usr/lib/jvm/java-7-openjdk-amd64/jre/bin/java'
-alias javac7='/usr/lib/jvm/java-7-openjdk-amd64/bin/javac'
-alias jar7='/usr/lib/jvm/java-7-openjdk-amd64/bin/jar'
-# alias for java 6
-alias java6='/usr/lib/jvm/java-6-openjdk-amd64/jre/bin/java'
-alias javac6='/usr/lib/jvm/java-6-openjdk-amd64/bin/javac'
-alias jar6='/usr/lib/jvm/java-6-openjdk-amd64/bin/jar'
+if [ $(hostname) = "MORDOR" ]; then
+  # alias for java 8
+  alias java8='/usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java'
+  alias javac8='/usr/lib/jvm/java-8-openjdk-amd64/bin/javac'
+  alias jar8='/usr/lib/jvm/java-8-openjdk-amd64/bin/jar'
+  # alias for java 7
+  alias java7='/usr/lib/jvm/java-7-openjdk-amd64/jre/bin/java'
+  alias javac7='/usr/lib/jvm/java-7-openjdk-amd64/bin/javac'
+  alias jar7='/usr/lib/jvm/java-7-openjdk-amd64/bin/jar'
+  # alias for java 6
+  alias java6='/usr/lib/jvm/java-6-openjdk-amd64/jre/bin/java'
+  alias javac6='/usr/lib/jvm/java-6-openjdk-amd64/bin/javac'
+  alias jar6='/usr/lib/jvm/java-6-openjdk-amd64/bin/jar'
+fi

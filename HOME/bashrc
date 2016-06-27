@@ -1,35 +1,146 @@
-alias ll='ls -lh'
-alias la='ls -alh'
-alias l='ls -h'
-alias cls='clear ; ls'
-alias rm='rm -i'
-alias cp='cp -i'
-alias mv='mv -i'
-alias ping='echo "Miau" ; ping'
-alias ping8='ping 8.8.8.8'
-alias pingg='ping www.google.com.br'
-alias cls='clear ; ls'
-alias connecthydra='ssh hydra'
-alias connectphi='ssh -p 8080 ufpel@164.41.209.67'
-alias connectgoodtwin='ssh -l lups goodtwin'
-alias hydrastatus='ipmitool -H 10.0.1.102 -U admin -P lups#431$ chassis power status'
-alias hydraon='ipmitool -H 10.0.1.102 -U admin -P lups#431$ chassis power on'
-alias hydraoffhard='ipmitool -H 10.0.1.102 -U admin -P lups#431$ chassis power off'
-alias hydraoffsoft='ipmitool -H 10.0.1.102 -U admin -P lups#431$ chassis power soft'
-alias hydrarestart='ipmitool -H 10.0.1.102 -U admin -P lups#431$ chassis power cycle'
+# ~/.bashrc: executed by bash(1) for non-login shells.
+# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
+# for examples
 
-export WORK=$HOME/Documents/LindaTS
+# If not running interactively, don't do anything
+case $- in
+  *i*) ;;
+  *) return;;
+esac
 
- #enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls -h --color=auto'
-    alias dir='dir --color=auto'
-    alias vdir='vdir --color=auto'
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
+# don't put duplicate lines or lines starting with space in the history.
+# See bash(1) for more options
+HISTCONTROL=ignoreboth
+
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=-1
+HISTFILESIZE=-1
+
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
+# If set, the pattern "**" used in a pathname expansion context will
+# match all files and zero or more directories and subdirectories.
+shopt -s globstar
+
+# make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+# set variable identifying the chroot you work in (used in the prompt below)
+if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
+  debian_chroot=$(cat /etc/debian_chroot)
 fi
+
+# set a fancy prompt (non-color, unless we know we "want" color)
+case "$TERM" in
+  xterm-color) color_prompt=yes;;
+esac
+
+# uncomment for a colored prompt, if the terminal has the capability; turned
+# off by default to not distract the user: the focus in a terminal window
+# should be on the output of commands, not on the prompt
+force_color_prompt=yes;
+if [ -n "$force_color_prompt" ]; then
+  if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+    # We have color support; assume it's compliant with Ecma-48
+    # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+    # a case would tend to support setf rather than setaf.)
+    color_prompt=yes
+  else
+    color_prompt=
+  fi
+fi
+
+if [ "$color_prompt" = yes ]; then
+#  PS1='\n\[\e]0;\u@\h: \W\a\]${debian_chroot:+($debian_chroot)}\[\033[01;11m\]\u@\h\[\033[00m\]:[\[\033[01;36m\]\W\[\033[00m\]]\n$ _> '
+#  PS1='\n${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:[\[\033[01;36m\]\w\[\033[00m\]]\n$ _> '
+  PS1='\n${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:[\[\033[01;36m\]\w\[\033[00m\]]\n$ _> '
+else
+  PS1='${debian_chroot:+($debian_chroot)}\u@\h:[\W]$ '
+fi
+unset color_prompt force_color_prompt
+
+# If this is an xterm set the title to user@host:dir
+case "$TERM" in
+xterm*|rxvt*)
+  PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \W\a\]$PS1"
+  ;;
+*)
+  ;;
+esac
+
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+  test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+  alias ls='ls --color=auto'
+  alias dir='dir --color=auto'
+  alias vdir='vdir --color=auto'
+
+  alias grep='grep --color=auto'
+  alias fgrep='fgrep --color=auto'
+  alias egrep='egrep --color=auto'
+fi
+
+# colored GCC warnings and errors
+export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+
+if [ $(hostname)  = "MORDOR" ]; then
+  # usefull ambient variable
+  export MOKAICON=/usr/share/icons/Moka/256x256/apps
+  export DESKTOP=$HOME/Desktop
+  export DOWNLOADS=$HOME/Downloads
+  export MUSIC=$HOME/Music
+  export PICTURES=$HOME/Pictures
+  export PUBLIC=$HOME/Public
+  export TEMPLATES=$HOME/Templates
+  export VIDEOS=$HOME/Videos
+  export DOCUMENTS=$HOME/Documents
+  export GAMES=$DOWNLOADS/Games
+  export DROPBOX=$DOCUMENTS/Dropbox
+  export LUCAS=$DROPBOX/Lucas
+  export NOTES=$DOCUMENTS/Dropbox/Lucas/notes
+  export VIMRUNTIME=/usr/share/vim/vim74
+  # UFPel aliases
+  export UFPEL=$LUCAS/UFPel
+  export LUPS=$UFPEL/Projetos/LUPS
+  export WHEREDOWEGO=$LUPS/LindaTS
+  export AED=$UFPEL/2016/2016-1/AED
+  export AOC=$UFPEL/2016/2016-1/AOC
+  export Calculo2=$UFPEL/2016/2016-1/Calculo2
+  export LF=$UFPEL/2016/2016-1/LF
+  export POO=$UFPEL/2016/2016-1/POO
+  # JAVA_HOME for Maven (GAppEnine)
+  export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
+  export JAVA_DOC=$JAVA_HOME/docs/api
+  # Path export
+  export PATH=$PATH:/opt/teamviewer/tv_bin/wine/bin
+  export PATH=$PATH:/opt/android-studio/bin
+  export PATH=$PATH:/opt/android-sdk-linux/tools
+  export PATH=$PATH:/opt/VirtualGL/bin
+  export PATH=$PATH:/opt/netbeans-8.0.2/bin
+  # Intel compiler utilities
+  export PATH=$PATH:/opt/intel/bin
+  export LD_LIBRARY_PATH=/opt/intel/lib
+  export DYLD_LIBRARY_PATH=/opt/intel/lib
+  export MANPATH=$MANPATH:/opt/intel/man
+  # load some setups
+  source /opt/intel/cnc/1.0.100/bin/cncvars.sh
+fi;
+
+
+# Alias definitions.
+# You may want to put all your additions into a separate file like
+# ~/.bash_aliases, instead of adding them here directly.
+# See /usr/share/doc/bash-doc/examples in the bash-doc package.
+
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
@@ -40,39 +151,39 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-# colored GCC warnings and errors
-export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
-PS1='\n${debian_chroot:+($debian_chroot)}\[\033[00;34m\]\u@\h\[\033[00m\]:[\[\033[01;36m\]\W\[\033[00m\]]\n$ _> '
 
 # Uses the cllinsdictionary to define a word, and shows only the part
 # that is relevant for the context
 define() {
-	curl -s "http://www.collinsdictionary.com/dictionary/english/$*" | sed -n '/class="def"/p' | awk '{gsub(/.*<span class="def">|<\/span>.*/,"");print}' | sed "s/<[^>]\+>//g";
-}
-
-getweather () { 
-	if [ -n $@ ]; then 
-		curl http://wttr.in/$@; 
-	else 
-		curl http://wttr.in/Pelotas; 
-	fi; 
+  curl -s "http://www.collinsdictionary.com/dictionary/english/$*" | sed -n '/class="def"/p' | awk '{gsub(/.*<span class="def">|<\/span>.*/,"");print}' | sed "s/<[^>]\+>//g";
 }
 
 # Used to convert some manual to a PDF file
 man2pdf() {
-	man -t $1 | ps2pdf - > $1.pdf
+  man -t $1 | ps2pdf - > $1.pdf
 }
 
 # Improves the man
-man () {
-	/usr/bin/man $@ 2> /dev/null || help $@ 2> /dev/null || less -x 2 $HOME/Documents/man/man_$@.txt 2> /dev/null || echo "No trace of documentation was found"
+man ()  {
+  /usr/bin/man $@ 2> /dev/null || less -x 2 $@ 2> /dev/null || less -x 2 $DOCUMENTS/man_$@.txt 2> /dev/null || less -x 2 $DOCUMENTS/man_$(echo $A | cut -d "=" -f 2).txt 2> /dev/null || cowsay "No trace of manual page"; 
+}
+toup () {
+  echo $1 | tr '[:lower:]' '[:upper:]'
 }
 
-toup (){
-	echo $1 | tr '[:lower:]' '[:upper:]'
+tolow () {
+  echo $1 | tr '[:upper:]' '[:lower:]'
 }
 
-tolow (){
-	echo $1 | tr '[:upper:]' '[:lower:]'
+flipacoin () {
+  [ $[ $RANDOM % 2] == 0 ] && echo "Heads" || echo "Tails";
 }
 
+getweather () { 
+  if [ -n $@ ]; then
+    echo $@
+    curl http://wttr.in/$@;
+  else
+    curl http://wttr.in/Pelotas;
+  fi
+}
