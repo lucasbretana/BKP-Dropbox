@@ -105,6 +105,16 @@ if [ $(hostname)  = "MORDOR" ]; then
   export LUCAS=$DROPBOX/Lucas
   export NOTES=$DOCUMENTS/Dropbox/Lucas/notes
   export VIMRUNTIME=/usr/share/vim/vim74
+  # GIT repos
+  export GIT=$LUCAS/debian/ConfFiles
+  export GIT=$GIT:$LUCAS/Programming/Java
+  export GIT=$GIT:$LUCAS/Programming/PresentationHtml
+  export GIT=$GIT:$LUCAS/Programming/Projects
+  export GIT=$GIT:$LUCAS/UFPel/2016/2016-1/AED/AED_git
+  export GIT=$GIT:$LUCAS/UFPel/2016/2016-1/AOC/Tetris-AOC
+  export GIT=$GIT:$LUCAS/UFPel/2016/2016-1/POO/Trab-POO
+  export GIT=$GIT:$LUCAS/UFPel/Projetos/LUPS/ERAD-2016
+  export GIT=$GIT:$LUCAS/UFPel/Projetos/LUPS/LindaTS
   # UFPel aliases
   export UFPEL=$LUCAS/UFPel
   export LUPS=$UFPEL/Projetos/LUPS
@@ -187,4 +197,13 @@ getweather () {
   else
     curl http://wttr.in/Pelotas;
   fi
+}
+
+checkgit () { 
+  BACK=$(whereami); 
+  for j in $(echo $GIT | tr ":" "\n"); {
+    cd $j; 
+    git status 2> /dev/null | tr "\n" "+" | grep -v "nothing to commit" | tr "+" "\n"; 
+  }; 
+  cd $BACK;
 }
