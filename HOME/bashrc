@@ -142,12 +142,13 @@ if [ $(hostname)  = "MORDOR" ]; then
   source /opt/intel/cnc/1.0.100/bin/cncvars.sh
 elif [[ $(hostname) = "lups"* ]]; then
   # GIT repos
-  export GIT=$HOME/Documents/ConfFiles
-  export GIT=$GIT:$HOME/Documents/Java
+  export GIT=$HOME/Documents/Java
   export GIT=$GIT:$HOME/Documents/AED
-  export GIT=$GIT:$HOME/Documetns/Tetris-AOC
-  export GIT=$GIT:$HOME/Documents/Trab-POO
+  export GIT=$GIT:$HOME/Documents/AOC
+  export GIT=$GIT:$HOME/Documents/ConfFiles
+  export GIT=$GIT:$HOME/Documents/Java
   export GIT=$GIT:$HOME/Documents/LindaTS
+  export GIT=$GIT:$HOME/Documents/Trab-POO
 fi
 
 
@@ -219,3 +220,4 @@ checkgit () {
   }; 
   cd $BACK;
 }
+
