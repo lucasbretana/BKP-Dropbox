@@ -140,7 +140,15 @@ if [ $(hostname)  = "MORDOR" ]; then
   export MANPATH=$MANPATH:/opt/intel/man
   # load some setups
   source /opt/intel/cnc/1.0.100/bin/cncvars.sh
-fi;
+elif [[ $(hostname) = "lups"* ]]; then
+  # GIT repos
+  export GIT=$HOME/Documents/ConfFiles
+  export GIT=$GIT:$HOME/Documents/Java
+  export GIT=$GIT:$HOME/Documents/AED
+  export GIT=$GIT:$HOME/Documetns/Tetris-AOC
+  export GIT=$GIT:$HOME/Documents/Trab-POO
+  export GIT=$GIT:$HOME/Documents/LindaTS
+fi
 
 
 # Alias definitions.
@@ -200,6 +208,10 @@ getweather () {
 }
 
 checkgit () { 
+  if [ -z $GIT ]; then
+    echo "The 'GIT' system variable is not set";
+    return;
+  fi
   BACK=$(whereami); 
   for j in $(echo $GIT | tr ":" "\n"); {
     cd $j; 
