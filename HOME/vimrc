@@ -10,10 +10,11 @@ set expandtab
 " contents. Use this to allow intelligent auto-indenting for each filetype,
 " and for plugins that are filetype specific.
 filetype indent plugin on
+" nnoremap c d "
 " BeginGuakeMode "
-nnoremap a h
-nnoremap w k
-nnoremap s j
-nnoremap d l
+" nnoremap a h "
+" nnoremap w k "
+" nnoremap s j "
+" nnoremap d l "
 " EndGuakeMode "
 
