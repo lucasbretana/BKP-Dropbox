@@ -93,16 +93,6 @@ if [ $(hostname)  = "MORDOR" ]; then
   export LUCAS=$DROPBOX/Lucas
   export NOTES=$DOCUMENTS/Dropbox/Lucas/notes
   export VIMRUNTIME=/usr/share/vim/vim74
-  # GIT repos
-  export GIT=$LUCAS/debian/ConfFiles
-  export GIT=$GIT:$LUCAS/Programming/Java
-  export GIT=$GIT:$LUCAS/Programming/PresentationHtml
-  export GIT=$GIT:$LUCAS/Programming/Projects
-  export GIT=$GIT:$LUCAS/UFPel/2016/2016-1/AED/AED_git
-  export GIT=$GIT:$LUCAS/UFPel/2016/2016-1/AOC/Tetris-AOC
-  export GIT=$GIT:$LUCAS/UFPel/2016/2016-1/POO/Trab-POO
-  export GIT=$GIT:$LUCAS/UFPel/Projetos/LUPS/ERAD-2016
-  export GIT=$GIT:$LUCAS/UFPel/Projetos/LUPS/LindaTS
   # UFPel vars
   export UFPEL=$LUCAS/UFPel
   export LUPS=$UFPEL/Projetos/LUPS
@@ -129,17 +119,15 @@ if [ $(hostname)  = "MORDOR" ]; then
   # load some setups
   source /opt/intel/cnc/1.0.100/bin/cncvars.sh
 elif [[ $(hostname) = "lups"* ]]; then
-  # GIT repos
-  export GIT=$HOME/Documents/Java
-  export GIT=$GIT:$HOME/Documents/AED
-  export GIT=$GIT:$HOME/Documents/AOC
-  export GIT=$GIT:$HOME/Documents/ConfFiles
-  export GIT=$GIT:$HOME/Documents/Java
-  export GIT=$GIT:$HOME/Documents/LindaTS
-  export GIT=$GIT:$HOME/Documents/Trab-POO
-  export GIT=$GIT:$HOME/Documents/JavaUtilities
+  export DESKTOP=$HOME/Desktop
+  export DOWNLOADS=$HOME/Downloads
+  export MUSIC=$HOME/Music
+  export PICTURES=$HOME/Pictures
+  export PUBLIC=$HOME/Public
+  export TEMPLATES=$HOME/Templates
+  export VIDEOS=$HOME/Videos
+  export DOCUMENTS=$HOME/Documents
 fi
-
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
@@ -176,18 +164,24 @@ man2pdf() {
 man ()  {
   /usr/bin/man $@ 2> /dev/null || less $@ 2> /dev/null || less $DOCUMENTS/man_$@.txt 2> /dev/null || less $DOCUMENTS/man_$(echo $A | cut -d "=" -f 2).txt 2> /dev/null || cowsay "No trace of manual page"; 
 }
+
+# Changes all leter in string to it's correspondent in upper casae
 toup () {
   echo $1 | tr '[:lower:]' '[:upper:]'
 }
 
+# Changes all leter in string to it's correspondent in lower case
 tolow () {
   echo $1 | tr '[:upper:]' '[:lower:]'
 }
 
+# Flip a coin, faster than Google's
 flipacoin () {
   [ $[ $RANDOM % 2] == 0 ] && echo "Heads" || echo "Tails";
 }
 
+# Gets the weahter from the wttr sie and shows in terminal
+# It can be specified witch city you want, the default is Pelotas
 getweather () { 
   if [ -n $@ ]; then
     echo $@
@@ -197,16 +191,61 @@ getweather () {
   fi
 }
 
-checkgit () { 
-  if [ -z $GIT ]; then
-    echo "The 'GIT' system variable is not set";
-    return;
-  fi
-  BACK=$(whereami); 
-  for j in $(echo $GIT | tr ":" "\n"); {
-    cd $j; 
-    git status 2> /dev/null | tr "\n" "+" | grep -v "nothing to commit" | tr "+" "\n"; 
-  }; 
-  cd $BACK;
+# Check all gits repositories for missing commit/push and pull/fetch
+# Uses updategitvar
+checkgit () 
+{ 
+    if [ -z "$GIT" ]; then
+        updategitvar ;
+    fi        
+    if [ -z "$GIT" ]; then
+        echo "The 'GIT' system variable is not set";
+        return;
+    fi;
+    BACK=$(whereami);
+    for j in $(echo $GIT | tr ":" "\n");
+    do
+        cd $j;
+        STA=$(git status 2> /dev/null | tr '\n' '+' | grep --color=auto -v 'nothing to commit' | tr '+' '\n');
+        if [ -n "$STA" ]; then
+            echo -e "\n############################################"
+            echo "#### On repo: $(basename $(git rev-parse --show-toplevel)) [$j]"
+            if [ "$1" = "true" ];then
+                echo "$STA";
+            else
+                echo "It's missing a commit and/or push!";
+            fi
+        fi
+        FET=$(git fetch --dry-run 2>&1 1> /dev/null | grep -i github)
+        if [ -n "$FET" ]; then
+            if [ -z "$STA" ]; then
+                echo -e "\n############################################"
+                echo "#### On repo: $(basename $(git rev-parse --show-toplevel)) [$j]"
+            fi
+            if [ "$1" = "true" ];then
+                echo "$FET";
+            else
+                echo "It's missing a pull/fetch!";
+            fi
+        fi
+        unset STA;
+        unset FET;
+    done;
+    cd $BACK
 }
 
+# Updates the GIT var, than contains all repositories, 
+# Run after added a new one or remove an old one
+# It is used by checkgit function
+updategitvar ()
+{
+    unset GIT ;
+    for i in $(find / -name ".git" 2> /dev/null | sed "s/\/.git//g"); {
+        if [ -n "$GIT" ]; then
+            GIT=$GIT:$i ;
+        else
+            GIT=$i ;
+        fi
+    }
+    export GIT;
+}
