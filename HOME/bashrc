@@ -149,6 +149,7 @@ elif [[ $(hostname) = "lups"* ]]; then
   export GIT=$GIT:$HOME/Documents/Java
   export GIT=$GIT:$HOME/Documents/LindaTS
   export GIT=$GIT:$HOME/Documents/Trab-POO
+  export GIT=$GIT:$HOME/Documents/JavaUtilities
 fi
 
 
