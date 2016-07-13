@@ -11,7 +11,7 @@ set expandtab
 " and for plugins that are filetype specific.
 filetype indent plugin on
 " nnoremap c d "
-" BeginGuakeMode PIECE OF SHIT"
+" BeginGuakeMode "
 " nnoremap a h "
 " nnoremap w k "
 " nnoremap s j "
