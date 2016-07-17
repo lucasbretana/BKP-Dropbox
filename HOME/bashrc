@@ -67,7 +67,7 @@ unset color_prompt force_color_prompt
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
 xterm*|rxvt*)
-  PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \W\a\]$PS1"
+  PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
   ;;
 *)
   ;;
@@ -79,7 +79,7 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 if [ $(hostname)  = "MORDOR" ]; then
   # usefull ambient variable
   export MOKAICON=/usr/share/icons/Moka/256x256/apps
-  export DADOS=/$HOME/.Dados
+  export DADOS=$HOME/.Dados
   export DESKTOP=$HOME/Desktop
   export DOWNLOADS=$HOME/Downloads
   export MUSIC=$HOME/Music
@@ -162,7 +162,7 @@ man2pdf() {
 
 # Improves the man
 man ()  {
-  /usr/bin/man $@ 2> /dev/null || less $@ 2> /dev/null || less $DOCUMENTS/man_$@.txt 2> /dev/null || less $DOCUMENTS/man_$(echo $A | cut -d "=" -f 2).txt 2> /dev/null || cowsay "No trace of manual page"; 
+  /usr/bin/man $@ 2> /dev/null || less $@ 2> /dev/null || less $DOCUMENTS/man_$@.txt 2> /dev/null || less $DOCUMENTS/man_$(echo $@ | cut -d "=" -f 2).txt 2> /dev/null || cowsay "No trace of manual page"; 
 }
 
 # Changes all leter in string to it's correspondent in upper casae
