@@ -33,10 +33,6 @@ alias getlogo='screenfetch'
 alias myip='hostname -I | cut -d" " -f 1'
 alias myexip='curl "www.echoip.net" ; echo '
 alias goreal='cd $(whereamirly)'
-alias connecthp='ssh -l lucas debian-hp'
-alias connectlups='ssh -l lucasbretana lups.inf.ufpel.edu.br'
-alias connectphi='ssh -p 8080 ufpel@164.41.209.67'
-alias connectgoodtwin='ssh -l lups goodtwin'
 if [ $(hostname) = "MORDOR" ]; then
   # alias for java 8
   alias java8='/usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java'
@@ -50,4 +46,12 @@ if [ $(hostname) = "MORDOR" ]; then
   alias java6='/usr/lib/jvm/java-6-openjdk-amd64/jre/bin/java'
   alias javac6='/usr/lib/jvm/java-6-openjdk-amd64/bin/javac'
   alias jar6='/usr/lib/jvm/java-6-openjdk-amd64/bin/jar'
+  
+  # Alias definitions.
+  # You may want to put all your additions ocult aliaes
+  # ~/.bash_ocult_aliases, instead of adding them here directly.
+  if [ -f ~/.bash_ocult_aliases ]; then
+    . ~/.bash_ocult_aliases
+  fi
+
 fi
