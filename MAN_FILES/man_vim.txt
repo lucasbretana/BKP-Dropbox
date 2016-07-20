@@ -1,0 +1,73 @@
+* The vim is divided in four parts: normal, edition, visualize and execution;
+ - NORMAL: in this the user is limited to some specifics keys that you allow him to navigate and make little editions. Besides that you can use the commands with : (two dots)
+  - EDITION: allow the user to write and re-write in the file
+  - VISUALIZE:
+	- EXECUTION:
+
+* NORMAL
+
+	H,J,K,L 	- use in stead of the arrows keys
+	^E 				- scroll the window down one line
+	^Y 				- scroll the window up one line
+	^F				- scroll down one page
+	^B 				- scroll up one page
+	H					- moves the cursor to the HIGHEST part of the window
+	M					- moves the cursor to the MIDDLE part of the window
+	L					- moves the cursor to the LOWEST part of the window
+	g					- moves the cursor to the begin of the file
+	G					- moves the cursor to the end of the file
+
+To continue:
+								https://youtu.be/5r6yzFEXajQ?t=6m43s
+
+Rerences:
+	- https://www.youtube.com/watch?v=5r6yzFEXajQ
+
+## 	Estando em modo comando (padrão)	##
+- aperta a letra "i" : insert mode
+
+###	Estando em modo de edição 		##
+- aperte ESC para sair desse modo
+
+### 		Editar
+
+Obs.: entre no arquivo e aperte a letra "i" , e vai entrar em mode de inserção
+
+-----------------------------------------------------
+### 		Salvar		###
+
+- ESC : vai para o mo de comandos
+
+:w! : para salvar
+
+###		Sair		###
+
+:q! : para sair sem salvar
+
+### 		Sair e Salvar
+
+:wq!
+
+------------------------------------------------------
+###		Copiar, colar, recortar
+y - copiar
+
+d - recortar
+
+p - colar
+
+
+------------------------------------------------------
+###		Comandos úteis
+
+:setlocal spell spelllang=pt_br
+
+ z=			- for the word under/after the cursor suggest correctly spelled words
+
+:spellr			- replace all the corrections made by last 'z='
+
+ :bf            # Go to first file.
+ :bl            # Go to last file
+ :bn            # Go to next file.
+ :bp            # Go to previous file.
+ :bw            # Close file.

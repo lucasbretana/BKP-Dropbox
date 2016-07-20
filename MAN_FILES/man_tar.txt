@@ -1,0 +1,20 @@
+ * -- 		.tgz/ .tar.gz / .gz		-- *
+ 	$ tar -vzxf nomearquivo.tar.gz
+
+* -- 		.tar.bz2: 		-- *
+ 	$ tar -vxjpf nomearquivo.tar.bz2
+
+* -- 		.tar: 			-- *
+ 	$ tar xf nomearquivo.tar
+
+* -- 		.rar: 			-- *
+ 	$ rar x nomearquivo.rar
+
+* --		.zip: 			-- *
+ 	$ unzip nomearquivo.zip
+
+* -- 		.7-zip: 		-- *
+	$ 7z x -y nomearquivo.7z
+
+* --		.tar.xz			-- *
+ 	$ tar -xf arquivo.tar

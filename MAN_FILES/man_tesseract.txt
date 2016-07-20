@@ -1,0 +1,7 @@
+** 	Le a imagem de entrada e imprime os caracteres 	**
+
+	$ tesseract teste.jpg -psm 8 resultado 
+
+		 teste.jpg : imagem de entrada
+		 -psm 8 : indica que é tudo uma palavra só
+		 resultador : arquivo texto de saida

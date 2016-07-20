@@ -1,0 +1,3 @@
+comando1 && comando2
+
+	comando2 somente será executado se comando1 for bem sucessido

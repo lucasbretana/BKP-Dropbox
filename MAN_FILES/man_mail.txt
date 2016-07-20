@@ -1,0 +1,24 @@
+*** Ussando o mail
+
+** exemplo simples
+$ mail -s "Assunto Teste" seuemail@dominio.com.br
+
+** com mensagem
+$ echo "Isto é um e-mail de teste" | mail -s "Assunto Teste 2" seuemail@dominio.com.br
+
+** envinado o conteudo de um arquivo
+$ mail -s "Assunto Teste 3" seuemail@dominio.com.br < /var/log/syslog
+
+** CC e CCo
+$ echo Maravilha! | mail -s "Assunto Teste 4" seuemail@dominio.com.br \
+  	-c outroemail@dominio.com.br,maisum@dominio.com.br \
+  	-b espiaodobatima@dominio.com.br
+
+*** Usando o mutt
+
+** exemplo simles
+$ echo "Assunto Anexo" | mutt -s "Assunto Teste 5" -a arquivo.zip seuemail@dominio.com.br
+
+** Exempĺo com anexo
+$ echo "Assunto Anexo" | mutt -s "Assunto Teste 6" \ -a /home/eitch/imagem.jpg /var/log/syslog /home/eitch/arquivo.zip -- hugo.cisneiros@gmail.com
+

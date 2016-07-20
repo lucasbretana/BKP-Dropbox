@@ -1,0 +1,7 @@
+**	Tira uma foto com a webcam	**
+
+	$ fswebcam -r 640x480 --jpeg 85 -D 1 teste.jpg 
+
+	 -r 640x480 : parametro para passagem da resolução e resolução
+	 --jpeg 		: tipo de imagem
+	 -D 1 			: parametro de delay de 1 segundo

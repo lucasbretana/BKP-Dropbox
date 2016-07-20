@@ -1,0 +1,23 @@
+**		Connect	to LUPS server				**
+$ ssh -l lucasbretana lups.ufpel.edu.br
+	- use THIS computer password : lups.connect.lab
+
+**		Connect to some computer on LUPS 	**
+$ ssh lups03
+	- use THAT computer passphrase : -empy password-
+
+**		acesso a hydra						**
+$ ipmitool -H 10.0.1.102es -U admin -P lups#431$ chassis power status
+$ ipmitool -H 10.0.1.102 -U admin -P lups#431$ chassis power status
+
+** 		ligar a máquina:					**
+$ ipmitool -H 10.0.1.102 -U admin -P lups#431$ chassis power on
+
+**		desligar a máquina no modo hard		**
+$ ipmitool -H 10.0.1.102 -U admin -P lups#431$ chassis power off
+
+**		desligar via chamada ao S.O 		**
+$ ipmitool -H 10.0.1.102 -U admin -P lups#431$ chassis power soft
+
+**		resetar o servidor 					**
+$ ipmitool -H 10.0.1.102 -U admin -P lups#431$ chassis power cycle

@@ -1,0 +1,46 @@
+ComandoNúmeroPermissãoStatus
+chmod000---------Nenhuma
+chmod400r--------Leitura apenas para o dono
+chmod444r--r--r--Leitura para o dono, grupo e outros
+chmod600rw-------Leitura e gravação apenas para o dono
+chmod620-rw--w----Leitura e gravação para o dono, gravação para o grupo
+chmod640-rw-r-----Leitura e gravação para o dono, e leitura para o grupo
+chmod644rw-r--r--Leitura e execução para o dono, leitura para o grupo e leitura para outros
+chmod645-rw-r--r-xLeitura e gravação para o dono, leitura para o grupo e leitura e execução para outros
+chmod646-rw-r--rw-Leitura e gravação para o dono, leitura para o grupo e leitura e gravação para outros
+chmod650-rw-r-x---Leitura e gravação para o dono e leitura e execução para o grupo
+chmod660-rw-rw----Leitura e gravação para o dono e leitura e gravação para o grupo
+chmod661-rw-rw---xLeitura e gravação para o dono, leitura e gravação para o grupo e execução para outros
+chmod662-rw-rw--w-Leitura e gravação para o dono, leitura e gravação para o grupo e gravação para outros
+chmod663-rw-rw--w-xLeitura e gravação para o dono, leitura e gravação para o grupo e leitura e execução para outros
+chmod664-rw-rw-r--Leitura e gravação para o dono, leitura e gravação para o grupo e leitura para outros
+chmod700-rwx------Leitura gravação e execução para o dono e nada para os demais
+chmod770-rwxrwx---Leitura e gravação e execução para o dono, leitura gravação e execução para o grupo e nada para outros
+chmod777-rwxrwxrwxPermissão total para dono, grupo e outros
+
+# permission
+  - r = 4 } read
+  - w = 2 } write
+  - x = 1 } execute
+
+Podemos também dar permissão através de letras, eu particularmente por questão de padronização dou por números, mas para maior entendimentos, por letras ficaria assim:
+
+
+U    Usuário
+G    Grupo
+O    Outros
++    Adicionar permissão
+-    Remover permissão
+=    Igualdade
+
+Exemplos:
+
+$ chmod u+w arquivo.extensão
+
+O "u" indica o usuário, o sinal de adição (+) indica que está sendo adicionada a permissão e "w" indica que a permissão que está sendo dada é de gravação.
+
+$ chmod g+rw arquivo.extensão
+
+Leitura e execução para o grupo.
+
+$ chmod u+rwx arquivo.extensão

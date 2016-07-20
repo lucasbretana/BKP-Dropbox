@@ -1,0 +1,59 @@
+**    GApp Engine How To install    #
+
+**    To work this example first you need to install the
+**    GApp Engine libraries for your specific language and OS.
+**    In this case I will consider that you will be working with
+**    Java and GNU/Linux OS
+
+Go to your work directory (where you want to download all the exemple)
+ $ cd /PATH/YOU/CHOICE
+
+Go to <https://console.developers.google.com/start/appengine?_ga=1.66103149.2123066311.1435170685>
+and download the Google App Engine for Java.
+Or just:
+ $ wget https://github.com/GoogleCloudPlatform/appengine-try-java/archive/master.zip
+
+Install the Google App Engine SDK for Java, see my other tutorial, or go to "See"
+section (below) and get the online tutorial
+
+Bee sure that Java and Maven are installed
+Bee sure to have Java installed
+ $ java -verion
+ $ javac -version
+Case you don't have it, see you SO forums and documentation to install the java
+from repositories, or go to Java site, download and install java (JRE and JDK)
+Bee sure to have Maven installed
+ $ mvn -v
+Case you don't have it, see you SO forums and documentation to install the java
+from repositories, or go to Maven site <https://maven.apache.org/>, download and
+install Maven (version 3.2.1 or higher).
+
+Go to the example directory
+ $ cd /PATH/YOU/CHOICE/appengine-try-java-master
+
+Let maven download all necessary jar libraries.
+ $ mvn clean install
+
+Create an online project, go to <https://console.developers.google.com/>
+
+Use that command to put the app onlie:
+ $ appcfg.py -A YOUR-PROJECT-CODE update app.yaml
+
+This should open a browser, or at lest give you an URL so you can authorize the
+APP, get a code and you shall put this code in the terminal where you execute the
+last command.
+
+Go to <YOUR-PROJECT-CODE.appspot.com> to test the example.
+
+
+-------------------------------------------------------------------------------
+
+See:
+https://console.developers.google.com/start/appengine?_ga=1.66103149.2123066311.1435170685
+https://cloud.google.com/appengine/downloads
+
+--------------------------------------------------------------------------------
+                          FAQ
+
+ $ : means that next command should be executed by you normal user, no need to root
+ # : means that next command should be executed by root, or with sudo

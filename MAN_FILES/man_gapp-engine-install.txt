@@ -1,0 +1,57 @@
+**    GApp Engine How To install    #
+
+**    To work this example first you need to install the
+**    GApp Engine libraries for your specific language and OS.
+**    In this case I will consider that you will be working with
+**    Java and GNU/Linux OS
+
+Go to your work directory (where you want to download all the files, and keep the SDK) (see FAQ below [1])
+ $ cd /PATH/YOU/CHOICE
+
+Go to <https://cloud.google.com/appengine/downloads?hl=pt_BR&&_ga=1.219788378.2137522117.1444139970#Google_App_Engine_SDK_for_Java>
+and download the Google App Engine for Java.
+Or just:
+ $ wget https://storage.googleapis.com/appengine-sdks/featured/appengine-java-sdk-1.9.27.zip
+
+Then unzip the file:
+ $ unzip appengine-java-sdk-1.9.27.zip
+
+Then export the bin path to your PATH system variable (see FAQ below [2])
+ $ export PATH=$PATH:/path/to/appengine-java-sdk-1.9.27/bin/
+It's really recommended to add this to your bashrc file (see FAQ below [3])
+ - echo -e "## Used by GApp Engine \nexport PATH=$PATH:/path/to/appengine-java-sdk-1.9.27/bin/" >> $HOME/.bashrc
+
+Bee sure to have java installed
+ $ java -verion
+ $ javac -version
+Case you don't have it, see you SO forums and documentation to install the java
+from repositories, or go to Java site, download and install java (JRE and JDK)
+
+--------------------------------------------------------------------------------
+
+See:
+https://console.developers.google.com/start/appengine?_ga=1.66103149.2123066311.1435170685
+https://cloud.google.com/appengine/downloads
+
+--------------------------------------------------------------------------------
+                          FAQ
+
+ $ : means that next command should be executed by you normal user, no need to root
+ # : means that next command should be executed by root, or with sudo
+
+[1] the default path for those things is /opt/create-a-folder-to-this-job/
+You can create a folder with:
+  # mkdir /opt/choose-the-name/
+Remember that normally the owner from the folder /opt/ is root, so if you pretend
+to use it with a regular user:
+ 	# chown -R you-user:your-user-or-group /opt/the-name-you-chossed/
+
+
+[2] this variable is used for the system to know from where it should look for
+executables, and binaries. It is changed in many places while the system loads
+and runs. The one you own and can easily change is .bashrc in you home folder.
+
+[3] doind this the variable will always be modified when the system starts,
+a new termianl is opened, or the command:
+ 	$ source $HOME/.bashrc
+it's executed, making it available "always".

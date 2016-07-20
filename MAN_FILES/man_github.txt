@@ -1,0 +1,53 @@
+** 	More information	**
+- http://rogerdudler.github.io/git-guide/index.pt_BR.html
+
+* -------- creating a new repository ---------- *
+$ echo '# Teste1' >> README.md
+$ git init
+$ git add README.md
+$ git commit -m "first commit"
+$ git remote add origin https://github.com/lucasbretana/Teste1.git
+- Enviar atualizações do repositorio local para o repositorio existente
+$ git push -u origin master
+
+* --------- push an existing repo ------------- *
+$ git remote add origin https://github.com/lucasbretana/Teste1.git
+- Atualizar o repositorio local
+$ git pull origin master
+$ git push -u origin master
+
+* --------------------------------------------- *
+* ---	Trabalhando com repositorios 	------- *
+* --------------------------------------------- *
+
+Os repositórios locais são dividios em três árvores de arquivos mantidoas pelo git
+* Working Director - contém os arquivos vigentes
+* Index - uma árvore temporaria
+* HEAD - que aponta para o último commit
+
+--- 	Adicionar arquivos ao repositorio do Index
+$ git add * - adicionar todos os arquivos
+$ git add archive - adiona um arquivo
+
+--- 	Enviar os arquivos para o HEAD / realizar o commit
+$ git commit -m "comentário das alterações"
+Obs: ainda não está no GITHUB
+
+---	Enviar as alterações para o Github
+$ git push origin master
+
+---	Criar uma tag de versão
+$ git tag 0.0.1 id.do.commit
+
+---	Pegar o id do commit
+$ git log
+
+--- 	Fazer update / atualizar
+$ git pull
+
+--- 	Desfazer alguma modificação / pegar a última versão do HEAD
+$ git checkout -- <arquivo>
+
+--- 	Remover alterações e commits locais
+$ git fetch origin
+$ git reset --hard origin/master

@@ -1,0 +1,51 @@
+##          Debian 7 (Wheezy) + NVidia GeForce GT 335M                          ##
+
+https://wiki.debian.org/NvidiaGraphicsDrivers#Debian_7_.22Wheezy.22
+Instalar o nvidia-settings do backports (aptitude install -t wheezy-backports nvidia-settigs)
+Abrir o nvidia-settings e na aba OpenGL desativar o SyncToVBlack antes de jogar
+
+##          Debian 8 (Jessie) + Bumblebee + NVidia GeForce GTX 950M             ##
+
+	# aptitude -t experimental install bumblebee bumblebee-nvidia primus linux-headers-generic bbswitch-dkms libc6-i686:i386
+	# aptitude -t experimental install libcuda1 nvidia-driver nvidia-vdpau-driver
+	# aptitude -t experimental install nvidia-driver nvidia-vdpau-driver libvdpau1
+	# atitude -t experimental install libvdpau1
+	# aptitude -t experimental install libcuda1 nvidia-driver nvidia-vdpau-driver
+	# aptitude -t experimental install bbswitch-dkms intel-microcode firmware-linux-nonfree bumblebee bumblebee-nvidia primus primus-libs primus-libs:i386 linux-headers-$(uname -r)
+	# aptitude install steam
+	# aptitude install libxcursor1:i386
+	# aptitude install libxrandr2:i386
+	# aptitude -t experimental install libgl1-nvidia-glx:i386
+
+http://forums.solydxk.com/viewtopic.php?p=8697
+http://www.unixmen.com/how-to-make-nvidia-optimus-technology-work-properly-on-debian/
+https://wiki.debian.org/NvidiaGraphicsDrivers
+
+	# aptitude -t testing install libdrm-intel1:i386=2.4.56-1 libdrm-intel1=2.4.56-1
+
+
+- isso porque existem jogos (team fortress, left4dead2, portal, dota) que não estão funcionando na versão SID dessa lib, então dei downgrade nela
+
+
+Bug report on debian: https://bugs.freedesktop.org/show_bug.cgi?id=86043
+
+
+
+Passo a passo
+
+1 - Instalando os driver da NVidia dos respositórios experimental do Debian
+	# aptitude -t experimental install libcuda1 nvidia-driver nvidia-vdpau-driver
+	# aptitude -t experimental install libvdpau1
+	# aptitude -t experimental install libcuda1 nvidia-driver nvidia-vdpau-driver
+
+2 - Instalando os pacotes do Bumblebee, Primus e etc - também do experimental
+	# aptitude -t experimental install bbswitch-dkms intel-microcode firmware-linux-nonfree bumblebee bumblebee-nvidia primus primus-libs primus-libs:i386 linux-headers-$(uname -r)
+
+3 - Instalando a Steam e lib necessárias
+	# aptitude install steam
+	# aptitude install libxcursor1:i386
+	# aptitude install libxrandr2:i386
+
+4 - Bugs relacionado a alguns jogos a versão especifíca de uma lib
+	# aptitude -t experimental install libgl1-nvidia-glx:i386
+	# aptitude -t testing install libdrm-intel1:i386=2.4.56-1 libdrm-intel1=2.4.56-1

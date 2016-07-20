@@ -1,0 +1,7 @@
+**	How to use a alias	**
+
+$ alias <name>=<comand>
+$ alias <name>='<comand with space'
+
+* Example
+	$ alias pingg='ping 8.8.8.8'

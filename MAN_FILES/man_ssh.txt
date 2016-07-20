@@ -1,0 +1,19 @@
+Gerei uma chave rsa no PC do LUPS
+  $ ssh-keygen -t rsa
+
+Copiei ela para o servidor LUPS. Depois copiei a minha chave para o arquivo authorized_keys
+Isso acontece porque o servidor de SSH do LUPS é o mesmo do NFS então existe essa "redundancia"
+
+Gerei uma chave rsa no meu PC
+  $ ssh-keygen -t rsa
+
+Copiei ela pra uma maquina qualquer de dentro do LUPS.
+
+--------------------------------------------------------------------------------
+
+A ideia é que a chave PUB é um numero primo e a PRIV tambem.
+Tu distribui a PUB pra que os outros que fazem uma criptografia e te enviam.
+O unico capaz de descriptografar é quem tem a PRIV.
+
+--------------------------------------------------------------------------------
+

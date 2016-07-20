@@ -1,0 +1,1 @@
+$ mencoder filme.avi -sub legenda.srt -oac copy -ovc lavc -o filmeLegendado.avi -subcp latin1 -font FreeSans.ttf -subfont-text-scale 3.8

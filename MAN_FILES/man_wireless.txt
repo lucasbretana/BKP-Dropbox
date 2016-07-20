@@ -1,0 +1,2 @@
+	# modprobe -rfv rtl8192se
+	# modprobe -v rtl8192se swenc=1

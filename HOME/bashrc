@@ -240,7 +240,7 @@ checkgit ()
 updategitvar ()
 {
     unset GIT ;
-    for i in $(find / -name ".git" 2> /dev/null | sed "s/\/.git//g"); {
+    for i in $(find $HOME -name ".git" 2> /dev/null | sed "s/\/.git//g"); {
         if [ -n "$GIT" ]; then
             GIT=$GIT:$i ;
         else

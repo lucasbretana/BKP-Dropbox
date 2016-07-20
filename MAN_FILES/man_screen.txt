@@ -1,0 +1,41 @@
+**							What it does									**
+*	Quando você se conecta a uma náquina Linux pelo putty (SSH), todas as operações são dependentes da sua sessão.
+* Se você der um wget e fechar o putty, por exemplo, o download é interrompido. 
+* E isso vale para tar, zip, make, etc. Qualquer atividade que estiver rodando.
+
+* Uma maneira de deixa-la rodando é usando o nohup (see man_nohup.txt) but sometimes you wanna
+* "reconect" to that program and keep seen the output, well in that case you can use screen.
+
+* Long story short: you use it to let a process runnig on it self while you can
+* disconnect from the server, then reconnect later and reconnect with the process, to see it's output.
+
+**							How to use Screen							**
+* Obs: At this point you should already be connect to the server, and have the screen installed (see help below).
+
+* First: you start a screen virtual terminal by tapping
+	$ screen
+* Then you accept the prompt
+* Now you have the virtual termial, you can run your taks normally. Once you are done starting, you can 
+* disconnect of the terminal by using
+	- Ctrl + a + d
+* Obs: you can star as many screen as you SO allows you and later choose wich one to reattche.
+
+* And also logoof of the server, if is that what you want
+* Now, to reaatche to the screen, you must be connect to that computer again.
+
+* You can see the screen runnig, by using
+	$ screen -ls
+* The result is all the screen runnig, with it's "name", that is composed by [PID].[terminal].[server]
+
+* You can now reattach using
+	$ screen -r [PID].[terminal].[server]
+
+* To end a screen you just exit as normally, by typping
+	- Ctrl + d
+* Or using
+	$ exit
+
+----------------------------------------------------------------------------------------
+** 								Installing									**
+* Debian-like
+	# apt-get install screen
