@@ -33,6 +33,8 @@ alias getlogo='screenfetch'
 alias myip='hostname -I | cut -d" " -f 1'
 alias myexip='curl "www.echoip.net" ; echo '
 alias goreal='cd $(whereamirly)'
+
+# Aliases only valid on MORDOR server
 if [ $(hostname) = "MORDOR" ]; then
   # alias for java 8
   alias java8='/usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java'
