@@ -97,11 +97,11 @@ if [ "$(hostname)"  = "MORDOR" ]; then
   export UFPEL=$LUCAS/UFPel
   export LUPS=$UFPEL/Projetos/LUPS
   export WHEREDOWEGO=$LUPS/LindaTS
-  export AED=$UFPEL/2016/2016-1/AED
-  export AOC=$UFPEL/2016/2016-1/AOC
-  export Calculo2=$UFPEL/2016/2016-1/Calculo2
-  export LF=$UFPEL/2016/2016-1/LF
-  export POO=$UFPEL/2016/2016-1/POO
+  export Calculo2=$UFPEL/2016/2016-2/Calculo2
+  export TC=$UFPEL/2016/2016-2/TC
+  export AED2=$UFPEL/2016/2016-2/AED2
+  export AOC2=$UFPEL/2016/2016-2/AOC2
+  export ALGA=$UFPEL/2016/2016-2/ALGA
   # JAVA_HOME for Maven (GAppEnine)
   export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
   export JAVA_DOC=$JAVA_HOME/docs/api
