@@ -211,6 +211,7 @@ checkgit ()
         echo "The 'GIT' system variable is not set";
         return;
     fi;
+    export GIT
     BACK=$(whereami);
     for j in $(echo $GIT | tr ":" "\n");
     do
