@@ -274,7 +274,7 @@ cat ()
         for i in "$@";
         do
             if [ "$i" != "+treats" ]; then
-                /bin/cat $i;
+                /bin/cat "$i";
             fi;
         done;
     fi
