@@ -217,7 +217,7 @@ checkgit ()
         cd $j;
         for i in $(git branch --list | tr "*" " " | tr "\n" " "); {
             git checkout $i 2> /dev/null | grep -v up-to-date;
-            STA=$(git status 2> /dev/null | tr '\n' '+' | grep --color=auto -v 'nothing to commit' | tr '+' '\n');
+            STA=$(git status -b $i 2> /dev/null | tr '\n' '+' | grep --color=auto -v 'nothing to commit' | tr '+' '\n');
             if [ -n "$STA" ]; then
                 echo -e "\n############################################";
                 echo "#### On repo: $(basename $(git rev-parse --show-toplevel)) [$j :: $i]";
@@ -229,7 +229,7 @@ checkgit ()
             fi;
         # }
         # for i in $(git branch --list | tr "*" " " | tr "\n" " "); {
-            FET=$(git pull --dry-run origin master  2>&1 1>  /dev/null | grep -iv github | grep -iv branch);
+            FET=$(git pull --dry-run origin $i  2>&1 1>  /dev/null | grep -iv github | grep -iv branch);
             if [ -n "$FET" ]; then
                 if [ -z "$STA" ]; then
                     echo -e "\n############################################";
