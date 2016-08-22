@@ -79,6 +79,8 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 if [ "$(hostname)"  = "MORDOR" ]; then
   # usefull ambient variable
   export MOKAICON=/usr/share/icons/Moka/256x256/apps
+  # Trash
+  export TRASH='/home/lucas/.local/share/Trash'
   export DADOS=$HOME/.Dados
   export DESKTOP=$HOME/Desktop
   export DOWNLOADS=$HOME/Downloads
@@ -122,7 +124,7 @@ if [ "$(hostname)"  = "MORDOR" ]; then
   export GIT=$GIT:$DROPBOX/Lucas/UFPel/2016/2016-1/AED/AED_git
   export GIT=$GIT:$DROPBOX/Lucas/UFPel/2016/2016-1/AOC/Tetris-AOC
   export GIT=$GIT:$DROPBOX/Lucas/UFPel/2016/2016-1/POO/Trab-POO
-  export GIT=$GIT:$DROPBOX/Lucas/UFPel/Projetos/LUPS/ERAD-2016
+  export GIT=$GIT:$DROPBOX/Lucas/UFPel/Projetos/LUPS/ERAD2016
   export GIT=$GIT:$DROPBOX/Lucas/UFPel/Projetos/LUPS/LindaTS
   export GIT=$GIT:$DROPBOX/Lucas/debian/ConfFiles
   # load some setups
@@ -158,6 +160,11 @@ if ! shopt -oq posix; then
   fi
 fi
 
+# Defines a error echo function
+echoerr() {
+  echo "$@" 1>&2;
+}
+
 # Uses the cllinsdictionary to define a word, and shows only the part
 # that is relevant for the context
 define() {
@@ -171,7 +178,7 @@ man2pdf() {
 
 # Improves the man
 man ()  {
-  /usr/bin/man $@ 2> /dev/null || less $@ 2> /dev/null || less $DOCUMENTS/man_$@.txt 2> /dev/null || less $DOCUMENTS/man_$(echo $@ | cut -d "=" -f 2).txt 2> /dev/null || cowsay "No trace of manual page"; 
+  /usr/bin/man "$@" 2> /dev/null || less "$@" 2> /dev/null || less "$DOCUMENTS/man_$@.txt" 2> /dev/null || less "$DOCUMENTS/man_$(echo $@ | cut -d '=' -f 2).txt" 2> /dev/null || cowsay "No trace of manual page" || echoerr "No trace of manual page" ;
 }
 
 # Changes all leter in string to it's correspondent in upper casae
@@ -191,64 +198,69 @@ flipacoin () {
 
 # Gets the weahter from the wttr sie and shows in terminal
 # It can be specified witch city you want, the default is Pelotas
-getweather () { 
-  if [ -n $@ ]; then
-    echo $@
-    curl http://wttr.in/$@;
+getweather () {
+  if [ -n "$@" ]; then
+    curl "http://wttr.in/$@";
   else
-    curl http://wttr.in/Pelotas;
+    curl "http://wttr.in/Pelotas";
   fi
+}
+
+# Check if ONE repositorie needs a commit and/or a pull
+cgit () {
+  if [ -n "$1" ]; then
+    cd $1 2> /dev/null || (echoerr "Directory \"$1\" not found!" && return);
+    REPO=$(pwd -P);
+    BRANCH="master"
+    if [ -n "$2" ]; then
+      BRANCH=$2;
+      git checkout $BRANCH 1> /dev/null 2> /dev/null || (echoerr "Branch \"$BRANCH\" not found" && return);
+    fi
+    STATUS=$(git status 2> /dev/null | tr "\n" "+" | grep -v "nothing to commit" | tr "+" "\n");
+    if [ -n "$STATUS" ]; then
+      echo -e "\n############################################";
+      echo "#### On repo: $(basename $(git rev-parse --show-toplevel)) [$REPO :: $BRANCH]";
+      echo "It's missing a commit and/or push!";
+    fi
+    PULL=$(git pull --dry-run origin $BRANCH  2>&1 1>  /dev/null | grep -iv github | grep -iv branch);
+    if [ -n "$PULL" ]; then
+      echo -e "\n############################################";
+      echo "#### On repo: $(basename $(git rev-parse --show-toplevel)) [$REPO :: $BRANCH]";
+      echo "It's missing a pull!";
+    fi;
+  fi;
 }
 
 # Check all gits repositories for missing commit/push and pull/fetch
 # Uses updategitvar
-checkgit () 
-{ 
+checkgit (){
     if [ -z "$GIT" ]; then
         updategitvar;
     fi;
     if [ -z "$GIT" ]; then
-        echo "The 'GIT' system variable is not set";
-        return;
+        echoerr "The 'GIT' system variable is not set" && return;
     fi;
-    export GIT
+    export GIT;
+
+    if [ $# -ge 2 ]; then
+      cgit "$@";
+      return;
+    elif [ -n "$1" ]; then
+      cgit $1;
+      return;
+    fi
     BACK=$(whereami);
-    for j in $(echo $GIT | tr ":" "\n");
+    for REPO in $(echo $GIT | tr ":" "\n");
     do
-        cd $j;
-        for i in $(git branch --list | tr "*" " " | tr "\n" " "); {
-            git checkout $i 2> /dev/null | grep -v up-to-date;
-            STA=$(git status -b $i 2> /dev/null | tr '\n' '+' | grep --color=auto -v 'nothing to commit' | tr '+' '\n');
-            if [ -n "$STA" ]; then
-                echo -e "\n############################################";
-                echo "#### On repo: $(basename $(git rev-parse --show-toplevel)) [$j :: $i]";
-                if [ "$1" = "true" ]; then
-                    echo "$STA";
-                else
-                    echo "It's missing a commit and/or push!";
-                fi;
-            fi;
-        # }
-        # for i in $(git branch --list | tr "*" " " | tr "\n" " "); {
-            FET=$(git pull --dry-run origin $i  2>&1 1>  /dev/null | grep -iv github | grep -iv branch);
-            if [ -n "$FET" ]; then
-                if [ -z "$STA" ]; then
-                    echo -e "\n############################################";
-                    echo "#### On repo: $(basename $(git rev-parse --show-toplevel)) [$j :: $i]";
-                fi;
-                if [ "$1" = "true" ]; then
-                    echo "$FET";
-                else
-                    echo "It's missing a pull!";
-                fi;
-            fi;
-            unset STA;
-            unset FET;
-        }
+      cd $REPO;
+      for BRANCH in $(git branch --list | tr "*" " " | tr "\n" " "); {
+        [ "$DEBUG" = "true" ] && echo "Calling cgit with \"$REPO\" and \"$BRANCH\"";
+        cgit $REPO $BRANCH;
+      }
     done;
-    cd $BACK
+    cd $BACK;
 }
-# Updates the GIT var, than contains all repositories, 
+# Updates the GIT var, than contains all repositories,
 # Run after added a new one or remove an old one
 # It is used by checkgit function
 updategitvar ()
@@ -269,7 +281,7 @@ updategitvar ()
 cat ()
 {
     if [ "$1" != "+treats" ]; then
-        echo "meow";
+        echoerr "meow" && return;
     else
         for i in "$@";
         do
