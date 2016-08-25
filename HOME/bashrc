@@ -60,25 +60,19 @@ case "$TERM" in
 esac
 
 deflocal() {
-  BRANCH=$(git branch -vv 2> /dev/null | grep "*" | cut -d " " -f 2); # gets the branch name
-  if [ -n "$BRANCH" ]; then                             # if it is in a branch
-    F=$(basename $(git rev-parse --show-toplevel)); # gets the repositories name
-    SF=$(pwd -L);                                   # gets the current path
-    SUBF=$(echo "${SF##*$F}");                    # subtract the restant of the path
-    if [ -n "$SUBF" ]; then                           
-      F=$F$SUBF;
+  BRANCH=$(git branch -vv 2> /dev/null | grep "*" | cut -d " " -f 2);           # gets the branch name
+  if [ -n "$BRANCH" ]; then                                                     # if it is in a branch
+    F=$(basename $(git rev-parse --show-toplevel));                             #   gets the repositories name
+    SF=$(pwd -L);                                                               #   gets the current path
+    SUBF=$(echo "${SF##*$F}");                                                  #   subtract the restant of the path
+    if [ -n "$SUBF" ]; then                                                     #   if there is some subdirectorie
+      F=$F$SUBF;                                                                #     append it to the name
     fi
-    echo -e '['"$cyan""$F""$NC"'] ('"$CYAN""$BRANCH""$NC"')';
-    # echo -e \["${cyan}"\]"LUCAS"\["${NC}"\];
-  else
-    PWD=$(pwd | sed "s|^$HOME|~|");
-    echo -e '['"$CYAN""$PWD""$NC"']';
-    # echo -e "${cyan}""MORDOR""${NC}";
+    echo -e '['"$cyan""$F""$NC"'] ('"$CYAN""$BRANCH""$NC"')';                   #   print the location
+  else                                                                          # if it is NOT in a branch
+    PWD=$(pwd | sed "s|^$HOME|~|");                                             #   gets the current location
+    echo -e '['"$CYAN""$PWD""$NC"']';                                           #   print the location
   fi
-  # unset BRANCH;
-  # unset DIR;
-  # unset SDIR;
-  # unset SUBDIR;
 }
 
 # uncomment for a colored prompt, if the terminal has the capability; turned
