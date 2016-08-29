@@ -173,6 +173,9 @@ elif [[ $(hostname) = "lups"* ]]; then
   export TEMPLATES=$HOME/Templates
   export VIDEOS=$HOME/Videos
   export DOCUMENTS=$HOME/Documents
+
+  alias open='xdg-open'
+  alias gopen='gnome-open'
 fi
 
 # Alias definitions.
