@@ -1,0 +1,219 @@
+##
+# overriding functions
+#
+# Improves the man
+man ()  {
+  /usr/bin/man "$@" 2> /dev/null || less "$@" 2> /dev/null || less "$DOCUMENTS/man_$@.txt" 2> /dev/null || less "$DOCUMENTS/man_$(echo $@ | cut -d '=' -f 2).txt" 2> /dev/null || cowsay "No trace of manual page" || echoerr "No trace of manual page" ;
+}
+
+# usefull functions
+#
+# Defines a error echo function
+echoerr() {
+  echo "$@" 1>&2;
+}
+
+unstaged_symbol="*"
+ahead_symbol="△"
+unstaged_ahead_symbol="▲"
+behind_symbol="▽"
+unstaged_behind_symbol="▼"
+ahead_behind_symbol="⬡"
+unstaged_ahead_behind_symbol="⬢"
+
+getgitsymbol() {
+  if [[ "$(unstaged)" == 1 && "$(ahead $1)" == 1 && "$(behind $1)" == 1 ]]; then
+    echo "$unstaged_ahead_behind_symbol"
+  elif [[ "$(ahead $1)" == 1 && "$(behind $1)" == 1 ]]; then
+    echo "$ahead_behind_symbol"
+  elif [[ "$(unstaged)" == 1 && "$(ahead $1)" == 1 ]]; then
+    echo "$unstaged_ahead_symbol"
+  elif [[ "$(ahead $1)" == 1 ]]; then
+    echo "$ahead_symbol"
+  elif [[ "$(unstaged)" == 1 && "$(behind $1)" == 1 ]]; then
+    echo "$unstaged_behind_symbol"
+  elif [[ "$(behind $1)" == 1 ]]; then
+    echo "$behind_symbol"
+  elif [[ "$(unstaged)" == 1 ]]; then
+    echo "$unstaged_symbol"
+  else # clean
+    echo ""
+  fi
+}
+
+# Return 1 if have modifications not staged for commits
+# $1 -- @ if you want debug
+unstaged ()
+{
+  # If the git status has *any* changes (e.g. dirty), echo our character
+  [ "$1" == "@" ] && echo "$(git status --porcelain 2> /dev/null)";
+  if [ -n "$(git status --porcelain 2> /dev/null)" ]; then
+    echo 1;
+  fi
+}
+
+# Returns 1 if have commits not send to server
+# $1 -- must be the branch
+ahead ()
+{
+  [ -n "$1" ] || return;
+  if [ $(git rev-list --left-right --count origin/$1...HEAD | cut -f 2) -gt 0 ]; then
+    [ "$2" == "@" ] && echo "$(git rev-list --left-right --count origin/$1...HEAD | cut -f 2)";
+    echo 1;
+  fi
+}
+
+# Returns 1 if have changes not send pulle from the server
+# $1 -- must be the branch
+behind ()
+{
+  [ -n "$1" ] || return;
+  if [ $(git rev-list --left-right --count origin/$1...HEAD | cut -f 1) -gt 0 ]; then
+    [ "$2" == "@" ] && echo "$(git rev-list --left-right --count origin/$1...HEAD | cut -f 1)";
+    echo 1;
+  fi
+}
+
+# used to define the PS1 local
+deflocal() {
+  BRANCH=$(git branch -vv 2> /dev/null | grep "*" | cut -d " " -f 2);           # gets the branch name
+  if [ -n "$BRANCH" ]; then                                                     # if it is in a branch
+    F=$(basename $(git rev-parse --show-toplevel));                             #   gets the repositories name
+    SF=$(pwd -L);                                                               #   gets the current path
+    SUBF=$(echo "${SF##*$F}");                                                  #   subtract the restant of the path
+    if [ -n "$SUBF" ]; then                                                     #   if there is some subdirectorie
+      F=$F$SUBF;                                                                #     append it to the name
+    fi
+    EXTRA=$(getgitsymbol $BRANCH 2> /dev/null);
+    echo -e '['"$cyan""$F""$NC"'] on '"$CYAN""$BRANCH $EXTRA""$NC";             #   print the location
+  else                                                                          # if it is NOT in a branch
+    PWD=$(pwd | sed "s|^$HOME|~|");                                             #   gets the current location
+    echo -e '['"$CYAN""$PWD""$NC"']';                                           #   print the location
+  fi
+}
+
+# Uses the cllinsdictionary to define a word, and shows only the part
+# that is relevant for the context
+define() {
+  curl -s "http://www.collinsdictionary.com/dictionary/english/$*" | sed -n '/class="def"/p' | awk '{gsub(/.*<span class="def">|<\/span>.*/,"");print}' | sed "s/<[^>]\+>//g";
+}
+
+# Used to convert some manual to a PDF file
+man2pdf() {
+  man -t $1 | ps2pdf - > $1.pdf
+}
+
+# Changes all leter in string to it's correspondent in upper casae
+toup () {
+  echo $1 | tr '[:lower:]' '[:upper:]'
+}
+
+# Changes all leter in string to it's correspondent in lower case
+tolow () {
+  echo $1 | tr '[:upper:]' '[:lower:]'
+}
+
+# Flip a coin, faster than Google's
+flipacoin () {
+  [ $[ $RANDOM % 2] == 0 ] && echo "Heads" || echo "Tails";
+}
+
+# Gets the weahter from the wttr sie and shows in terminal
+# It can be specified witch city you want, the default is Pelotas
+getweather () {
+  if [ -n "$@" ]; then
+    curl "http://wttr.in/$@";
+  else
+    curl "http://wttr.in/Pelotas";
+  fi
+}
+
+
+# Change the cat to refuse to work without treats
+cat ()
+{
+    if [ "$1" != "+treats" ]; then
+        echoerr "meow" && return;
+    else
+        for i in "$@";
+        do
+            if [ "$i" != "+treats" ]; then
+                /bin/cat "$i";
+            fi;
+        done;
+    fi
+}
+
+
+# Check if ONE repositorie needs a commit and/or a pull
+cgit () {
+  if [ -n "$1" ]; then
+    cd $1 2> /dev/null || (echoerr "Directory \"$1\" not found!" && return);
+    REPO=$(pwd -P);
+    BRANCH="master"
+    if [ -n "$2" ]; then
+      BRANCH=$2;
+      git checkout $BRANCH 1> /dev/null 2> /dev/null || (echoerr "Branch \"$BRANCH\" not found" && return);
+    fi
+    # STATUS=$(git status 2> /dev/null | tr "\n" "+" | grep -v "nothing to commit" | tr "+" "\n");
+    STATUS=$(unstaged || ahead $BRANCH);
+    if [ -n "$STATUS" ]; then
+      echo -e "\n############################################";
+      echo "#### On repo: $(basename $(git rev-parse --show-toplevel)) [$REPO :: $BRANCH]";
+      echo "It's missing a commit and/or push!";
+    fi
+    # PULL=$(git pull --dry-run origin $BRANCH  2>&1 1>  /dev/null | grep -iv github | grep -iv branch);
+    PULL=$(behind $BRANCH);
+    if [ -n "$PULL" ]; then
+      echo -e "\n############################################";
+      echo "#### On repo: $(basename $(git rev-parse --show-toplevel)) [$REPO :: $BRANCH]";
+      echo "It's missing a pull!";
+    fi;
+  fi;
+}
+
+# Check all gits repositories for missing commit/push and pull/fetch
+# Uses updategitvar
+checkgit (){
+  if [ -z "$GIT" ]; then
+    updategitvar;
+  fi;
+  if [ -z "$GIT" ]; then
+    echoerr "The 'GIT' system variable is not set" && return;
+  fi;
+  export GIT;
+
+  if [ $# -ge 2 ]; then
+    cgit "$@";
+    return;
+  elif [ -n "$1" ]; then
+    cgit $1;
+    return;
+  fi
+  BACK=$(whereami);
+  for REPO in $(echo $GIT | tr ":" "\n");
+  do
+    cd $REPO;
+    for BRANCH in $(git branch --list | tr "*" " " | tr "\n" " "); {
+      [ "$DEBUG" = "true" ] && echo "Calling cgit with \"$REPO\" and \"$BRANCH\"";
+      cgit $REPO $BRANCH;
+    }
+  done;
+  cd $BACK;
+}
+
+# Updates the GIT var, than contains all repositories,
+# Run after added a new one or remove an old one
+# It is used by checkgit function
+updategitvar ()
+{
+  unset GIT ;
+  for i in $(find $HOME -name ".git" 2> /dev/null | sed "s/\/.git//g"); {
+    if [ -n "$GIT" ]; then
+      GIT=$GIT:$i ;
+    else
+      GIT=$i ;
+    fi
+  }
+  export GIT;
+}

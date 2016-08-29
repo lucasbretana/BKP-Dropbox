@@ -2,6 +2,42 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
+# define variables for colors
+# Color mapping
+grey='\033[1;30m'
+red='\033[0;31m'
+RED='\033[1;31m'
+green='\033[0;32m'
+GREEN='\033[1;32m'
+yellow='\033[0;33m'
+YELLOW='\033[1;33m'
+purple='\033[0;35m'
+PURPLE='\033[1;35m'
+white='\033[0;37m'
+WHITE='\033[1;37m'
+blue='\033[0;34m'
+BLUE='\033[1;34m'
+cyan='\033[0;36m'
+CYAN='\033[1;36m'
+NC='\033[0m'
+
+# Alias definitions.
+# You may want to put all your additions into a separate file like
+# ~/.bash_aliases, instead of adding them here directly.
+# See /usr/share/doc/bash-doc/examples in the bash-doc package.
+
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+
+
+# Functions definitions.
+# You may want to put all your additions into a separate file like
+# ~/.bash_functions, instead of adding them here directly.
+if [ -f ~/.bash_functions ]; then
+    . ~/.bash_functions
+fi
+
 # If not running interactively, don't do anything
 case $- in
   *i*) ;;
@@ -35,45 +71,10 @@ if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
   debian_chroot=$(cat /etc/debian_chroot)
 fi
 
-# define variables for colors
-# Color mapping
-grey='\033[1;30m'
-red='\033[0;31m'
-RED='\033[1;31m'
-green='\033[0;32m'
-GREEN='\033[1;32m'
-yellow='\033[0;33m'
-YELLOW='\033[1;33m'
-purple='\033[0;35m'
-PURPLE='\033[1;35m'
-white='\033[0;37m'
-WHITE='\033[1;37m'
-blue='\033[0;34m'
-BLUE='\033[1;34m'
-cyan='\033[0;36m'
-CYAN='\033[1;36m'
-NC='\033[0m'
-
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
   xterm-color) color_prompt=yes;;
 esac
-
-deflocal() {
-  BRANCH=$(git branch -vv 2> /dev/null | grep "*" | cut -d " " -f 2);           # gets the branch name
-  if [ -n "$BRANCH" ]; then                                                     # if it is in a branch
-    F=$(basename $(git rev-parse --show-toplevel));                             #   gets the repositories name
-    SF=$(pwd -L);                                                               #   gets the current path
-    SUBF=$(echo "${SF##*$F}");                                                  #   subtract the restant of the path
-    if [ -n "$SUBF" ]; then                                                     #   if there is some subdirectorie
-      F=$F$SUBF;                                                                #     append it to the name
-    fi
-    echo -e '['"$cyan""$F""$NC"'] ('"$CYAN""$BRANCH""$NC"')';                   #   print the location
-  else                                                                          # if it is NOT in a branch
-    PWD=$(pwd | sed "s|^$HOME|~|");                                             #   gets the current location
-    echo -e '['"$CYAN""$PWD""$NC"']';                                           #   print the location
-  fi
-}
 
 # uncomment for a colored prompt, if the terminal has the capability; turned
 # off by default to not distract the user: the focus in a terminal window
@@ -115,7 +116,7 @@ if [ "$(hostname)"  = "MORDOR" ]; then
   # usefull ambient variable
   export MOKAICON=/usr/share/icons/Moka/256x256/apps
   # Trash
-  export TRASH='/home/lucas/.local/share/Trash'
+  export TRASH=$HOME/.local/share/Trash
   export DADOS=$HOME/.Dados
   export DESKTOP=$HOME/Desktop
   export DOWNLOADS=$HOME/Downloads
@@ -178,15 +179,6 @@ elif [[ $(hostname) = "lups"* ]]; then
   alias gopen='gnome-open'
 fi
 
-# Alias definitions.
-# You may want to put all your additions into a separate file like
-# ~/.bash_aliases, instead of adding them here directly.
-# See /usr/share/doc/bash-doc/examples in the bash-doc package.
-
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
-fi
-
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
@@ -197,135 +189,3 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-
-# Defines a error echo function
-echoerr() {
-  echo "$@" 1>&2;
-}
-
-# Uses the cllinsdictionary to define a word, and shows only the part
-# that is relevant for the context
-define() {
-  curl -s "http://www.collinsdictionary.com/dictionary/english/$*" | sed -n '/class="def"/p' | awk '{gsub(/.*<span class="def">|<\/span>.*/,"");print}' | sed "s/<[^>]\+>//g";
-}
-
-# Used to convert some manual to a PDF file
-man2pdf() {
-  man -t $1 | ps2pdf - > $1.pdf
-}
-
-# Improves the man
-man ()  {
-  /usr/bin/man "$@" 2> /dev/null || less "$@" 2> /dev/null || less "$DOCUMENTS/man_$@.txt" 2> /dev/null || less "$DOCUMENTS/man_$(echo $@ | cut -d '=' -f 2).txt" 2> /dev/null || cowsay "No trace of manual page" || echoerr "No trace of manual page" ;
-}
-
-# Changes all leter in string to it's correspondent in upper casae
-toup () {
-  echo $1 | tr '[:lower:]' '[:upper:]'
-}
-
-# Changes all leter in string to it's correspondent in lower case
-tolow () {
-  echo $1 | tr '[:upper:]' '[:lower:]'
-}
-
-# Flip a coin, faster than Google's
-flipacoin () {
-  [ $[ $RANDOM % 2] == 0 ] && echo "Heads" || echo "Tails";
-}
-
-# Gets the weahter from the wttr sie and shows in terminal
-# It can be specified witch city you want, the default is Pelotas
-getweather () {
-  if [ -n "$@" ]; then
-    curl "http://wttr.in/$@";
-  else
-    curl "http://wttr.in/Pelotas";
-  fi
-}
-
-# Check if ONE repositorie needs a commit and/or a pull
-cgit () {
-  if [ -n "$1" ]; then
-    cd $1 2> /dev/null || (echoerr "Directory \"$1\" not found!" && return);
-    REPO=$(pwd -P);
-    BRANCH="master"
-    if [ -n "$2" ]; then
-      BRANCH=$2;
-      git checkout $BRANCH 1> /dev/null 2> /dev/null || (echoerr "Branch \"$BRANCH\" not found" && return);
-    fi
-    STATUS=$(git status 2> /dev/null | tr "\n" "+" | grep -v "nothing to commit" | tr "+" "\n");
-    if [ -n "$STATUS" ]; then
-      echo -e "\n############################################";
-      echo "#### On repo: $(basename $(git rev-parse --show-toplevel)) [$REPO :: $BRANCH]";
-      echo "It's missing a commit and/or push!";
-    fi
-    PULL=$(git pull --dry-run origin $BRANCH  2>&1 1>  /dev/null | grep -iv github | grep -iv branch);
-    if [ -n "$PULL" ]; then
-      echo -e "\n############################################";
-      echo "#### On repo: $(basename $(git rev-parse --show-toplevel)) [$REPO :: $BRANCH]";
-      echo "It's missing a pull!";
-    fi;
-  fi;
-}
-
-# Check all gits repositories for missing commit/push and pull/fetch
-# Uses updategitvar
-checkgit (){
-    if [ -z "$GIT" ]; then
-        updategitvar;
-    fi;
-    if [ -z "$GIT" ]; then
-        echoerr "The 'GIT' system variable is not set" && return;
-    fi;
-    export GIT;
-
-    if [ $# -ge 2 ]; then
-      cgit "$@";
-      return;
-    elif [ -n "$1" ]; then
-      cgit $1;
-      return;
-    fi
-    BACK=$(whereami);
-    for REPO in $(echo $GIT | tr ":" "\n");
-    do
-      cd $REPO;
-      for BRANCH in $(git branch --list | tr "*" " " | tr "\n" " "); {
-        [ "$DEBUG" = "true" ] && echo "Calling cgit with \"$REPO\" and \"$BRANCH\"";
-        cgit $REPO $BRANCH;
-      }
-    done;
-    cd $BACK;
-}
-# Updates the GIT var, than contains all repositories,
-# Run after added a new one or remove an old one
-# It is used by checkgit function
-updategitvar ()
-{
-  unset GIT ;
-  for i in $(find $HOME -name ".git" 2> /dev/null | sed "s/\/.git//g"); {
-    if [ -n "$GIT" ]; then
-      GIT=$GIT:$i ;
-    else
-      GIT=$i ;
-    fi
-  }
-  export GIT;
-}
-
-
-# Change the cat to refuse to work without treats
-cat ()
-{
-    if [ "$1" != "+treats" ]; then
-        echoerr "meow" && return;
-    else
-        for i in "$@";
-        do
-            if [ "$i" != "+treats" ]; then
-                /bin/cat "$i";
-            fi;
-        done;
-    fi
-}

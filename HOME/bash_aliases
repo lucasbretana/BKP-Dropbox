@@ -48,7 +48,7 @@ if [ $(hostname) = "MORDOR" ]; then
   alias java6='/usr/lib/jvm/java-6-openjdk-amd64/jre/bin/java'
   alias javac6='/usr/lib/jvm/java-6-openjdk-amd64/bin/javac'
   alias jar6='/usr/lib/jvm/java-6-openjdk-amd64/bin/jar'
-  
+
   # Alias definitions.
   # You may want to put all your additions ocult aliaes
   # ~/.bash_ocult_aliases, instead of adding them here directly.
@@ -56,4 +56,7 @@ if [ $(hostname) = "MORDOR" ]; then
     . ~/.bash_ocult_aliases
   fi
 
+elif [[ $(hostname) = "lups"* ]]; then
+  alias open='xdg-open'
+  alias gopen='gnome-open'
 fi
