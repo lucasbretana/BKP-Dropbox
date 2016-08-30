@@ -50,9 +50,9 @@ getgitsymbol ()
   AHEAD=$(ahead $1);
   [ "$2" == "@" ] && echo "Before behind"
   # BEHIND=$(behind $1);
-  behind $1;
+  BEHIND=$(behind $1);
   [ "$2" == "@" ] && echo "After behind"
-  echo "$UNSTAGED""$AHEAD""$BEHIND";
+  echo "$UNSTAGED"""$AHEAD""$BEHIND;
 }
 
 # Return 1 if have modifications not staged for commits
@@ -64,7 +64,7 @@ unstaged ()
   INFO=$(git status --porcelain 2> /dev/null);
   [ "$1" == "@" ] && echo "$INFO";
   if [ -n "$INFO" ]; then
-    echo "$unstaged_symbol";
+    echo "$unstaged_symbol ";
   fi
 }
 
@@ -77,7 +77,7 @@ ahead ()
   INFO=$(git rev-list --left-right --count origin/$1...HEAD | cut -f 2);
   [ "$2" == "@" ] && echo "$INFO";
   if [[ -n "$INFO" && $INFO -gt 0 ]]; then
-    echo "$ahead_symbol";
+    ( [ $INFO -gt 1 ] && echo $INFO""$ahead_symbol" " ) ||echo $ahead_symbol" ";
   fi
 }
 
@@ -102,7 +102,7 @@ behind ()
   #
   [ "$2" == "@" ] && echo "$INFO";
   if [[ -n "$INFO" && $INFO -gt 0 ]]; then
-    echo "$behind_symbol";
+    ( [ $INFO -gt 1 ] && echo $behind_symbol""$INFO; ) ||echo $behind_symbol" ";
   fi
   unset BEHIND;
 }
