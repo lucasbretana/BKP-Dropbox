@@ -3,22 +3,21 @@
 --------------------------------------------------------------------------------
 
 # TODO
-	- Create the installer for the vimrc in HOME
-	- Test the installer for the bashrc in HOME
-	- Test the installer for the bash_aliases in HOME
+	* Create the installer for the vimrc in HOME
+	* Test the installer for the bashrc in HOME
+	 Test the installer for the bash_aliases in HOME
 
 # References
-		* http://vim.wikia.com/wiki/Example_vimrc
+	* http://vim.wikia.com/wiki/Example_vimrc
 		
  --------------------------------------------------------------------------------
 
 # FOLDER description
-  - home
-    * config files that goes on the $HOME directories
-		@see NormalFiles
+	- home
+		* config files that goes on the $HOME directories @see NormalFiles
 
-  - README.md
-    * this file
+	- README.md
+		* this file
 
 --------------------------------------------------------------------------------
 
