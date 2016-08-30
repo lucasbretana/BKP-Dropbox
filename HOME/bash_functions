@@ -49,7 +49,8 @@ getgitsymbol ()
   [ "$2" == "@" ] && echo "Before ahead"
   AHEAD=$(ahead $1);
   [ "$2" == "@" ] && echo "Before behind"
-  BEHIND=$(behind $1);
+  # BEHIND=$(behind $1);
+  behind $1;
   [ "$2" == "@" ] && echo "After behind"
   echo "$UNSTAGED""$AHEAD""$BEHIND";
 }
@@ -85,47 +86,55 @@ ahead ()
 behind_symbol="↓";
 behind ()
 {
+  TMPDIR=/tmp;
   [ -n "$1" ] || ( echoerr "behind: missing branch" && return 1);
   INFO=$(git rev-list --left-right --count origin/$1...HEAD | cut -f 1);
-  if [ -z "$INFO" ]; then
-    git fetch origin $1;
-    INFO=$(git rev-list --left-right --count origin/$1...HEAD | cut -f 1);
+  if [[ -n "$INFO" && $INFO -eq 0 ]]; then
+    DIR=$(basename $(git rev-parse --show-toplevel));
+    BRANCH=$1;
+    if [ ! -f "$TMPDIR"/REPO"$DIR"':'"$BRANCH" ]; then
+      rm $TMPDIR/REPO* 2> /dev/null;
+      git fetch origin $1;
+      INFO=$(git rev-list --left-right --count origin/$1...HEAD | cut -f 1);
+      > "$TMPDIR"/REPO"$DIR"':'"$BRANCH";
+    fi
   fi
 
   [ "$2" == "@" ] && echo "$INFO";
   if [[ -n "$INFO" && $INFO -gt 0 ]]; then
     echo "$behind_symbol";
   fi
+  unset BEHIND;
 }
 
 # used to define the PS1 local
-deflocal()
+deflocal ()
 {
-  BRANCH=$(git branch -vv 2> /dev/null | grep "*" | cut -d " " -f 2);           # gets the branch name
-  if [ -n "$BRANCH" ]; then                                                     # if it is in a branch
-    F=$(basename $(git rev-parse --show-toplevel));                             #   gets the repositories name
-    SF=$(pwd -L);                                                               #   gets the current path
-    SUBF=$(echo "${SF##*$F}");                                                  #   subtract the restant of the path
-    if [ -n "$SUBF" ]; then                                                     #   if there is some subdirectorie
-      F=$F$SUBF;                                                                #     append it to the name
-    fi
+  BRANCH=$(git branch -vv 2> /dev/null | grep "*" | cut -d " " -f 2);
+  if [ -n "$BRANCH" ]; then
+    REPO=$(basename $(git rev-parse --show-toplevel));
+    LOCAL=$(pwd -L);
+    SUBDIR=$(echo "${LOCAL##*$REPO}");
+    FULLDIR=$REPO$SUBDIR;
     EXTRA=$(getgitsymbol $BRANCH 2> /dev/null);
-    echo -e '['"$cyan""$F""$NC"'] on '"$CYAN""$BRANCH $EXTRA""$NC";             #   print the location
-  else                                                                          # if it is NOT in a branch
-    PWD=$(pwd | sed "s|^$HOME|~|");                                             #   gets the current location
-    echo -e '['"$CYAN""$PWD""$NC"']';                                           #   print the location
+    echo -e '['"$cyan""$REPO""$NC"'] on '"$CYAN""$BRANCH $EXTRA""$NC";
+    if [[ -z "$LAST" || "$LAST" != "$REPO"':'"$BRANCH" ]]; then
+      export LAST="$REPO":"$BRANCH";
+    fi
+  else
+    PWD=$(pwd | sed "s|^$HOME|~|");
+    echo -e '['"$CYAN""$PWD""$NC"']';
   fi
 }
-
 # Uses the cllinsdictionary to define a word, and shows only the part
 # that is relevant for the context
-define()
+define ()
 {
   curl -s "http://www.collinsdictionary.com/dictionary/english/$*" | sed -n '/class="def"/p' | awk '{gsub(/.*<span class="def">|<\/span>.*/,"");print}' | sed "s/<[^>]\+>//g";
 }
 
 # Used to convert some manual to a PDF file
-man2pdf()
+man2pdf ()
 {
   man -t $1 | ps2pdf - > $1.pdf
 }
