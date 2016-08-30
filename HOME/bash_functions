@@ -3,7 +3,22 @@
 #
 # Improves the man
 man ()  {
-  /usr/bin/man "$@" 2> /dev/null || less "$@" 2> /dev/null || less "$DOCUMENTS/man_$@.txt" 2> /dev/null || less "$DOCUMENTS/man_$(echo $@ | cut -d '=' -f 2).txt" 2> /dev/null || cowsay "No trace of manual page" || echoerr "No trace of manual page" ;
+  /usr/bin/man "$@" 2> /dev/null || less "$@" 2> /dev/null || less "$DOCUMENTS/man_$@.txt" 2> /dev/null  || less "$DOCUMENTS/man_$(echo $@ | cut -d '=' -f 2).txt" 2> /dev/null || cowsay "No trace of manual page" || echoerr "No trace of manual page" ;
+}
+
+# Change the cat to refuse to work without treats
+cat ()
+{
+    if [ "$1" != "+treats" ]; then
+        echoerr "meow" && return 1;
+    else
+        for i in "$@";
+        do
+            if [ "$i" != "+treats" ]; then
+                /bin/cat "$i";
+            fi;
+        done;
+    fi
 }
 
 # usefull functions
@@ -13,70 +28,79 @@ echoerr() {
   echo "$@" 1>&2;
 }
 
-unstaged_symbol="*"
-ahead_symbol="△"
-unstaged_ahead_symbol="▲"
-behind_symbol="▽"
-unstaged_behind_symbol="▼"
-ahead_behind_symbol="⬡"
-unstaged_ahead_behind_symbol="⬢"
-
-getgitsymbol() {
-  if [[ "$(unstaged)" == 1 && "$(ahead $1)" == 1 && "$(behind $1)" == 1 ]]; then
-    echo "$unstaged_ahead_behind_symbol"
-  elif [[ "$(ahead $1)" == 1 && "$(behind $1)" == 1 ]]; then
-    echo "$ahead_behind_symbol"
-  elif [[ "$(unstaged)" == 1 && "$(ahead $1)" == 1 ]]; then
-    echo "$unstaged_ahead_symbol"
-  elif [[ "$(ahead $1)" == 1 ]]; then
-    echo "$ahead_symbol"
-  elif [[ "$(unstaged)" == 1 && "$(behind $1)" == 1 ]]; then
-    echo "$unstaged_behind_symbol"
-  elif [[ "$(behind $1)" == 1 ]]; then
-    echo "$behind_symbol"
-  elif [[ "$(unstaged)" == 1 ]]; then
-    echo "$unstaged_symbol"
-  else # clean
-    echo ""
+# On branches, this will return the branch name
+# On non-branches, (no branch)
+function getbranch() {
+  ref="$(git symbolic-ref HEAD 2> /dev/null | sed -e 's/refs\/heads\///')"
+  if [ -n "$ref" ]; then
+    echo "$ref";
+  else
+    echo "(no branch)";
   fi
+}
+
+# Prints the symbol
+# $1 -- must be the branch
+getgitsymbol ()
+{
+  [ -n "$1" ] || ( echoerr "getgitsymbol: missing branch" && return 1);
+  [ "$2" == "@" ] && echo "Before unstaged"
+  UNSTAGED=$(unstaged);
+  [ "$2" == "@" ] && echo "Before ahead"
+  AHEAD=$(ahead $1);
+  [ "$2" == "@" ] && echo "Before behind"
+  BEHIND=$(behind $1);
+  [ "$2" == "@" ] && echo "After behind"
+  echo "$UNSTAGED""$AHEAD""$BEHIND";
 }
 
 # Return 1 if have modifications not staged for commits
 # $1 -- @ if you want debug
+unstaged_symbol='*';
 unstaged ()
 {
   # If the git status has *any* changes (e.g. dirty), echo our character
-  [ "$1" == "@" ] && echo "$(git status --porcelain 2> /dev/null)";
-  if [ -n "$(git status --porcelain 2> /dev/null)" ]; then
-    echo 1;
+  INFO=$(git status --porcelain 2> /dev/null);
+  [ "$1" == "@" ] && echo "$INFO";
+  if [ -n "$INFO" ]; then
+    echo "$unstaged_symbol";
   fi
 }
 
-# Returns 1 if have commits not send to server
+# Prints 1 if have commits not send to server
 # $1 -- must be the branch
+ahead_symbol="↑";
 ahead ()
 {
-  [ -n "$1" ] || return;
-  [ "$2" == "@" ] && echo "$(git rev-list --left-right --count origin/$1...HEAD | cut -f 2)";
-  if [ $(git rev-list --left-right --count origin/$1...HEAD | cut -f 2) -gt 0 ]; then
-    echo 1;
+  [ -n "$1" ] || ( echoerr "ahead: missing branch" && return 1);
+  INFO=$(git rev-list --left-right --count origin/$1...HEAD | cut -f 2);
+  [ "$2" == "@" ] && echo "$INFO";
+  if [[ -n "$INFO" && $INFO -gt 0 ]]; then
+    echo "$ahead_symbol";
   fi
 }
 
-# Returns 1 if have changes not send pulle from the server
+# Prints 1 if have changes not send pulle from the server
 # $1 -- must be the branch
+behind_symbol="↓";
 behind ()
 {
-  [ -n "$1" ] || return;
-  git fetch origin $1 || return;
-  [ "$2" == "@" ] && echo "$(git rev-list --left-right --count origin/$1...HEAD | cut -f 1)";
-  if [ $(git rev-list --left-right --count origin/$1...HEAD | cut -f 1) -gt 0 ]; then
-    echo 1;
+  [ -n "$1" ] || ( echoerr "behind: missing branch" && return 1);
+  INFO=$(git rev-list --left-right --count origin/$1...HEAD | cut -f 1);
+  if [ -z "$INFO" ]; then
+    git fetch origin $1;
+    INFO=$(git rev-list --left-right --count origin/$1...HEAD | cut -f 1);
+  fi
+
+  [ "$2" == "@" ] && echo "$INFO";
+  if [[ -n "$INFO" && $INFO -gt 0 ]]; then
+    echo "$behind_symbol";
   fi
 }
 
 # used to define the PS1 local
-deflocal() {
+deflocal()
+{
   BRANCH=$(git branch -vv 2> /dev/null | grep "*" | cut -d " " -f 2);           # gets the branch name
   if [ -n "$BRANCH" ]; then                                                     # if it is in a branch
     F=$(basename $(git rev-parse --show-toplevel));                             #   gets the repositories name
@@ -95,33 +119,39 @@ deflocal() {
 
 # Uses the cllinsdictionary to define a word, and shows only the part
 # that is relevant for the context
-define() {
+define()
+{
   curl -s "http://www.collinsdictionary.com/dictionary/english/$*" | sed -n '/class="def"/p' | awk '{gsub(/.*<span class="def">|<\/span>.*/,"");print}' | sed "s/<[^>]\+>//g";
 }
 
 # Used to convert some manual to a PDF file
-man2pdf() {
+man2pdf()
+{
   man -t $1 | ps2pdf - > $1.pdf
 }
 
 # Changes all leter in string to it's correspondent in upper casae
-toup () {
+toup ()
+{
   echo $1 | tr '[:lower:]' '[:upper:]'
 }
 
 # Changes all leter in string to it's correspondent in lower case
-tolow () {
+tolow ()
+{
   echo $1 | tr '[:upper:]' '[:lower:]'
 }
 
 # Flip a coin, faster than Google's
-flipacoin () {
+flipacoin ()
+{
   [ $[ $RANDOM % 2] == 0 ] && echo "Heads" || echo "Tails";
 }
 
 # Gets the weahter from the wttr sie and shows in terminal
 # It can be specified witch city you want, the default is Pelotas
-getweather () {
+getweather ()
+{
   if [ -n "$@" ]; then
     curl "http://wttr.in/$@";
   else
@@ -129,25 +159,9 @@ getweather () {
   fi
 }
 
-
-# Change the cat to refuse to work without treats
-cat ()
-{
-    if [ "$1" != "+treats" ]; then
-        echoerr "meow" && return;
-    else
-        for i in "$@";
-        do
-            if [ "$i" != "+treats" ]; then
-                /bin/cat "$i";
-            fi;
-        done;
-    fi
-}
-
-
 # Check if ONE repositorie needs a commit and/or a pull
-cgit () {
+cgit ()
+{
   if [ -n "$1" ]; then
     cd $1 2> /dev/null || (echoerr "Directory \"$1\" not found!" && return);
     REPO=$(pwd -P);
@@ -175,7 +189,8 @@ cgit () {
 
 # Check all gits repositories for missing commit/push and pull/fetch
 # Uses updategitvar
-checkgit (){
+checkgit ()
+{
   if [ -z "$GIT" ]; then
     updategitvar;
   fi;
