@@ -29,10 +29,6 @@
 		# bash script.sh
 	
 # For "installing" the system config files
-	- Gives the file scrpit installer the execution permission,
-		# sudo chmod u+x script.sh || su -c "chmod u+x script.sh"
-	- And run the damm thing
-		# sudo bash script.sh || su -c "bash script.sh"
 
 --------------------------------------------------------------------------------
 
