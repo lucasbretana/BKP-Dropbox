@@ -24,10 +24,12 @@
 
 # For "installing" the normal files
 	- Gives the file scrpit installer the execution permission,
-		# `chmod u+x script.sh`
+		# chmod u+x script.sh
 	- And run the damm thing
-		# `bash script.sh`
-	
+		# bash script.sh
+
+--------------------------------------------------------------------------------
+
 # For "installing" the system config files
 
 --------------------------------------------------------------------------------
