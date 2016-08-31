@@ -3,8 +3,8 @@
 --------------------------------------------------------------------------------
 # TODO
   - create the installer for the vimrc in HOME
-  - Test the installer for the bashrc in HOME
-  - Test the installer for the bash_aliases in HOME
+  - test the installer for the bashrc in HOME
+  - test the installer for the bash_aliases in HOME
 
 # References
   - http://vim.wikia.com/wiki/Example_vimrc
@@ -19,9 +19,9 @@
 
 --------------------------------------------------------------------------------
 # For installing the normal files
-  - Gives the file scrpit installer the execution permission
+  - gives the file scrpit installer the execution permission
     * # `chmod u+x script.sh`
-  - And run the damm thing
+  - and run the damm thing
     * # `bash script.sh`
 
 --------------------------------------------------------------------------------
