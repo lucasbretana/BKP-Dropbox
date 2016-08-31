@@ -53,8 +53,10 @@ getgitsymbol ()
   BEHIND=$(behind $1);
   [ "$2" == "@" ] && echo "After behind";
   echo -n "$UNSTAGED";
-  ( [ -n "$UNSTAGED" ] && [ -n "$AHEAD" ] ) && echo -n " " ; echo -n "$AHEAD";
-  ( [ -n "$UNSTAGED" ] || [ -n "$AHEAD" ] ) && [ -n "$BEHIND" ] && echo -n " " ; echo -n "$BEHIND";
+  ( [ -n "$UNSTAGED" ] && [ -n "$AHEAD" ] ) && echo -n " " ;
+  echo -n "$AHEAD";
+  ( ( [ -n "$UNSTAGED" ] || [ -n "$AHEAD" ] ) && [ -n "$BEHIND" ] ) && echo -n " " ;
+  echo -n "$BEHIND";
 }
 
 # Return 1 if have modifications not staged for commits
