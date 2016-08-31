@@ -44,15 +44,17 @@ function getbranch() {
 getgitsymbol ()
 {
   [ -n "$1" ] || ( echoerr "getgitsymbol: missing branch" && return 1);
-  [ "$2" == "@" ] && echo "Before unstaged"
+  [ "$2" == "@" ] && echo "Before unstaged";
   UNSTAGED=$(unstaged);
-  [ "$2" == "@" ] && echo "Before ahead"
+  [ "$2" == "@" ] && echo "Before ahead";
   AHEAD=$(ahead $1);
-  [ "$2" == "@" ] && echo "Before behind"
+  [ "$2" == "@" ] && echo "Before behind";
   # BEHIND=$(behind $1);
   BEHIND=$(behind $1);
-  [ "$2" == "@" ] && echo "After behind"
-  echo "$UNSTAGED"""$AHEAD""$BEHIND;
+  [ "$2" == "@" ] && echo "After behind";
+  echo -n "$UNSTAGED";
+  ( [ -n "$UNSTAGED" ] && [ -n "$AHEAD" ] ) && echo -n " " ; echo -n "$AHEAD";
+  ( [ -n "$UNSTAGED" ] || [ -n "$AHEAD" ] ) && [ -n "$BEHIND" ] && echo -n " " ; echo -n "$BEHIND";
 }
 
 # Return 1 if have modifications not staged for commits
@@ -64,7 +66,7 @@ unstaged ()
   INFO=$(git status --porcelain 2> /dev/null);
   [ "$1" == "@" ] && echo "$INFO";
   if [ -n "$INFO" ]; then
-    echo "$unstaged_symbol ";
+    echo "$unstaged_symbol";
   fi
 }
 
@@ -77,7 +79,7 @@ ahead ()
   INFO=$(git rev-list --left-right --count origin/$1...HEAD | cut -f 2);
   [ "$2" == "@" ] && echo "$INFO";
   if [[ -n "$INFO" && $INFO -gt 0 ]]; then
-    ( [ $INFO -gt 1 ] && echo $INFO""$ahead_symbol" " ) ||echo $ahead_symbol" ";
+    ( [ $INFO -gt 1 ] && echo "$INFO""$ahead_symbol" ) || echo "$ahead_symbol";
   fi
 }
 
@@ -117,10 +119,7 @@ deflocal ()
     SUBDIR=$(echo "${LOCAL##*$REPO}");
     FULLDIR=$REPO$SUBDIR;
     EXTRA=$(getgitsymbol $BRANCH 2> /dev/null);
-    echo -e '['"$cyan""$REPO""$NC"'] on '"$CYAN""$BRANCH $EXTRA""$NC";
-    if [[ -z "$LAST" || "$LAST" != "$REPO"':'"$BRANCH" ]]; then
-      export LAST="$REPO":"$BRANCH";
-    fi
+    echo -e '['"$cyan""$REPO""$NC"'] ['"$CYAN""$BRANCH $EXTRA""$NC"']';
   else
     PWD=$(pwd | sed "s|^$HOME|~|");
     echo -e '['"$CYAN""$PWD""$NC"']';
