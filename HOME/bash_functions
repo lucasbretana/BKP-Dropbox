@@ -121,7 +121,8 @@ deflocal ()
     SUBDIR=$(echo "${LOCAL##*$REPO}");
     FULLDIR=$REPO$SUBDIR;
     EXTRA=$(getgitsymbol $BRANCH 2> /dev/null);
-    echo -e '['"$cyan""$REPO""$NC"'] ['"$CYAN""$BRANCH $EXTRA""$NC"']';
+    [ -n "$EXTRA" ] && EXTRA=" $EXTRA";
+    echo -e '['"$cyan""$REPO""$NC"'] ['"$CYAN""$BRANCH""$EXTRA""$NC"']';
   else
     PWD=$(pwd | sed "s|^$HOME|~|");
     echo -e '['"$CYAN""$PWD""$NC"']';
