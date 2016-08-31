@@ -79,7 +79,7 @@ ahead ()
   INFO=$(git rev-list --left-right --count origin/$1...HEAD | cut -f 2);
   [ "$2" == "@" ] && echo "$INFO";
   if [[ -n "$INFO" && $INFO -gt 0 ]]; then
-    ( [ $INFO -gt 1 ] && echo "$INFO""$ahead_symbol" ) || echo "$ahead_symbol";
+    echo "$ahead_symbol""$INFO";
   fi
 }
 
@@ -104,7 +104,7 @@ behind ()
   #
   [ "$2" == "@" ] && echo "$INFO";
   if [[ -n "$INFO" && $INFO -gt 0 ]]; then
-    ( [ $INFO -gt 1 ] && echo $behind_symbol""$INFO; ) ||echo $behind_symbol" ";
+    echo "$behind_symbol""$INFO";
   fi
   unset BEHIND;
 }
