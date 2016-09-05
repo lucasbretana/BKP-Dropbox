@@ -1,9 +1,1 @@
 HOME/*ocult*
-# Atom local config files
-# Those should not be sync
-ATOM_CONFIG/atom/storage/*
-ATOM_CONFIG/atom/compile-cache/*
-ATOM_CONFIG/atom/dev/*
-ATOM_CONFIG/atom/.npm/*
-ATOM_CONFIG/atom/.node-gyp/*
-
