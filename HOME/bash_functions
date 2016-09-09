@@ -7,7 +7,7 @@ man ()  {
 }
 
 # Change the cat to refuse to work without treats
-cat ()
+tac ()
 {
     if [ "$1" != "+treats" ]; then
         echoerr "meow" && return 1;
@@ -15,7 +15,7 @@ cat ()
         for i in "$@";
         do
             if [ "$i" != "+treats" ]; then
-                /bin/cat "$i";
+                /bin/tac "$i";
             fi;
         done;
     fi
