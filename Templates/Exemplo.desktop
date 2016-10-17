@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=Example
+Name[pt_BR]=Exemplo
+Comment=A brief description
+Exec=/path/to/executable
+Icon=/path/to/icon/image
+Type=Application
+Categories=Categorie0;Categorie1;

@@ -1,0 +1,18 @@
+/*Usado para componentes do HTML*/
+div{ 
+	height: 500px;
+	width: 200px;
+}
+
+/*Usado para um  componente especifico do HTML*/
+#divUm
+{
+	width: 100px;
+	height: 100px;
+}
+/*Usado para uma classe de componentes do HTML*/
+.divEsquerda
+{
+	width: 100px;
+	height: 100px;
+}
