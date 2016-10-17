@@ -1,0 +1,7 @@
+[Desktop Entry]
+#Name=Google SketchUp 8
+#Name[pt_BR]=ExemploWineApp.desktop
+Exec=env WINEPREFIX="/home/lucas/.wine" wine C:\\\\Program\\ Files\\\\Google\\\\Google\\ SketchUp\\ 8\\\\SketchUp.exe 
+Type=Application
+StartupNotify=true
+Icon=1CC8_SketchUpIcon.0

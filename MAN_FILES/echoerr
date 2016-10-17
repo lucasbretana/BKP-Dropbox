@@ -1,0 +1,20 @@
+.\" Manpage for echoerr.
+.\" Contact lucasbretana@gmail.com to correct errors or typos.
+.TH man 8 "18 September 2016" "1.0" "echoerr man page"
+.SH NAME
+nuseradd \- create a new LDAP user
+.SH SYNOPSIS
+nuseradd [USERNAME]
+.SH DESCRIPTION
+echoerr is a shell function that work similary to echo, but using the err as output stream.
+.SH EXAMPLES
+echoerr "Error Message"
+.SH OPTIONS
+The echoerr does not take any options.
+.SH SEE ALSO
+echo
+.SH BUGS
+No known bugs.
+.SH AUTHOR
+BRETANA, L. E. (lucasbretana@gmail.com)
+

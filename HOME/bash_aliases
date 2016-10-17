@@ -16,6 +16,7 @@ alias cp='cp -i'
 alias su='su -l'
 alias less='less -x 2'
 alias gopen='gnome-open'
+alias open='xdg-open'
 alias ping='(figlet Miau || echo Miau) ; ping'
 alias mv='mv -i'
 ##

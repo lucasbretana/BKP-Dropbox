@@ -1,0 +1,4 @@
+[autorun]
+ICON = Samsung_Drive_Manager.exe, 1
+OPEN = Samsung_Drive_Manager.exe
+ACTION = "Run Samsung Drive Manager"
