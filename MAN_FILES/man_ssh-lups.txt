@@ -1,10 +1,10 @@
 **		Connect	to LUPS server				**
 $ ssh -l lucasbretana lups.ufpel.edu.br
-	- use THIS computer password : lups.connect.lab
+	- use THIS computer password  
 
 **		Connect to some computer on LUPS 	**
 $ ssh lups03
-	- use THAT computer passphrase : -empy password-
+	- use THAT computer passphrase
 
 **		acesso a hydra						**
 $ ipmitool -H 10.0.1.102es -U admin -P lups#431$ chassis power status
