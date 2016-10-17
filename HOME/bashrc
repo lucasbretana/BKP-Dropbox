@@ -150,10 +150,12 @@ if [ "$(hostname)"  = "MORDOR" ]; then
   export PATH=$PATH:/opt/VirtualGL/bin
   export PATH=$PATH:/opt/netbeans-8.0.2/bin
   # Intel compiler utilities
-  export PATH=$PATH:/opt/intel/bin
-  export LD_LIBRARY_PATH=/opt/intel/lib
-  export DYLD_LIBRARY_PATH=/opt/intel/lib
-  export MANPATH=$MANPATH:/opt/intel/man
+  #export PATH=$PATH:/opt/intel/bin
+  #export LD_LIBRARY_PATH=/opt/intel/lib
+  #export DYLD_LIBRARY_PATH=/opt/intel/lib
+  #export MANPATH=$MANPATH:/opt/intel/man
+  # load some setups
+  #source /opt/intel/cnc/1.0.100/bin/cncvars.sh
   # Git var
   export GIT=$DROPBOX/Lucas/Programming/Java
   export GIT=$GIT:$DROPBOX/Lucas/Programming/JavaUtilities
@@ -163,8 +165,6 @@ if [ "$(hostname)"  = "MORDOR" ]; then
   export GIT=$GIT:$DROPBOX/Lucas/UFPel/Projetos/LUPS/ERAD2016
   export GIT=$GIT:$DROPBOX/Lucas/UFPel/Projetos/LUPS/LindaTS
   export GIT=$GIT:$DROPBOX/Lucas/debian/ConfFiles
-  # load some setups
-  source /opt/intel/cnc/1.0.100/bin/cncvars.sh
 elif [[ $(hostname) = "lups"* ]]; then
   export DESKTOP=$HOME/Desktop
   export DOWNLOADS=$HOME/Downloads
