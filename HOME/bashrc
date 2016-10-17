@@ -159,10 +159,6 @@ if [ "$(hostname)"  = "MORDOR" ]; then
   # Git var
   export GIT=$DROPBOX/Lucas/Programming/Java
   export GIT=$GIT:$DROPBOX/Lucas/Programming/JavaUtilities
-  export GIT=$GIT:$DROPBOX/Lucas/UFPel/2016/2016-1/AED/AED_git
-  export GIT=$GIT:$DROPBOX/Lucas/UFPel/2016/2016-1/AOC/Tetris-AOC
-  export GIT=$GIT:$DROPBOX/Lucas/UFPel/2016/2016-1/POO/Trab-POO
-  export GIT=$GIT:$DROPBOX/Lucas/UFPel/Projetos/LUPS/ERAD2016
   export GIT=$GIT:$DROPBOX/Lucas/UFPel/Projetos/LUPS/LindaTS
   export GIT=$GIT:$DROPBOX/Lucas/debian/ConfFiles
 elif [[ $(hostname) = "lups"* ]]; then
