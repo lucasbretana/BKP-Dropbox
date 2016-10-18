@@ -128,7 +128,7 @@ defhost () {
   if [ "$(hostname)"  = "MORDOR" ]; then
     echo -e "$GREEN""$(hostname)""$NC";
   elif [[ "$(hostname)"  = "lups"* ]]; then
-    echo -e "$YELLOW""$(hostname)""$NC";
+    echo -e "$PURPLE""$(hostname)""$NC";
   else
     echo -e "$PURPLE""$(hostname)""$NC";
   fi
