@@ -34,6 +34,14 @@ alias getlogo='screenfetch'
 alias myip='hostname -I | cut -d" " -f 1'
 alias myexip='curl "www.echoip.net" ; echo '
 alias goreal='cd $(whereamirly)'
+alias ..='cd ..'
+alias ...='cd ../../../'
+alias ....='cd ../../../../'
+alias .....='cd ../../../../'
+alias .2='cd ../../'
+alias .3='cd ../../../'
+alias .4='cd ../../../../'
+alias .5='cd ../../../../..'
 
 # Aliases only valid on MORDOR server
 if [ $(hostname) = "MORDOR" ]; then
