@@ -37,17 +37,21 @@ alias goreal='cd $(whereamirly)'
 
 # Aliases only valid on MORDOR server
 if [ $(hostname) = "MORDOR" ]; then
+  alias cjava='javac'
   # alias for java 8
   alias java8='/usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java'
   alias javac8='/usr/lib/jvm/java-8-openjdk-amd64/bin/javac'
+  alias cjava8='javac8'
   alias jar8='/usr/lib/jvm/java-8-openjdk-amd64/bin/jar'
   # alias for java 7
   alias java7='/usr/lib/jvm/java-7-openjdk-amd64/jre/bin/java'
   alias javac7='/usr/lib/jvm/java-7-openjdk-amd64/bin/javac'
+  alias cjava7='javac7'
   alias jar7='/usr/lib/jvm/java-7-openjdk-amd64/bin/jar'
   # alias for java 6
   alias java6='/usr/lib/jvm/java-6-openjdk-amd64/jre/bin/java'
   alias javac6='/usr/lib/jvm/java-6-openjdk-amd64/bin/javac'
+  alias cjava6='javac6'
   alias jar6='/usr/lib/jvm/java-6-openjdk-amd64/bin/jar'
 
   # Alias definitions.
@@ -58,6 +62,7 @@ if [ $(hostname) = "MORDOR" ]; then
   fi
 
 elif [[ $(hostname) = "lups"* ]]; then
+  alias cjava='javac'
   alias open='xdg-open'
   alias gopen='gnome-open'
 fi
