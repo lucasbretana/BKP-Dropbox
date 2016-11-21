@@ -279,7 +279,7 @@ updategitvar () {
 
 # Top 10 CPU and memory eating process
 memcpu() { 
-  echo "*** Top 10 cpu eating process ***"; ps aux | sort -nr -k 3 | head -10; 
+  echo "*** Top ten CPU eating process ***"; ps aux | sort -nr -k 3 | head -10; 
   echo;echo;
-  echo "*** Top 10 memory eating process ***"; ps aux | sort -nr -k 4 | head -10;  
+  echo "*** Top ten MEMORY eating process ***"; ps aux | sort -nr -k 4 | head -10;  
 }
