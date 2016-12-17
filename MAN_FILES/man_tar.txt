@@ -1,20 +1,37 @@
- * -- 		.tgz/ .tar.gz / .gz		-- *
- 	$ tar -vzxf nomearquivo.tar.gz
+NAME
+  =tar - how to decompress some files
 
-* -- 		.tar.bz2: 		-- *
- 	$ tar -vxjpf nomearquivo.tar.bz2
+DESCRIPTION
+  =tar is my personal manual to decompress some files using tar command
+  
+  - .tgz, .tar.gz, gz
+    
+    $ tar -vzxf filename.tar.gz
 
-* -- 		.tar: 			-- *
- 	$ tar xf nomearquivo.tar
+  - .tgz, .tar.gz , .gz
+ 	
+    $ tar -vzxf filename.tar.gz
 
-* -- 		.rar: 			-- *
- 	$ rar x nomearquivo.rar
+  - .tar.bz2 
+ 	
+    $ tar -vxjpf filename.tar.bz2
 
-* --		.zip: 			-- *
- 	$ unzip nomearquivo.zip
+  - .tar 
+ 	
+    $ tar xf filename.tar
 
-* -- 		.7-zip: 		-- *
-	$ 7z x -y nomearquivo.7z
+  - .rar
+ 	
+    $ rar x filename.rar
 
-* --		.tar.xz			-- *
- 	$ tar -xf arquivo.tar
+  -	.zip
+ 	
+    $ unzip filename.zip
+
+  - .7-zip
+	
+    $ 7z x -y filename.7z
+
+  - .tar.xz
+ 	  
+    $ tar -xf arquivo.tar
