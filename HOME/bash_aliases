@@ -12,6 +12,7 @@ if [ -x /usr/bin/dircolors ]; then
   alias egrep='egrep --color=auto'
 fi
 
+alias gcc='gcc -Wall'
 alias cp='cp -i'
 alias su='su -l'
 alias less='less -x 2'

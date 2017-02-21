@@ -4,34 +4,14 @@ NAME
 DESCRIPTION
   =tar is my personal manual to decompress some files using tar command
   
-  - .tgz, .tar.gz, gz
+  -vzxf - .tgz, .tar.gz, .gz
+
+  -vxjpf - .tar.bz2
     
-    $ tar -vzxf filename.tar.gz
+  xf - .tar
+    
+  x - rar
+    
+  unzip -	.zip
 
-  - .tgz, .tar.gz , .gz
- 	
-    $ tar -vzxf filename.tar.gz
-
-  - .tar.bz2 
- 	
-    $ tar -vxjpf filename.tar.bz2
-
-  - .tar 
- 	
-    $ tar xf filename.tar
-
-  - .rar
- 	
-    $ rar x filename.rar
-
-  -	.zip
- 	
-    $ unzip filename.zip
-
-  - .7-zip
-	
-    $ 7z x -y filename.7z
-
-  - .tar.xz
- 	  
-    $ tar -xf arquivo.tar
+  -xf - .tar.xz

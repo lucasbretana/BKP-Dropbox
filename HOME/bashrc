@@ -49,6 +49,9 @@ esac
 # See bash(1) for more options
 HISTCONTROL=ignoreboth
 
+# extend pattern match in BASH
+shopt -s extglob
+
 # append to the history file, don't overwrite it
 shopt -s histappend
 

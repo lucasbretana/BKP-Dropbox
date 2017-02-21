@@ -24,7 +24,7 @@ tac () {
 #
 # Defines a error echo function
 echoerr() {
-  echo "$@" 1>&2;
+  echo -e "$RED$@$BL" 1>&2;
 }
 
 # On branches, this will return the branch name
@@ -172,7 +172,7 @@ colors () {
 # Uses the cllinsdictionary to define a word, and shows only the part
 # that is relevant for the context
 define () {
-  curl -s "http://www.collinsdictionary.com/dictionary/english/$*" | sed -n '/class="def"/p' | awk '{gsub(/.*<span class="def">|<\/span>.*/,"");print}' | sed "s/<[^>]\+>//g";
+  curl -s "https://www.collinsdictionary.com/dictionary/english/$*" | sed -n '/class="def"/p' | awk '{gsub(/.*<span class="def">|<\/span>.*/,"");print}' | sed "s/<[^>]\+>//g";
 }
 
 # Used to convert some manual to a PDF file
@@ -283,3 +283,46 @@ memcpu() {
   echo;echo;
   echo "*** Top ten MEMORY eating process ***"; ps aux | sort -nr -k 4 | head -10;  
 }
+
+# Automatically decompress some know types of files
+decompress ()
+{
+  if [ "$1" = "-bz2" ]; then
+    (bunzip2 "$2" && return 0) || (echoerr "bunzip2: error" && return 1);
+  elif [ "$1" = "-tar.bz2" ]; then
+    (tar -vxjpf "$2" && return 0) || (echoerr "tar: error" && return 1);
+  elif [ "$1" = "-tar.gz" ];then
+    (tar -vxjpf "$2" && return 0) || (echoerr "tar: error" && return 1);
+  elif [ "$1" = "-tgz" ];then
+    (tar -vxjpf "$2" && return 0) || (echoerr "tar: error" && return 1);
+  elif [ "$1" = "-gz" ];then
+    (tar -vxjpf "$2" && return 0) || (echoerr "tar: error" && return 1);
+  elif [ "$1" = "-tar" ];then
+    (tar xf "$2" && return 0) || (echoerr "tar: error" && return 1);
+  elif [ "$1" = "-tar.xz" ];then
+    (tar -xf "$2" && return 0) || (echoerr "tar: error" && return 1);
+  elif [ "$1" = "-zip" ];then
+    (unzip "$2" && return 0) || (echoerr "tar: error" && return 1);
+  elif [ "$1" = "-7z" ];then
+    (7z x -y "$2" && return 0) || (echoerr "tar: error" && return 1);
+  elif [ "$1" = "-rar" ];then
+    (unrar "$2" && return 0) || (echoerr "tar: error" && return 1);
+  fi
+
+  filename=$(basename "$1");
+
+  case "$filename" in
+    *.bz2)     bunzip2 "$1"     || echoerr "bunzip2: error";;
+    *.tar.bz2) tar -vxjpf "$1"  || echoerr "tar: error";;
+    *.tar.gz)  tar -vzxf "$1"   || echoerr "tar: error";;
+    *.tgz)     tar -vzxf "$1"   || echoerr "tar: error";;
+    *.gz)      tar -vzxf "$1"   || echoerr "tar: error";;
+    *.tar)     tar xf "$1"      || echoerr "tar: error";;
+    *.tar.xz)  tar -xf "$1"     || echoerr "tar: error";;
+    *.zip)     unzip "$1"       || echoerr "unzip: error";;
+    *.7z)      7z x -y "$1"     || echoerr "7z: error";;
+    *.rar)     unrar x "$1"     || echoerr "unrar: error";;
+    *)         echoerr "decompress: error, unsuported";;
+  esac
+}
+
