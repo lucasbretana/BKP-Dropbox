@@ -24,7 +24,7 @@ tac () {
 #
 # Defines a error echo function
 echoerr() {
-  echo -e "$RED$@$BL" 1>&2;
+  echo -e "$RED$@$NC" 1>&2;
 }
 
 # On branches, this will return the branch name
@@ -279,9 +279,9 @@ updategitvar () {
 
 # Top 10 CPU and memory eating process
 memcpu() { 
-  echo "*** Top ten CPU eating process ***"; ps aux | sort -nr -k 3 | head -10; 
+  echo -e "*** Top $RED ten $NC $PURPLE CPU $NC eating process ***"; ps aux | sort -nr -k 3 | head -10; 
   echo;echo;
-  echo "*** Top ten MEMORY eating process ***"; ps aux | sort -nr -k 4 | head -10;  
+  echo -e "*** Top $RED ten $NC $PURPLE MEMORY $NC eating process ***"; ps aux | sort -nr -k 4 | head -10;  
 }
 
 # Automatically decompress some know types of files
