@@ -14,7 +14,7 @@ tac () {
         for i in "$@";
         do
             if [ "$i" != "+treats" ]; then
-                /bin/tac "$i";
+                /usr/bin/tac "$i";
             fi;
         done;
     fi

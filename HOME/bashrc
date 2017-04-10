@@ -22,6 +22,65 @@ cyan='\033[0;36m'
 CYAN='\033[1;36m'
 NC='\033[0m'
 
+# colored GCC warnings and errors
+export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+
+if [ "$(hostname)"  = "MORDOR" ]; then
+  # usefull ambient variable
+  export MOKAICON=/usr/share/icons/Moka/256x256/apps
+  # Trash
+  export TRASH=$HOME/.local/share/Trash
+  export DATA=$HOME/.Data
+  export STEAM_LIBRARY=$DATA/Downloads/Games/SteamLibrary-debian
+  export DESKTOP=$HOME/Desktop
+  export DOWNLOADS=$HOME/Downloads
+  export MUSIC=$HOME/Music
+  export PICTURES=$HOME/Pictures
+  export PUBLIC=$HOME/Public
+  export TEMPLATES=$HOME/Templates
+  export VIDEOS=$HOME/Videos
+  export DOCUMENTS=$HOME/Documents
+  export GAMES=$DOWNLOADS/Games
+  export DROPBOX=$DOCUMENTS/Dropbox
+  export LUCAS=$DROPBOX/Lucas
+  export NOTES=$DOCUMENTS/Dropbox/Lucas/notes
+  export VIMRUNTIME=/usr/share/vim/vim74
+  # UFPel vars
+  export UFPEL=$LUCAS/UFPel
+  export LUPS=$UFPEL/Projetos/LUPS
+  export WHEREDOWEGO=$LUPS/LindaTS
+  # JAVA_HOME for Maven (GAppEnine)
+  export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
+  export JAVA_DOC=$JAVA_HOME/docs/api
+  # Path export
+  export PATH=$PATH:/opt/teamviewer/tv_bin/wine/bin
+  export PATH=$PATH:/opt/android-studio/bin
+  export PATH=$PATH:/opt/android-sdk-linux/tools
+  export PATH=$PATH:/opt/VirtualGL/bin
+  export PATH=$PATH:/opt/netbeans-8.0.2/bin
+  # Intel compiler utilities
+  #export PATH=$PATH:/opt/intel/bin
+  #export LD_LIBRARY_PATH=/opt/intel/lib
+  #export DYLD_LIBRARY_PATH=/opt/intel/lib
+  #export MANPATH=$MANPATH:/opt/intel/man
+  # load some setups
+  #source /opt/intel/cnc/1.0.100/bin/cncvars.sh
+  # Git var
+  export GIT=$DROPBOX/Lucas/Programming/Java
+  export GIT=$GIT:$DROPBOX/Lucas/Programming/JavaUtilities
+  export GIT=$GIT:$DROPBOX/Lucas/UFPel/Projetos/LUPS/LindaTS
+  export GIT=$GIT:$DROPBOX/Lucas/debian/ConfFiles
+elif [[ $(hostname) = "lups"* ]]; then
+  export DESKTOP=$HOME/Desktop
+  export DOWNLOADS=$HOME/Downloads
+  export MUSIC=$HOME/Music
+  export PICTURES=$HOME/Pictures
+  export PUBLIC=$HOME/Public
+  export TEMPLATES=$HOME/Templates
+  export VIDEOS=$HOME/Videos
+  export DOCUMENTS=$HOME/Documents
+fi
+
 # Alias definitions.
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
@@ -30,7 +89,6 @@ NC='\033[0m'
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
-
 
 # Functions definitions.
 # You may want to put all your additions into a separate file like
@@ -113,72 +171,6 @@ xterm*|rxvt*)
 *)
   ;;
 esac
-
-# colored GCC warnings and errors
-export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
-
-if [ "$(hostname)"  = "MORDOR" ]; then
-  # usefull ambient variable
-  export MOKAICON=/usr/share/icons/Moka/256x256/apps
-  # Trash
-  export TRASH=$HOME/.local/share/Trash
-  export DADOS=$HOME/.Dados
-  export DESKTOP=$HOME/Desktop
-  export DOWNLOADS=$HOME/Downloads
-  export MUSIC=$HOME/Music
-  export PICTURES=$HOME/Pictures
-  export PUBLIC=$HOME/Public
-  export TEMPLATES=$HOME/Templates
-  export VIDEOS=$HOME/Videos
-  export DOCUMENTS=$HOME/Documents
-  export GAMES=$DOWNLOADS/Games
-  export DROPBOX=$DOCUMENTS/Dropbox
-  export LUCAS=$DROPBOX/Lucas
-  export NOTES=$DOCUMENTS/Dropbox/Lucas/notes
-  export VIMRUNTIME=/usr/share/vim/vim74
-  # UFPel vars
-  export UFPEL=$LUCAS/UFPel
-  export LUPS=$UFPEL/Projetos/LUPS
-  export WHEREDOWEGO=$LUPS/LindaTS
-  export Calculo2=$UFPEL/2016/2016-2/Calculo2
-  export TC=$UFPEL/2016/2016-2/TC
-  export AED2=$UFPEL/2016/2016-2/AED2
-  export AOC2=$UFPEL/2016/2016-2/AOC2
-  export ALGA=$UFPEL/2016/2016-2/ALGA
-  # JAVA_HOME for Maven (GAppEnine)
-  export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
-  export JAVA_DOC=$JAVA_HOME/docs/api
-  # Path export
-  export PATH=$PATH:/opt/teamviewer/tv_bin/wine/bin
-  export PATH=$PATH:/opt/android-studio/bin
-  export PATH=$PATH:/opt/android-sdk-linux/tools
-  export PATH=$PATH:/opt/VirtualGL/bin
-  export PATH=$PATH:/opt/netbeans-8.0.2/bin
-  # Intel compiler utilities
-  #export PATH=$PATH:/opt/intel/bin
-  #export LD_LIBRARY_PATH=/opt/intel/lib
-  #export DYLD_LIBRARY_PATH=/opt/intel/lib
-  #export MANPATH=$MANPATH:/opt/intel/man
-  # load some setups
-  #source /opt/intel/cnc/1.0.100/bin/cncvars.sh
-  # Git var
-  export GIT=$DROPBOX/Lucas/Programming/Java
-  export GIT=$GIT:$DROPBOX/Lucas/Programming/JavaUtilities
-  export GIT=$GIT:$DROPBOX/Lucas/UFPel/Projetos/LUPS/LindaTS
-  export GIT=$GIT:$DROPBOX/Lucas/debian/ConfFiles
-elif [[ $(hostname) = "lups"* ]]; then
-  export DESKTOP=$HOME/Desktop
-  export DOWNLOADS=$HOME/Downloads
-  export MUSIC=$HOME/Music
-  export PICTURES=$HOME/Pictures
-  export PUBLIC=$HOME/Public
-  export TEMPLATES=$HOME/Templates
-  export VIDEOS=$HOME/Videos
-  export DOCUMENTS=$HOME/Documents
-
-  alias open='xdg-open'
-  alias gopen='gnome-open'
-fi
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
