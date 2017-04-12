@@ -1,0 +1,1 @@
+../Installer/installTemplates.sh
