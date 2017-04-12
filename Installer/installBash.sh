@@ -27,4 +27,26 @@ main ()
   done
 }
 
-main "$@";
+check () 
+{
+  FILES="$@";
+  if [ -z "$FILES" ];then
+    echo "You did not specify the files";
+    echo "So, should I install all those in this folder? (y/n)";
+    echo "PS: I will not do this recursively";
+    read -n 1 ANS
+    if [ "$ANS" = "y" ] || [ "$ANS" = "Y" ];then
+      FILES="ls";
+      echo -e "NOTE: in this case, there will be a small bug, this shell will also be linked :(";
+    else
+      echo -e "\nWell, aborting"
+      return 1;
+    fi
+  fi
+}
+check
+if [ "$?" = "0" ];then
+  main "$FILES";
+else
+  exit 1;
+fi
