@@ -44,7 +44,7 @@ check ()
     fi
   fi
 }
-check
+check "$@";
 if [ "$?" = "0" ];then
   main "$FILES";
 else
