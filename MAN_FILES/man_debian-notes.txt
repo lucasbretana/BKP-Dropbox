@@ -1,1 +1,0 @@
-Instalar wine, teamviewer, skype, ia32-libs antes de mecher com o libc6
