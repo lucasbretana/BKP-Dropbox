@@ -2,12 +2,14 @@
 # overriding functions
 #
 # Improves the man
-man () {
+man ()
+{
   /usr/bin/man "$@" 2> /dev/null || less "$@" 2> /dev/null || less "$DOCUMENTS/man_$@.txt" 2> /dev/null  || less "$DOCUMENTS/man_$(echo $@ | cut -d '=' -f 2).txt" 2> /dev/null || cowsay "No trace of manual page" || echoerr "No trace of manual page" ;
 }
 
 # Change the cat to refuse to work without treats
-tac () {
+tac ()
+{
     if [ "$1" != "+treats" ]; then
         echoerr "meow" && return 1;
     else
@@ -23,13 +25,15 @@ tac () {
 # usefull functions
 #
 # Defines a error echo function
-echoerr() {
+echoerr ()
+{
   echo -e "$RED$@$NC" 1>&2;
 }
 
 # On branches, this will return the branch name
 # On non-branches, (no branch)
-getbranch() {
+getbranch ()
+{
   ref="$(git symbolic-ref HEAD 2> /dev/null | sed -e 's/refs\/heads\///')"
   if [ -n "$ref" ]; then
     echo "$ref";
@@ -40,7 +44,8 @@ getbranch() {
 
 # Prints the symbol
 # $1 -- must be the branch
-getgitsymbol () {
+getgitsymbol ()
+{
   [ -n "$1" ] || ( echoerr "getgitsymbol: missing branch" && return 1);
   [ "$2" == "@" ] && echo "Before unstaged";
   UNSTAGED=$(unstaged);
@@ -60,7 +65,8 @@ getgitsymbol () {
 # Return 1 if have modifications not staged for commits
 # $1 -- @ if you want debug
 unstaged_symbol='*';
-unstaged () {
+unstaged ()
+{
   # If the git status has *any* changes (e.g. dirty), echo our character
   INFO=$(git status --porcelain 2> /dev/null);
   [ "$1" == "@" ] && echo "$INFO";
@@ -72,7 +78,8 @@ unstaged () {
 # Prints 1 if have commits not send to server
 # $1 -- must be the branch
 ahead_symbol="↑";
-ahead () {
+ahead ()
+{
   [ -n "$1" ] || ( echoerr "ahead: missing branch" && return 1);
   INFO=$(git rev-list --left-right --count origin/$1...HEAD | cut -f 2);
   [ "$2" == "@" ] && echo "$INFO";
@@ -84,7 +91,8 @@ ahead () {
 # Prints 1 if have changes not send pulle from the server
 # $1 -- must be the branch
 behind_symbol="↓";
-behind () {
+behind ()
+{
   TMPDIR=/tmp;
   [ -n "$1" ] || ( echoerr "behind: missing branch" && return 1);
   INFO=$(git rev-list --left-right --count origin/$1...HEAD | cut -f 1);
@@ -107,7 +115,8 @@ behind () {
 }
 
 # used to define the PS1 local
-deflocal () {
+deflocal ()
+{
   BRANCH=$(git branch -vv 2> /dev/null | grep "*" | cut -d " " -f 2);
   if [ -n "$BRANCH" ]; then
     REPO=$(basename $(git rev-parse --show-toplevel));
@@ -124,7 +133,8 @@ deflocal () {
 }
 
 # used to define the host color/name
-defhost () {
+defhost ()
+{
   if [ "$(hostname)"  = "MORDOR" ]; then
     echo -e "$GREEN""$(hostname)""$NC";
   elif [[ "$(hostname)"  = "lups"* ]]; then
@@ -135,7 +145,8 @@ defhost () {
 }
 
 # used to define the host color/name
-defuser () {
+defuser ()
+{
   if ([ "$(whoami)"  = "lebretana" ] || [ "$(whoami)"  = "lucasbretana" ] || [ "$(whoami)"  = "lucas" ]) ; then
     echo -e "$green""$(whoami)""$NC";
   elif [[ "$(whoami)"  = "root"* ]]; then
@@ -146,7 +157,8 @@ defuser () {
 }
 
 # print color I know
-colors () {
+colors ()
+{
   string="Hello World";
   if [ -n "$1" ]; then
     string=$1;
@@ -171,33 +183,39 @@ colors () {
 
 # Uses the cllinsdictionary to define a word, and shows only the part
 # that is relevant for the context
-define () {
+define ()
+{
   curl -s "https://www.collinsdictionary.com/dictionary/english/$*" | sed -n '/class="def"/p' | awk '{gsub(/.*<span class="def">|<\/span>.*/,"");print}' | sed "s/<[^>]\+>//g";
 }
 
 # Used to convert some manual to a PDF file
-man2pdf () {
+man2pdf ()
+{
   man -t $1 | ps2pdf - > $1.pdf
 }
 
 # Changes all leter in string to it's correspondent in upper casae
-toup () {
+toup ()
+{
   echo $1 | tr '[:lower:]' '[:upper:]'
 }
 
 # Changes all leter in string to it's correspondent in lower case
-tolow () {
+tolow ()
+{
   echo $1 | tr '[:upper:]' '[:lower:]'
 }
 
 # Flip a coin, faster than Google's
-flipacoin () {
+flipacoin ()
+{
   [ $[ $RANDOM % 2] == 0 ] && echo "Heads" || echo "Tails";
 }
 
 # Gets the weahter from the wttr sie and shows in terminal
 # It can be specified witch city you want, the default is Pelotas
-getweather () {
+getweather ()
+{
   if [ -n "$@" ]; then
     curl "http://wttr.in/$@";
   else
@@ -206,7 +224,8 @@ getweather () {
 }
 
 # Check if ONE repositorie needs a commit and/or a pull
-cgit () {
+cgit ()
+{
   if [ -n "$1" ]; then
     cd $1 2> /dev/null || (echoerr "Directory \"$1\" not found!" && return);
     REPO=$(pwd -P);
@@ -234,7 +253,8 @@ cgit () {
 
 # Check all gits repositories for missing commit/push and pull/fetch
 # Uses updategitvar
-checkgit () {
+checkgit ()
+{
   if [ -z "$GIT" ]; then
     updategitvar;
   fi;
@@ -265,7 +285,8 @@ checkgit () {
 # Updates the GIT var, than contains all repositories,
 # Run after added a new one or remove an old one
 # It is used by checkgit function
-updategitvar () {
+updategitvar ()
+{
   unset GIT ;
   for i in $(find $HOME -name ".git" 2> /dev/null | sed "s/\/.git//g"); {
     if [ -n "$GIT" ]; then
@@ -278,7 +299,8 @@ updategitvar () {
 }
 
 # Top 10 CPU and memory eating process
-memcpu() { 
+memcpu ()
+{
   echo -e "*** Top $RED ten $NC $PURPLE CPU $NC eating process ***"; ps aux | sort -nr -k 3 | head -10; 
   echo;echo;
   echo -e "*** Top $RED ten $NC $PURPLE MEMORY $NC eating process ***"; ps aux | sort -nr -k 4 | head -10;  
