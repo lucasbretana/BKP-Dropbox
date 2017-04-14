@@ -1,15 +1,34 @@
 NAME
-	
+	decompress - decompress a given file
+
 SYNOPSIS
+	decompress [-bz2] [-tar.bz2] [-tar.gz] [-tgz] [-gz] [-tar] [-tar.xz] [-zip] [-7z] [-rar] [string]
 
 DESCRIPTION
+	decompress try to decompress a given file
 
 OPTIONS
+	-bz2 try to decompress using bunzip2
+	-tar.bz2 try to decompress using tar, with the flag for a bz2 file
+	-tar.gz try to decompress using tar, with the flag for a gz file
+	-tgz try to decompress using tar, with the flag for a tgz file
+	-gz try to decompress using tar, with the flag for a gz file
+	-tar try to decompress using tar
+	-tar.xz try to decompress using tar, with the flag for a xz file 
+	-zip try to decompress using unzip 
+	-7z try to decompress using 7z 
+	-rar try to decompress using unrar	
 
 EXAMPLE
 
+	$ decompress file.zip
+	$ decompress -zip file.zip
+
 SEE ALSO
+	bunzip(2), tar(1), unzip(1), 7z(1), unrar(1)
 
 BUGS
+	only works for the most common compressed files
 
 AUTHOR
+	BRETANA, L. E. (lucasbretana@gmail.com)

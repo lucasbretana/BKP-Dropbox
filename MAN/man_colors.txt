@@ -1,15 +1,25 @@
 NAME
-	
+	colors - prints all know colors
+
 SYNOPSIS
+	colors [string]
 
 DESCRIPTION
+	colors prints a given string in all know colors, or a default string "Hello World"
 
 OPTIONS
+	colors takes no optins
 
 EXAMPLE
 
+	$ colors
+	$ colors "Welcome to hell"
+
 SEE ALSO
+	git(1)
 
 BUGS
+	no know bugs
 
 AUTHOR
+	BRETANA, L. E. (lucasbretana@gmail.com)
