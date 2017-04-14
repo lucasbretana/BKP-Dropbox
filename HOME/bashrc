@@ -69,7 +69,10 @@ if [ "$(hostname)"  = "MORDOR" ]; then
   export GIT=$DROPBOX/Lucas/Programming/Java
   export GIT=$GIT:$DROPBOX/Lucas/Programming/JavaUtilities
   export GIT=$GIT:$DROPBOX/Lucas/UFPel/Projetos/LUPS/LindaTS
-  export GIT=$GIT:$DROPBOX/Lucas/debian/ConfFiles
+  export GIT=$GIT:$DROPBOX/Lucas/debian/ConfFile
+  # Vars used on man
+  export MYMANUAL=/opt/conf/ConfFiles/MAN
+  export MYHELP=/opt/conf/ConfFiles.private/HELP
 elif [[ $(hostname) = "lups"* ]]; then
   export DESKTOP=$HOME/Desktop
   export DOWNLOADS=$HOME/Downloads
