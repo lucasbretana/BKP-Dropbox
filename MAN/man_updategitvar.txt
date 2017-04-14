@@ -1,0 +1,24 @@
+NAME
+	updategitvar - looks for all git repositories in the system	
+
+SYNOPSIS
+	updategivar
+
+DESCRIPTION
+	updategitvar looks for all git repositories in the system and saves it in the $GIT system var
+
+OPTIONS
+	updategitvar takes no optins
+
+EXAMPLE
+
+	$ updategitvar
+
+SEE ALSO
+	git(1), checkgit
+
+BUGS
+	doesn't find all git repositories
+
+AUTHOR
+	BRETANA, L. E. (lucasbretana@gmail.com)

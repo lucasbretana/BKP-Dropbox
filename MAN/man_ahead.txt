@@ -1,0 +1,24 @@
+NAME
+	ahead - print the ahead symbol if inside a git repositorie
+
+SYNOPSIS
+	ahead
+
+DESCRIPTION
+	ahead print the ahead symbol if inside a git repositorie
+
+OPTIONS
+	ahead takes no optins
+
+EXAMPLE
+
+	$ ahead
+
+SEE ALSO
+	git(1), unstaged, behind
+
+BUGS
+	no know bugs
+
+AUTHOR
+	BRETANA, L. E. (lucasbretana@gmail.com)

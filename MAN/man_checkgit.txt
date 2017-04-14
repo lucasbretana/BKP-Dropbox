@@ -1,0 +1,23 @@
+NAME
+	checkgit - check the status of all git repositorie
+
+SYNOPSIS
+	checkgit
+
+DESCRIPTION
+	checkgit check the status of all git repositories find in the system
+
+OPTIONS
+	checkgit takes no optins
+
+EXAMPLE
+	$ checkgit
+
+SEE ALSO
+	git(1), cgit, updategitvar
+
+BUGS
+	does not find all repositories
+
+AUTHOR
+	BRETANA, L. E. (lucasbretana@gmail.com)

@@ -1,0 +1,24 @@
+NAME
+	behind - print the behind symbol if inside a git repositorie
+
+SYNOPSIS
+	behind
+
+DESCRIPTION
+	behind print the behind symbol if inside a git repositorie
+
+OPTIONS
+	behind takes no optins
+
+EXAMPLE
+
+	$ behind
+
+SEE ALSO
+	git(1), ahead, unstaged
+
+BUGS
+	no know bugs
+
+AUTHOR
+	BRETANA, L. E. (lucasbretana@gmail.com)

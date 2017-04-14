@@ -1,0 +1,24 @@
+NAME
+	unstaged - print the unstaged symbol if inside a git repositorie
+
+SYNOPSIS
+	unstaged
+
+DESCRIPTION
+	unstaged print the unstaged symbol if inside a git repositorie
+
+OPTIONS
+	unstaged takes no optins
+
+EXAMPLE
+
+	$ unstaged
+
+SEE ALSO
+	git(1), ahead, behind
+
+BUGS
+	no know bugs
+
+AUTHOR
+	BRETANA, L. E. (lucasbretana@gmail.com)

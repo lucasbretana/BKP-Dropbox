@@ -1,0 +1,24 @@
+NAME
+	cgit - check the status of one git repositorie
+
+SYNOPSIS
+	cgit [location]
+
+DESCRIPTION
+	cgit check the status of one git repositorie passed as argument
+
+OPTIONS
+	cgit takes no optins
+
+EXAMPLE
+	$ cgit ConfFiles
+	$ cgit .
+
+SEE ALSO
+	git(1), checkgit
+
+BUGS
+	no know bugs
+
+AUTHOR
+	BRETANA, L. E. (lucasbretana@gmail.com)
