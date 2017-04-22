@@ -46,6 +46,8 @@ alias .4='cd ../../../../'
 alias .5='cd ../../../../..'
 alias cd-='cd -'
 alias cd..='cd ..'
+alias enterasspace='tr "\n" " "'
+alias spaceasenter='tr " " "\n"'
 
 # Aliases only valid on MORDOR server
 if [ $(hostname) = "MORDOR" ]; then
