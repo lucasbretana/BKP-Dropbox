@@ -96,17 +96,6 @@ behind ()
   TMPDIR=/tmp;
   [ -n "$1" ] || ( echoerr "behind: missing branch" && return 1);
   INFO=$(git rev-list --left-right --count origin/$1...HEAD | cut -f 1);
-  # if [[ -n "$INFO" && $INFO -eq 0 ]]; then
-  #   DIR=$(basename $(git rev-parse --show-toplevel));
-  #   BRANCH=$1;
-  #   if [ ! -f "$TMPDIR"/REPO"$DIR"':'"$BRANCH" ]; then
-  #     rm $TMPDIR/REPO* 2> /dev/null;
-  #     git fetch origin $1;
-  #     INFO=$(git rev-list --left-right --count origin/$1...HEAD | cut -f 1);
-  #     > "$TMPDIR"/REPO"$DIR"':'"$BRANCH";
-  #   fi
-  # fi
-  #
   [ "$2" == "@" ] && echo "$INFO";
   if [[ -n "$INFO" && $INFO -gt 0 ]]; then
     echo "$behind_symbol""$INFO";

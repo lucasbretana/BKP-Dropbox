@@ -9,7 +9,10 @@
 
 main () 
 {
-  echo "The files that gonn be installed are: $@";
+  echo "The files that gonn be installed are:";
+  for i in $@;do
+    echo "-> $i";
+  done
   echo "They gonna be located at the \"$HOME \" folder";
   echo "Use that folder? (y/n)";
   read -n 1 ANS;
@@ -22,7 +25,7 @@ main ()
   done
   echo -e "\nOK";
   
-  for i in "$@";do
+  for i in $@;do
     ln -si "$(pwd -P)"/"$i" "$FOLDER"/'.'"$i";
   done
 }
@@ -35,9 +38,9 @@ check ()
     echo "So, should I install all those in this folder? (y/n)";
     echo "PS: I will not do this recursively";
     read -n 1 ANS
+    echo " ";
     if [ "$ANS" = "y" ] || [ "$ANS" = "Y" ];then
-      FILES="ls";
-      echo -e "NOTE: in this case, there will be a small bug, this shell will also be linked :(";
+      FILES=`ls -I install.sh`;
     else
       echo -e "\nWell, aborting"
       return 1;
