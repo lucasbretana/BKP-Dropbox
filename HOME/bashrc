@@ -130,12 +130,12 @@ fi
 # Private alias definitions.
 # You may want to put your private additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
-if [ -f ~/.bash_aliases ]; then
+if [ -f ~/.bash_aliases.private ]; then
     . ~/.bash_aliases.private
 fi
 
 # Private functions definitions.
 # You may want to put your private additions into a separate file like
-if [ -f ~/.bash_functions ]; then
+if [ -f ~/.bash_functions.private ]; then
     . ~/.bash_variables.private
 fi
