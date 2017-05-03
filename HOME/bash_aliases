@@ -20,7 +20,6 @@ alias gopen='gnome-open'
 alias open='xdg-open'
 alias ping='(figlet Miau || echo Miau) ; ping'
 alias mv='mv -i'
-alias make='clear ; make'
 ##
 # usefull commands, as aliases
 alias cls='clear ; ls -h'
