@@ -117,25 +117,25 @@ fi
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
 if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
+    . ~/.bash_aliases;
 fi
 
 # Functions definitions.
 # You may want to put all your additions into a separate file like
 # ~/.bash_functions, instead of adding them here directly.
 if [ -f ~/.bash_functions ]; then
-    . ~/.bash_functions
+    . ~/.bash_functions;
 fi
 
 # Private alias definitions.
 # You may want to put your private additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
 if [ -f ~/.bash_aliases.private ]; then
-    . ~/.bash_aliases.private
+    . ~/.bash_aliases.private;
 fi
 
 # Private functions definitions.
 # You may want to put your private additions into a separate file like
-if [ -f ~/.bash_functions.private ]; then
-    . ~/.bash_variables.private
+if [ -f ~/.bash_variables.private ]; then
+    . ~/.bash_variables.private;
 fi

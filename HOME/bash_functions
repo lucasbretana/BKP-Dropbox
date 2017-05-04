@@ -30,16 +30,90 @@ echoerr ()
   echo -e "$RED$@$NC" 1>&2;
 }
 
+# used to define the PS1 local
+deflocal ()
+{
+  # BRANCH=$(git branch -vv 2> /dev/null | grep "*" | cut -d " " -f 2);
+  BRANCH=$(getbranch);
+  echo "$BRANCH" > /tmp/PQP
+  if [ "$BRANCH" != "" ]; then
+    REPO=$(basename $(git rev-parse --show-toplevel));
+    LOCAL=$(pwd -L);
+    SUBDIR=$(echo "${LOCAL##*$REPO}");
+    FULLDIR=$REPO$SUBDIR;
+    EXTRA=$(getgitsymbol $BRANCH 2> /dev/null);
+    [ -n "$EXTRA" ] && EXTRA=" $EXTRA";
+    # echo -e '['"$cyan""$FULLDIR""$NC"'] ['"$CYAN""$BRANCH""$EXTRA""$NC"']';
+    echo -e '['"$cyan""$FULLDIR""$NC"'] ['"$BRANCH""$CYAN""$EXTRA""$NC"']';
+  else
+    PWD=$(pwd | sed "s|^$HOME|~|");
+    echo -e '['"$CYAN""$PWD""$NC"']';
+  fi
+}
+
 # On branches, this will return the branch name
 # On non-branches, (no branch)
+ATOM_COLORS="yes";
 getbranch ()
 {
   ref="$(git symbolic-ref HEAD 2> /dev/null | sed -e 's/refs\/heads\///')"
   if [ -n "$ref" ]; then
-    echo "$ref";
+    if [ "$ATOM_COLORS" = "yes" ];then
+      if [ -r "$HOME/.atom/styles.less" ];then
+        echo `get_color_from_file $HOME/.atom/styles.less "$ref"`;
+      fi
+    fi
+    echo "$CYAN""$ref""$NC";
   else
-    echo "(no branch)";
+    echo "$RED""(no branch)""$NC";
   fi
+}
+
+# Defines the color for the branch
+# as the same color used on Atom
+# by the extension tree-view-git-status
+get_color_from_file () 
+{ 
+    COLORS_FROM_FILE="";
+    BRANCHES_FROM_FILE="";
+    COLOR_LINE="";
+    filename="$1";
+    while read -r l; do
+        line="$l";
+        if [ "$COLOR_LINE" != "" ]; then
+            new_color=`echo "$line" | sed "s/color: //" | tr -d ";"`;
+            COLORS_FROM_FILE="$COLORS_FROM_FILE $new_color";
+            COLOR_LINE="";
+        fi;
+        if [[ "$line" = ".tree-view-git-status.git-branch-"* ]]; then
+            new_branch=`echo "$line" | sed "s/.tree-view-git-status.git-branch-//" | cut -d " " -f 1`;
+            BRANCHES_FROM_FILE="$BRANCHES_FROM_FILE $new_branch";
+            COLOR_LINE="yes";
+        fi;
+    done < "$filename";
+    if [ "$COLORS_FROM_FILE" != "" ]; then
+        # echo -e "$BLUE $BRANCHES_FROM_FILE $NC" > /tmp/BRANCHES;
+        # echo -e "$BLUE $COLORS_FROM_FILE $NC" > /tmp/COLORS;
+        i=1;
+        color="";
+        for branch in $BRANCHES_FROM_FILE;
+        do
+            if [ "$branch" = "$2" ]; then
+                color=`echo "$COLORS_FROM_FILE" | xargs | cut -d " " -f $i`;
+                # echo -e "$BLUE yes $NC pls print branch $branch on color $color and number $i" > /tmp/DEBUG;
+                break;
+            # else
+                # echo -e "colors -$COLORS_FROM_FILE - $RED not $NC pls print branch $branch on color $color and number $i" > /tmp/DEBUG_NOT;
+            fi;
+            ((i++));
+        done;
+        if [ -n $color ]; then
+            var=`echo $color`;
+            echo -e "${!var}""$2""$NC";
+        fi;
+    else
+        echo -e "$CYAN""$2""$NC";
+    fi
 }
 
 # Prints the symbol
@@ -101,24 +175,6 @@ behind ()
     echo "$behind_symbol""$INFO";
   fi
   unset BEHIND;
-}
-
-# used to define the PS1 local
-deflocal ()
-{
-  BRANCH=$(git branch -vv 2> /dev/null | grep "*" | cut -d " " -f 2);
-  if [ -n "$BRANCH" ]; then
-    REPO=$(basename $(git rev-parse --show-toplevel));
-    LOCAL=$(pwd -L);
-    SUBDIR=$(echo "${LOCAL##*$REPO}");
-    FULLDIR=$REPO$SUBDIR;
-    EXTRA=$(getgitsymbol $BRANCH 2> /dev/null);
-    [ -n "$EXTRA" ] && EXTRA=" $EXTRA";
-    echo -e '['"$cyan""$FULLDIR""$NC"'] ['"$CYAN""$BRANCH""$EXTRA""$NC"']';
-  else
-    PWD=$(pwd | sed "s|^$HOME|~|");
-    echo -e '['"$CYAN""$PWD""$NC"']';
-  fi
 }
 
 # used to define the host color/name
