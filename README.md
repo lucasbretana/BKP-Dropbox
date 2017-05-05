@@ -1,4 +1,4 @@
-# ConfFiles : configuration files used on many computers
+# ConfFiles : configuration files used on many computers, or not
 
 --------------------------------------------------------------------------------
 # TODO
