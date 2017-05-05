@@ -33,21 +33,21 @@ echoerr ()
 # used to define the PS1 local
 DEFAULT_COLOR=$CYAN;
 default_color=$cyan;
+atom_colors_compability="yes";
 deflocal ()
 {
   # BRANCH=$(git branch -vv 2> /dev/null | grep "*" | cut -d " " -f 2);
-  BRANCH=$(getbranch);
-  echo "$BRANCH" > /tmp/PQP
+  BRANCH=$(getbranch no);
   if [ "$BRANCH" != "" ]; then
     REPO=$(basename $(git rev-parse --show-toplevel));
     LOCAL=$(pwd -L);
     SUBDIR=$(echo "${LOCAL##*$REPO}");
     FULLDIR=$REPO$SUBDIR;
-    EXTRA=$(getgitsymbol $BRANCH 2> /dev/null);
+    EXTRA=$(getgitsymbol "$BRANCH" 2> /dev/null);
     [ -n "$EXTRA" ] && EXTRA=" $EXTRA";
-    BRANCH_WITH_EXTRA=$(getbranch "$EXTRA");
+    BRANCH_WITH_COLOR=$(getbranch "$atom_colors_compability");
     # echo -e '['"$cyan""$FULLDIR""$NC"'] ['"$CYAN""$BRANCH""$EXTRA""$NC"']';
-    echo -e '['"$default_color""$FULLDIR""$NC"'] ['"$BRANCH_WITH_EXTRA"']';#"$DEFAULT_COLOR""$EXTRA""$NC"
+    echo -e '['"$default_color""$FULLDIR""$NC"'] ['"$BRANCH_WITH_COLOR""$default_color""$EXTRA""$NC"']';
   else
     PWD=$(pwd | sed "s|^$HOME|~|");
     echo -e '['"$DEFAULT_COLOR""$PWD""$NC"']';
@@ -56,16 +56,19 @@ deflocal ()
 
 # On branches, this will return the branch name
 # On non-branches, this will return nothing
-ATOM_COLORS="yes";
 getbranch ()
 {
+  ATOM_COLORS="$1";
+  EXTRA="$2";
   #ref="$(git symbolic-ref HEAD 2> /dev/null | grep 'refs/heads' | sed -e 's/refs\/heads\///')"
   ref=`git branch -vv 2> /dev/null | grep "*" | cut -d " " -f 2`;
   if [ "$ref" != "" ]; then
     if [ "$ATOM_COLORS" = "yes" ];then
       if [ -r "$HOME/.atom/styles.less" ];then
-        echo `get_color_from_file $HOME/.atom/styles.less "$ref" "$1"`;
+        echo `get_color_from_file $HOME/.atom/styles.less "$ref" "$EXTRA"`;
       fi
+    else
+      echo "$ref";
     fi
   else
     echo "";
