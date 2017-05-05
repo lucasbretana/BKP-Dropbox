@@ -4,7 +4,7 @@
 # Improves the man
 man ()
 {
-  /usr/bin/man "$@" 2> /dev/null || /usr/bin/man "$MYMANUAL"/"$@" 2> /dev/null || less -x 2 "$MYHELP"/man_$@".txt 2> /dev/null || /usr/bin/man "$MYMANUAL"/$(echo "$@" | tr -d  "=") 2> /dev/null || less -x 2 "$MYHELP"/man_""$(echo "$@" | tr -d  '=')".txt 2> /dev/null || cowsay "No trace of manual page" 2> /dev/null || echoerr "No trace of manual page"; 
+  /usr/bin/man "$@" 2> /dev/null || /usr/bin/man "$MYMANUAL"/"$@" 2> /dev/null || less -x 2 "$MYHELP"/man_$@".txt 2> /dev/null || /usr/bin/man "$MYMANUAL"/$(echo "$@" | tr -d  "=") 2> /dev/null || less -x 2 "$MYHELP"/man_""$(echo "$@" | tr -d  '=')".txt 2> /dev/null || cowsay "No trace of manual page" 2> /dev/null || echoerr "No trace of manual page";
 }
 
 # Change the cat to refuse to work without treats
@@ -31,29 +31,31 @@ echoerr ()
 }
 
 # used to define the PS1 local
+DEFAULT_COLOR=$CYAN;
+default_color=$cyan;
 deflocal ()
 {
   # BRANCH=$(git branch -vv 2> /dev/null | grep "*" | cut -d " " -f 2);
   BRANCH=$(getbranch);
   echo "$BRANCH" > /tmp/PQP
   if [ "$BRANCH" != "" ]; then
-    echo "Fuck""@@""$BRANCH""@@" > /tmp/output
     REPO=$(basename $(git rev-parse --show-toplevel));
     LOCAL=$(pwd -L);
     SUBDIR=$(echo "${LOCAL##*$REPO}");
     FULLDIR=$REPO$SUBDIR;
     EXTRA=$(getgitsymbol $BRANCH 2> /dev/null);
     [ -n "$EXTRA" ] && EXTRA=" $EXTRA";
+    BRANCH_WITH_EXTRA=$(getbranch "$EXTRA");
     # echo -e '['"$cyan""$FULLDIR""$NC"'] ['"$CYAN""$BRANCH""$EXTRA""$NC"']';
-    echo -e '['"$cyan""$FULLDIR""$NC"'] ['"$BRANCH""$CYAN""$EXTRA""$NC"']';
+    echo -e '['"$default_color""$FULLDIR""$NC"'] ['"$BRANCH_WITH_EXTRA"']';#"$DEFAULT_COLOR""$EXTRA""$NC"
   else
     PWD=$(pwd | sed "s|^$HOME|~|");
-    echo -e '['"$CYAN""$PWD""$NC"']';
+    echo -e '['"$DEFAULT_COLOR""$PWD""$NC"']';
   fi
 }
 
 # On branches, this will return the branch name
-# On non-branches, (no branch)
+# On non-branches, this will return nothing
 ATOM_COLORS="yes";
 getbranch ()
 {
@@ -62,7 +64,7 @@ getbranch ()
   if [ "$ref" != "" ]; then
     if [ "$ATOM_COLORS" = "yes" ];then
       if [ -r "$HOME/.atom/styles.less" ];then
-        echo `get_color_from_file $HOME/.atom/styles.less "$ref"`;
+        echo `get_color_from_file $HOME/.atom/styles.less "$ref" "$1"`;
       fi
     fi
   else
@@ -73,12 +75,14 @@ getbranch ()
 # Defines the color for the branch
 # as the same color used on Atom
 # by the extension tree-view-git-status
-get_color_from_file () 
-{ 
+get_color_from_file ()
+{
     COLORS_FROM_FILE="";
     BRANCHES_FROM_FILE="";
     COLOR_LINE="";
     filename="$1";
+    p_branch="$2";
+    p_extra="$3";
     while read -r l; do
         line="$l";
         if [ "$COLOR_LINE" != "" ]; then
@@ -99,7 +103,7 @@ get_color_from_file ()
         color="";
         for branch in $BRANCHES_FROM_FILE;
         do
-            if [ "$branch" = "$2" ]; then
+            if [ "$branch" = "$p_branch" ]; then
                 color=`echo "$COLORS_FROM_FILE" | xargs | cut -d " " -f $i`;
                 # echo -e "$BLUE yes $NC pls print branch $branch on color $color and number $i" > /tmp/DEBUG;
                 break;
@@ -110,10 +114,11 @@ get_color_from_file ()
         done;
         if [ -n $color ]; then
             var=`echo $color`;
-            echo -e "${!var}""$2""$NC";
+            # echo "@@$BRANCH_WITH_EXTRA@@" > /tmp/BRANCH_WITH_EXTRA
+            echo -e "${!var}""$p_branch""$p_extra""$NC";
         fi;
     else
-        echo -e "$CYAN""$2""$NC";
+        echo -e "$DEFAULT_COLOR""$p_branch""$p_extra""$NC";
     fi
 }
 
@@ -347,9 +352,9 @@ updategitvar ()
 # Top 10 CPU and memory eating process
 memcpu ()
 {
-  echo -e "*** Top $RED ten $NC $PURPLE CPU $NC eating process ***"; ps aux | sort -nr -k 3 | head -10; 
+  echo -e "*** Top $RED ten $NC $PURPLE CPU $NC eating process ***"; ps aux | sort -nr -k 3 | head -10;
   echo;echo;
-  echo -e "*** Top $RED ten $NC $PURPLE MEMORY $NC eating process ***"; ps aux | sort -nr -k 4 | head -10;  
+  echo -e "*** Top $RED ten $NC $PURPLE MEMORY $NC eating process ***"; ps aux | sort -nr -k 4 | head -10;
 }
 
 # Automatically decompress some know types of files
@@ -393,4 +398,3 @@ decompress ()
     *)         echoerr "decompress: error, unsuported";;
   esac
 }
-
