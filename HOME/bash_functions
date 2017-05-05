@@ -47,7 +47,8 @@ deflocal ()
     # echo -e '['"$cyan""$FULLDIR""$NC"'] ['"$CYAN""$BRANCH""$EXTRA""$NC"']';
     echo -e '['"$cyan""$FULLDIR""$NC"'] ['"$BRANCH""$CYAN""$EXTRA""$NC"']';
   else
-    echo -e "$RED""(no branch)""$NC";
+    PWD=$(pwd | sed "s|^$HOME|~|");
+    echo -e '['"$CYAN""$PWD""$NC"']';
   fi
 }
 
@@ -64,9 +65,8 @@ getbranch ()
         echo `get_color_from_file $HOME/.atom/styles.less "$ref"`;
       fi
     fi
-    echo "$CYAN""$ref""$NC";
   else
-    echo -e "$RED""(no branch)""$NC";
+    echo "";
   fi
 }
 
