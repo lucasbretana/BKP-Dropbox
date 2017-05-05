@@ -37,6 +37,7 @@ deflocal ()
   BRANCH=$(getbranch);
   echo "$BRANCH" > /tmp/PQP
   if [ "$BRANCH" != "" ]; then
+    echo "Fuck""@@""$BRANCH""@@" > /tmp/output
     REPO=$(basename $(git rev-parse --show-toplevel));
     LOCAL=$(pwd -L);
     SUBDIR=$(echo "${LOCAL##*$REPO}");
@@ -46,8 +47,7 @@ deflocal ()
     # echo -e '['"$cyan""$FULLDIR""$NC"'] ['"$CYAN""$BRANCH""$EXTRA""$NC"']';
     echo -e '['"$cyan""$FULLDIR""$NC"'] ['"$BRANCH""$CYAN""$EXTRA""$NC"']';
   else
-    PWD=$(pwd | sed "s|^$HOME|~|");
-    echo -e '['"$CYAN""$PWD""$NC"']';
+    echo -e "$RED""(no branch)""$NC";
   fi
 }
 
@@ -56,8 +56,9 @@ deflocal ()
 ATOM_COLORS="yes";
 getbranch ()
 {
-  ref="$(git symbolic-ref HEAD 2> /dev/null | sed -e 's/refs\/heads\///')"
-  if [ -n "$ref" ]; then
+  #ref="$(git symbolic-ref HEAD 2> /dev/null | grep 'refs/heads' | sed -e 's/refs\/heads\///')"
+  ref=`git branch -vv 2> /dev/null | grep "*" | cut -d " " -f 2`;
+  if [ "$ref" != "" ]; then
     if [ "$ATOM_COLORS" = "yes" ];then
       if [ -r "$HOME/.atom/styles.less" ];then
         echo `get_color_from_file $HOME/.atom/styles.less "$ref"`;
@@ -65,7 +66,7 @@ getbranch ()
     fi
     echo "$CYAN""$ref""$NC";
   else
-    echo "$RED""(no branch)""$NC";
+    echo -e "$RED""(no branch)""$NC";
   fi
 }
 
