@@ -4,7 +4,7 @@
 # Improves the man
 man ()
 {
-  /usr/bin/man "$@" 2> /dev/null || /usr/bin/man "$MYMANUAL"/"$@" 2> /dev/null || less -x 2 "$MYHELP"/man_$@".txt 2> /dev/null || /usr/bin/man "$MYMANUAL"/$(echo "$@" | tr -d  "=") 2> /dev/null || less -x 2 "$MYHELP"/man_""$(echo "$@" | tr -d  '=')".txt 2> /dev/null || cowsay "No trace of manual page" 2> /dev/null || echoerr "No trace of manual page";
+  /usr/bin/man "$@" 2> /dev/null || /usr/bin/man "$MYMANUAL"/"$@" 2> /dev/null || /usr/bin/less -x 2 "$MYHELP"/man_"$@".txt 2> /dev/null || /usr/bin/man "$MYMANUAL"/$(echo "$@" | tr -d  "=") 2> /dev/null || less -x 2 "$MYHELP"/man_"$(echo $@ | tr -d  '=')".txt 2> /dev/null || cowsay "No trace of manual page" 2> /dev/null || echoerr "No trace of manual page";
 }
 
 # Change the cat to refuse to work without treats
