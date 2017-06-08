@@ -2,6 +2,34 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
+# Alias definitions.
+# You may want to put all your additions into a separate file like
+# ~/.bash_aliases, instead of adding them here directly.
+# See /usr/share/doc/bash-doc/examples in the bash-doc package.
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases;
+fi
+
+# Functions definitions.
+# You may want to put all your additions into a separate file like
+# ~/.bash_functions, instead of adding them here directly.
+if [ -f ~/.bash_functions ]; then
+    . ~/.bash_functions;
+fi
+
+# Private alias definitions.
+# You may want to put your private additions into a separate file like
+# ~/.bash_aliases, instead of adding them here directly.
+if [ -f ~/.bash_aliases.private ]; then
+    . ~/.bash_aliases.private;
+fi
+
+# Private functions definitions.
+# You may want to put your private additions into a separate file like
+if [ -f ~/.bash_variables.private ]; then
+    . ~/.bash_variables.private;
+fi
+
 # define variables for colors
 # Color mapping
 grey='\033[0;30m'
@@ -82,10 +110,8 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-#  PS1='\n\[\e]0;\u@\h: \W\a\]${debian_chroot:+($debian_chroot)}\[\033[01;11m\]\u@\h\[\033[00m\]:[\[\033[01;36m\]\W\[\033[00m\]]\n$ _> '
-#  PS1='\n${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:[\[\033[01;36m\]\w\[\033[00m\]]\n$ _> '
-# PS1='\n${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:$(deflocal)\n$ _> '
-PS1='\n${debian_chroot:+($debian_chroot)}[$(defuser) at $(defhost)]:$(deflocal)\n\$ _> '
+  DEFAULT_PS1='${debian_chroot:+($debian_chroot)}\u@\h:[\W]$ '
+  PS1='\n${debian_chroot:+($debian_chroot)}[$(defuser) at $(defhost)]:$(deflocal)\n\$ _> '
 else
   PS1='${debian_chroot:+($debian_chroot)}\u@\h:[\W]$ '
 fi
@@ -100,6 +126,12 @@ xterm*|rxvt*)
   ;;
 esac
 
+# if is a gnome-termial, does not load the PS1, uses a default one
+term=$(ps -p $(ps -p $$ -o ppid=) -o args= | sed "s|/| |g" | spaceasenter | tail -n 1)
+if [ "$term" == "gnome-terminal-server" ];then
+  PS1=$DEFAULT_PS1
+fi
+
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
@@ -111,31 +143,3 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# Alias definitions.
-# You may want to put all your additions into a separate file like
-# ~/.bash_aliases, instead of adding them here directly.
-# See /usr/share/doc/bash-doc/examples in the bash-doc package.
-
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases;
-fi
-
-# Functions definitions.
-# You may want to put all your additions into a separate file like
-# ~/.bash_functions, instead of adding them here directly.
-if [ -f ~/.bash_functions ]; then
-    . ~/.bash_functions;
-fi
-
-# Private alias definitions.
-# You may want to put your private additions into a separate file like
-# ~/.bash_aliases, instead of adding them here directly.
-if [ -f ~/.bash_aliases.private ]; then
-    . ~/.bash_aliases.private;
-fi
-
-# Private functions definitions.
-# You may want to put your private additions into a separate file like
-if [ -f ~/.bash_variables.private ]; then
-    . ~/.bash_variables.private;
-fi
