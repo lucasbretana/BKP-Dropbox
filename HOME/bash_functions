@@ -67,7 +67,7 @@ getbranch ()
   if [ "$ref" != "" ]; then
     if [ "$ATOM_COLORS" = "yes" ];then
       if [ -r "$HOME/.atom/styles.less" ];then
-        echo `get_color_from_file $HOME/.atom/styles.less "$ref" "$EXTRA"`;
+        echo `get_color_from_file $HOME/.atom/styles.less 2> /dev/null 2> /dev/null "$ref" "$EXTRA"`;
       fi
     else
       echo "$ref";
