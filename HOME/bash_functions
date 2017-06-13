@@ -195,8 +195,10 @@ defhost ()
     echo -e "$GREEN""$(hostname)""$NC";
   elif [[ "$(hostname)"  = "lups"* ]]; then
     echo -e "$PURPLE""$(hostname)""$NC";
+  elif [ "$(hostname)"  = "debian-hp" ]; then
+    echo -e "$BLUE""$(hostname)""$NC";
   else
-    echo -e "$PURPLE""$(hostname)""$NC";
+    echo -e "$WHITE""$(hostname)""$NC";
   fi
 }
 
