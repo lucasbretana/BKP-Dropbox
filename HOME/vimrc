@@ -1,4 +1,33 @@
-syntax on
+" BasicSetup
+" enter in the current millenium
+set nocompatible
+
+" colors are on this season
+syntax enable
+
+" using vim natural plugins (and maybe more)
+filetype plugin on
+
+" fuzzy finder: use to find fils on vim
+set path+=**
+" NOW WE CAN
+" - Hit the <tab>  to :find by partial match
+" - Use regex to make it fuzzy
+
+" THINGS TO CONSIDER
+" - :b lets you autocomplete any open 
+
+" tags: creates a tags file to find references
+" tags dependes on: ctags
+command! MakeTags !ctags -R .
+" NOW WE CAN USE
+" - use  ^] to jump to tag under cursor
+" - use g^] for ambiguos tags
+" - use  ^t to jump back to tag stack
+
+" menu to tab complete (and maybe more)
+set wildmenu
+
 set autoindent
 set number
 set numberwidth=1
