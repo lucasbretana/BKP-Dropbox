@@ -50,23 +50,56 @@ function HighlightNearCursor()
   endif
 endfunction
 " NOW WE CAN
-" - ^K to find the cursor
+" - ^K or ^k to find the cursor
 "
 " THINGS TO CONSIDER
 " - you can use zt to move the current line to the top with scrolloff lines
 "   from the top
 
 " file browsing: a small and simple (in my use) file browser inside vim
-let g:netrw_banner=0          " disable annoying banner
-let g:netrw_browser_split=4   " open in prior window
-let g:netrw_altv=1     " open split to the right
-let g:netrw_liststyle=3       " tree view
-let g:netrw_list_hide=netrw_gitignore#Hide()
-let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\='
+let g:netrw_banner        = 0   " disable annoying banner
+let g:netrw_browser_split = 4   " open in prior window
+let g:netrw_altv          = 1   " open split to the right
+let g:netrw_winsize       = 77  " control initial window size
+let g:netrw_liststyle     = 3   " tree view
+let g:netrw_list_hide     = netrw_gitignore#Hide()
+let g:netrw_list_hide    .= ',\(^\|\s\s\)\zs\.\S\='
 " NOW WE CAN
 " - :edit a folder to a file file browser
 " - <CR>/v/t to open in an h-split/h-split/tab
 " - check | netrw-browse-maps| for more examples
+"
+" THINGS TO CONSIDER
+" - while using tab and window
+"   - :tabedit <file> edits a file in a new tab
+"   - :tabfirst
+"   - :tabNext or ^PgUp and ^PgDn
+"   - :tabclose and :tabonly
+
+" snippets: combine command
+nnoremap ,html :-1read $TEMPLATES/Programming/index.html<CR>4j3wf>a
+nnoremap ,php :-1read $TEMPLATES/Programming/index.php<CR>1j a
+nnoremap ,mainC :-1read $TEMPLATES/Programming/main.c<CR>5j a
+nnoremap ,mainJava :-1read $TEMPLATES/Programming/Main.java<CR>7j    a
+nnoremap ,shell :-1read $TEMPLATES/Programming/shell.sh<CR>3j:s/-setdate-/\=strftime("%c")<CR>1jE a
+nnoremap ,css :-1read $TEMPLATES/Programming/style.css<CR>1ja
+nnoremap ,classJava :-1read $TEMPLATES/Programming/Test.java<CR>3j a
+nnoremap ,js :-1read $TEMPLATES/Programming/utils.js<CR>8j a
+" NOW WE CAN CONQUER THE WORLD!
+" - with much less keyword
+" 
+" THINGS TO CONSIDER
+" - the interface of the snippets is the cooler stuff
+" - the nnoremap start with an n so this commnad is to be used on normal mode
+" - the comma (,) is to enter command mode and execute whatever comes after
+"   after :
+" - the -1 is to back a line before prints the read content (so there is no
+"   extra line)
+" - the <CR> is to enter the command descibre above, and when in command mode
+"   it executes a command it goes back to normal mode, now every thing that
+"   works on normal mode works
+" - 3j is to jump 3 lines
+
 
 " menu to tab complete (and maybe more)
 set wildmenu
