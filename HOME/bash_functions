@@ -192,9 +192,9 @@ behind_symbol="↓";
 behind ()
 {
   [ ${#1} = 0 ] && echoerr "behind: missing branch" && return 1;
-  local _indo=$(git rev-list --left-right --count origin/$1...HEAD | cut -f 1);
-  if [[ -n "$_info" && $INFO -gt 0 ]]; then
-    echo "$behind_symbol""$INFO";
+  local _info=$(git rev-list --left-right --count origin/$1...HEAD | cut -f 1);
+  if [[ -n "$_info" && $_info -gt 0 ]]; then
+    echo "$behind_symbol""$_info";
   fi
 }
 
