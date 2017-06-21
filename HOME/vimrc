@@ -22,7 +22,9 @@ command! MakeTags !ctags -R .
 " NOW WE CAN USE
 " - use  ^] to jump to tag under cursor
 " - use g^] for ambiguos tags
-" - use  ^t to jump back to tag stack
+" - use  ^i to jump in, entering one on tag stack
+" - use  ^o to jump out, backing one on tag stack
+" - use  ^t to jump out, but also pop out something from the tag stack
 
 " autocomplete: used to autocomplete based on several information, such as
 " tags file, the current file, some know stuff about a certain language, ...
