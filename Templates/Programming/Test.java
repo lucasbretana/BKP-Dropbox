@@ -1,5 +1,5 @@
-package NOMEDOPACOTE;
+//package packagame.name;
 
 public class Test{
-	
+  
 }
