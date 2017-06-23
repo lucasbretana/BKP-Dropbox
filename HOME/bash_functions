@@ -38,7 +38,7 @@ echoerr ()
 # man: if is insede a regular folder then prints it beaty only
 DEFAULT_COLOR=$CYAN;
 default_color=$cyan;
-atom_colors_compability="yes";
+atom_colors_compability="no";
 deflocal ()
 {
   # BRANCH=$(git branch -vv 2> /dev/null | grep "*" | cut -d " " -f 2);

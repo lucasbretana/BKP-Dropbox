@@ -1,11 +1,11 @@
 " enter in the current millenium
 set nocompatible
 
-" colors are on this season
-syntax enable
-
 " using vim natural plugins (and maybe more)
 filetype plugin on
+
+" colors are on this season
+syntax on
 
 " fuzzy finder: use to find fils on vim
 set path+=**
@@ -79,7 +79,7 @@ let g:netrw_list_hide    .= ',\(^\|\s\s\)\zs\.\S\='
 "   - :tabclose and :tabonly
 
 " snippets: combine command
-nnoremap ,html :-1read $TEMPLATES/Programming/index.html<CR>4j3wf>a
+nnoremap ,html :-1read $TEMPLATES/Programming/index.html<CR>4jwf>a
 nnoremap ,php :-1read $TEMPLATES/Programming/index.php<CR>1j a
 nnoremap ,mainC :-1read $TEMPLATES/Programming/main.c<CR>5j a
 nnoremap ,mainJava :-1read $TEMPLATES/Programming/Main.java<CR>7j    a
