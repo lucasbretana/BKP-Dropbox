@@ -35,10 +35,10 @@ echoerr ()
 
 # man: prints the current location in the format used by the PS1 variable
 # man: if is inside a git repo then prints with different color and prints the branch
-# man: if is insede a regular folder then prints it beaty only
+# man: if is inside a regular folder then prints it beaty only
 DEFAULT_COLOR=$CYAN;
 default_color=$cyan;
-atom_colors_compability="no";
+atom_colors_compability="yes";
 deflocal ()
 {
   # BRANCH=$(git branch -vv 2> /dev/null | grep "*" | cut -d " " -f 2);
