@@ -2,8 +2,8 @@
 
 --------------------------------------------------------------------------------
 # TODO
-  - Fix this file
-  - See what else can be puted here
+  - TODO: Fix README.md
+  - TODO: See what else can be puted here
 
 # References
   - http://vim.wikia.com/wiki/Example_vimrc

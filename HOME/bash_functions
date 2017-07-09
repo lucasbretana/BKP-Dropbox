@@ -1,13 +1,15 @@
 ##
 # overriding functions
 #
-# Improves the man
+# man: improves the man
+# TODO: man
 man ()
 {
   /usr/bin/man "$@" 2> /dev/null || /usr/bin/man "$MYMANUAL"/"$@" 2> /dev/null || /usr/bin/less -x 2 "$MYHELP"/man_"$@".txt 2> /dev/null || /usr/bin/man "$MYMANUAL"/$(echo "$@" | tr -d  "=") 2> /dev/null || less -x 2 "$MYHELP"/man_"$(echo $@ | tr -d  '=')".txt 2> /dev/null || cowsay "No trace of manual page" 2> /dev/null || echoerr "No trace of manual page";
 }
 
-# Change the cat to refuse to work without treats
+# man: change the cat to refuse to work without treats
+# TODO: tac
 tac ()
 {
     if [ "$1" != "+treats" ]; then
@@ -22,94 +24,98 @@ tac ()
     fi
 }
 
-# usefull functions
+# section: usefull functions
 #
-# Defines a error echo function
+# man: prints an error message in red on the err stream
+# parameters: takes the string to be displayed (default is "error") (optinal)
 echoerr ()
 {
-  echo -e "$RED$@$NC" 1>&2;
+  echo -e "$RED${@:-error}$NC" 1>&2;
 }
 
-# used to define the PS1 local
+# man: prints the current location in the format used by the PS1 variable
+# man: if is inside a git repo then prints with different color and prints the branch
+# man: if is inside a regular folder then prints it beaty only
 DEFAULT_COLOR=$CYAN;
 default_color=$cyan;
 atom_colors_compability="yes";
 deflocal ()
 {
   # BRANCH=$(git branch -vv 2> /dev/null | grep "*" | cut -d " " -f 2);
-  BRANCH=$(getbranch no);
-  if [ "$BRANCH" != "" ]; then
-    REPO=$(basename $(git rev-parse --show-toplevel));
-    LOCAL=$(pwd -L);
-    SUBDIR=$(echo "${LOCAL##*$REPO}");
-    FULLDIR=$REPO$SUBDIR;
-    EXTRA=$(getgitsymbol "$BRANCH" 2> /dev/null);
-    [ -n "$EXTRA" ] && EXTRA=" $EXTRA";
-    BRANCH_WITH_COLOR=$(getbranch "$atom_colors_compability");
-    # echo -e '['"$cyan""$FULLDIR""$NC"'] ['"$CYAN""$BRANCH""$EXTRA""$NC"']';
-    echo -e '['"$default_color""$FULLDIR""$NC"'] ['"$BRANCH_WITH_COLOR""$default_color""$EXTRA""$NC"']';
+  local _branch=$(getbranch no);
+  if [ ${#_branch} != 0 ]; then
+    local _repo=$(basename $(git rev-parse --show-toplevel));
+    local _local=$(pwd -L);
+    local _subdir=$(echo ${_local##*${_repo}});
+    local _fullDir=${_repo}${_subdir};
+    local _extra=$(getgitsymbol "${_branch}" 2> /dev/null);
+    [ -n "${_extra}" ] && _extra=" ${_extra}";
+    local _branchWithColor=$(getbranch "$atom_colors_compability");
+    echo -e '['"$default_color""${_fullDir}""$NC"'] ['"$_branchWithColor""$default_color""$_extra""$NC"']';
   else
     PWD=$(pwd | sed "s|^$HOME|~|");
     echo -e '['"$DEFAULT_COLOR""$PWD""$NC"']';
   fi
 }
 
-# On branches, this will return the branch name
-# On non-branches, this will return nothing
-# NOTE: if you want to print the EXTRA as the gitsymbol
-# you CANNOT use the * as unstaged_symbol, use + perhaps
+# man: if is inseide a git repositorie then this will return the branch name
+# man: if inside a non-branches then this will return nothing
+# NOTE: you CANNOT use the * as unstaged_symbol, use + perhaps
+# parameters: 1 - must be a flag that indicates to print using atom colors or not (default no)
+# parameters: 2 - any extra info to print with the branch (optional)
 getbranch ()
 {
-  ATOM_COLORS="$1";
-  EXTRA="$2";
-  #ref="$(git symbolic-ref HEAD 2> /dev/null | grep 'refs/heads' | sed -e 's/refs\/heads\///')"
-  ref=`git branch -vv 2> /dev/null | grep "*" | cut -d " " -f 2`;
-  if [ "$ref" != "" ]; then
-    if [ "$ATOM_COLORS" = "yes" ];then
+  local _atomColors=${1:-"no"};
+  local _extra="$2";
+  local _ref=`git branch -vv 2> /dev/null | grep "*" | cut -d " " -f 2`;
+  if [ ${#_ref} != 0 ]; then
+    if [ "$_atomColors" = "yes" ];then
       if [ -r "$HOME/.atom/styles.less" ];then
-        echo `get_color_from_file $HOME/.atom/styles.less 2> /dev/null 2> /dev/null "$ref" "$EXTRA"`;
+        echo `get_color_from_file $HOME/.atom/styles.less 2> /dev/null "$_ref" "$_extra"`;
       fi
     else
-      echo "$ref";
+      echo "$_ref";
     fi
   else
     echo "";
   fi
 }
 
-# Defines the color for the branch
-# as the same color used on Atom
-# by the extension tree-view-git-status
+# man: defines the color for the branch as the same color used on Atom the extension tree-view-git-status
+# parameters: 1 - is the file path + name with the colors (mandatory)
+# parameters: 2 - is the branch name (mandatory)
+# paramaters: 3 - extra stuff to print (optional)
 get_color_from_file ()
 {
-    COLORS_FROM_FILE="";
-    BRANCHES_FROM_FILE="";
-    COLOR_LINE="";
-    filename="$1";
-    p_branch="$2";
-    p_extra="$3";
+    local _colorsFromFile="";
+    local _branchesFromFile="";
+    local _colorLine="";
+    local _filename="${1:?get_color_from_file: missing file $(return 1)}";
+    local _p_branch="${2:?get_color_from_file: missing branch name $(return 2)}";
+    local _p_extra="$3";
+
     while read -r l; do
         line="$l";
-        if [ "$COLOR_LINE" != "" ]; then
+        if [ ${#_colorLine} != 0 ]; then
             new_color=`echo "$line" | sed "s/color: //" | tr -d ";"`;
-            COLORS_FROM_FILE="$COLORS_FROM_FILE $new_color";
-            COLOR_LINE="";
+            local _colorsFromFile="${_colorsFromFile} $new_color";
+            local _colorLine="";
         fi;
         if [[ "$line" = ".tree-view-git-status.git-branch-"* ]]; then
             new_branch=`echo "$line" | sed "s/.tree-view-git-status.git-branch-//" | cut -d " " -f 1`;
-            BRANCHES_FROM_FILE="$BRANCHES_FROM_FILE $new_branch";
-            COLOR_LINE="yes";
+            _branchesFromFile="$_branchesFromFile $new_branch";
+            _colorLine="yes";
         fi;
-    done < "$filename";
-    if [ "$COLORS_FROM_FILE" != "" ]; then
+    done < "$_filename";
+    if [ ${#_colorsFromFile} != 0 ]; then
         # echo -e "$BLUE $BRANCHES_FROM_FILE $NC" > /tmp/BRANCHES;
         # echo -e "$BLUE $COLORS_FROM_FILE $NC" > /tmp/COLORS;
         i=1;
         color="";
-        for branch in $BRANCHES_FROM_FILE;
+        for branch in ${_branchesFromFile};
         do
-            if [ "$branch" = "$p_branch" ]; then
-                color=`echo "$COLORS_FROM_FILE" | xargs | cut -d " " -f $i`;
+            if [ "$branch" = "$_p_branch" ]; then
+                color=`echo "$_colorsFromFile" | xargs | cut -d " " -f $i`;
                 # echo -e "$BLUE yes $NC pls print branch $branch on color $color and number $i" > /tmp/DEBUG;
                 break;
             # else
@@ -120,75 +126,79 @@ get_color_from_file ()
         if [ -n $color ]; then
             var=`echo $color`;
             # echo "@@$BRANCH_WITH_EXTRA@@" > /tmp/BRANCH_WITH_EXTRA
-            echo -e "${!var}""$p_branch""$p_extra""$NC";
+            echo -e "${!var}""$_p_branch""$_p_extra""$NC";
         fi;
     else
-        echo -e "$DEFAULT_COLOR""$p_branch""$p_extra""$NC";
+        echo -e "$DEFAULT_COLOR""$_p_branch""$_p_extra""$NC";
     fi
 }
 
-# Prints the symbol
-# $1 -- must be the branch
+# man: prints one (or more) symbol(s) that represent the stage of a git repositorie in relation to server
+# parameter: 1 - the branch name (mandotory)
 getgitsymbol ()
 {
-  [ -n "$1" ] || ( echoerr "getgitsymbol: missing branch" && return 1);
-  [ "$2" == "@" ] && echo "Before unstaged";
-  UNSTAGED=$(unstaged);
-  [ "$2" == "@" ] && echo "Before ahead";
-  AHEAD=$(ahead $1);
-  [ "$2" == "@" ] && echo "Before behind";
-  # BEHIND=$(behind $1);
-  BEHIND=$(behind $1);
-  [ "$2" == "@" ] && echo "After behind";
-  echo -n "$UNSTAGED";
-  ( [ -n "$UNSTAGED" ] && [ -n "$AHEAD" ] ) && echo -n " " ;
-  echo -n "$AHEAD";
-  ( ( [ -n "$UNSTAGED" ] || [ -n "$AHEAD" ] ) && [ -n "$BEHIND" ] ) && echo -n " " ;
-  echo -n "$BEHIND";
+  [ ${#1} = 0 ] && echoerr "getgitsymbol: missing branch" && return 1;
+  local _unstaged=$(unstaged | xargs 2> /dev/null);
+  local _ahead=$(ahead $1 | xargs 2> /dev/null);
+  local _behind=$(behind $1 | xargs) 2> /dev/null;
+  echo -n "${_unstaged}";
+  ( [ -n "${_unstaged}" ] && [ -n "${_ahead}" ] ) && echo -n " " ;
+  echo -n "${_ahead}";
+  ( ( [ -n "${_unstaged}" ] || [ -n "${_ahead}" ] ) && [ -n "${_behind}" ] ) && echo -n " " ;
+  echo -n "${_behind}";
 }
 
-# Return 1 if have modifications not staged for commits
-# $1 -- @ if you want debug
+# man: printfs the unstaged symbol if the current directorie is a git repositorie and it is unstaged
 unstaged_symbol='*';
 unstaged ()
 {
   # If the git status has *any* changes (e.g. dirty), echo our character
   INFO=$(git status --porcelain 2> /dev/null);
-  [ "$1" == "@" ] && echo "$INFO";
-  if [ -n "$INFO" ]; then
+  if [ ${#INFO} != 0 ]; then
     echo "$unstaged_symbol";
   fi
 }
 
-# Prints 1 if have commits not send to server
-# $1 -- must be the branch
+# man: prints the ahead_symbol if have commits not send to server
+# parameters: $1 - must be the branch (mandatory)
 ahead_symbol="↑";
 ahead ()
 {
-  [ -n "$1" ] || ( echoerr "ahead: missing branch" && return 1);
-  INFO=$(git rev-list --left-right --count origin/$1...HEAD | cut -f 2);
-  [ "$2" == "@" ] && echo "$INFO";
-  if [[ -n "$INFO" && $INFO -gt 0 ]]; then
-    echo "$ahead_symbol""$INFO";
+  [ ${#@} -eq 0 ] && echoerr "ahead: missing branch\n See the manual" && return 1;
+
+  case "$@" in
+    *"-f"*)
+      [ ${#@} -le 1 ] && echoerr "ahead: missing branch\n See the manual" && return 2;
+      git fetch origin master;
+    ;;
+    *"--fetch"*)
+      [ ${#@} -le 1 ] && echoerr "ahead: missing branch\n See the manual" && return 2;
+      git fetch origin master;
+    ;;
+  esac
+
+  local _branch=${1:-master}; #NOTE:if there is no branch it isn't suppose to get to here
+
+  local _info=$(git rev-list --left-right --count origin/$_branch...HEAD 2> /dev/null | cut -f 2);
+
+  if [[ -n "$_info" && $_info -gt 0 ]]; then
+    echo "$ahead_symbol""$_info";
   fi
 }
 
-# Prints 1 if have changes not send pulle from the server
-# $1 -- must be the branch
+# man: prints the beghind symbol if inside a git repositorie and is behind
+# paramater: 1 - the branch (mandatory)
 behind_symbol="↓";
 behind ()
 {
-  TMPDIR=/tmp;
-  [ -n "$1" ] || ( echoerr "behind: missing branch" && return 1);
-  INFO=$(git rev-list --left-right --count origin/$1...HEAD | cut -f 1);
-  [ "$2" == "@" ] && echo "$INFO";
-  if [[ -n "$INFO" && $INFO -gt 0 ]]; then
-    echo "$behind_symbol""$INFO";
+  [ ${#1} = 0 ] && echoerr "behind: missing branch" && return 1;
+  local _info=$(git rev-list --left-right --count origin/$1...HEAD | cut -f 1);
+  if [[ -n "$_info" && $_info -gt 0 ]]; then
+    echo "$behind_symbol""$_info";
   fi
-  unset BEHIND;
 }
 
-# used to define the host color/name
+# man: defines the host name with a color, used on PS1
 defhost ()
 {
   if [ "$(hostname)"  = "MORDOR" ]; then
@@ -202,7 +212,7 @@ defhost ()
   fi
 }
 
-# used to define the host color/name
+# man: defines the user name with a color, used on PS1
 defuser ()
 {
   if ([ "$(whoami)"  = "lebretana" ] || [ "$(whoami)"  = "lucasbretana" ] || [ "$(whoami)"  = "lucas" ]) ; then
@@ -214,13 +224,11 @@ defuser ()
   fi
 }
 
-# print color I know
+# man: prints the colors know by shell
+# paramater: 1 - a word to print with the colors (optional)
 colors ()
 {
-  string="Hello World";
-  if [ -n "$1" ]; then
-    string=$1;
-  fi
+  local string=${1:-"Hello World"};
   echo -e "grey: $grey""$string""$NC";
   echo -e "GREY: $GREY""$string""$NC";
   echo -e "red: $red""$string""$NC";
@@ -239,49 +247,54 @@ colors ()
   echo -e "CYAN: $CYAN""$string""$NC";
 }
 
-# Uses the cllinsdictionary to define a word, and shows only the part
-# that is relevant for the context
+# man: uses the collins dictionary to define a word, and shows only the part that is relevant for the context
+# paramater: 1 - a word to be defined (mandatory)
 define ()
 {
+  [ ${#1} = 0 ] && echoerr "define: no word to be defined" && return 1;
   curl -s "https://www.collinsdictionary.com/dictionary/english/$*" | sed -n '/class="def"/p' | awk '{gsub(/.*<span class="def">|<\/span>.*/,"");print}' | sed "s/<[^>]\+>//g";
 }
 
-# Used to convert some manual to a PDF file
+# man: used to convert some manual to a PDF file
+# parameter: 1 - the manual to convert (mandatory)
 man2pdf ()
 {
+  [ ${#1} = 0 ] && echoerr "man2pdf: no man to convert" && return 1;
   man -t $1 | ps2pdf - > $1.pdf
 }
 
-# Changes all leter in string to it's correspondent in upper casae
+# man: changes all leter in string to it's correspondent in upper casae
+# paramater: 1 - the word to be converted (mandatory)
 toup ()
 {
+  [ ${#1} = 0 ] && echoerr "toup: no word to convert" && return 1;
   echo $1 | tr '[:lower:]' '[:upper:]'
 }
 
-# Changes all leter in string to it's correspondent in lower case
+# man: changes all leter in string to it's correspondent in lower case
+# paramater: 1 - the word to be converted (mandatory)
 tolow ()
 {
+  [ ${#1} = 0 ] && echoerr "tolow: no word to convert" && return 1;
   echo $1 | tr '[:upper:]' '[:lower:]'
 }
 
-# Flip a coin, faster than Google's
+# man: flip a coin, faster than Google's
 flipacoin ()
 {
   [ $[ $RANDOM % 2] == 0 ] && echo "Heads" || echo "Tails";
 }
 
-# Gets the weahter from the wttr sie and shows in terminal
-# It can be specified witch city you want, the default is Pelotas
+# man: gets the weahter from the wttr sie and shows in terminal
+# man: it can be specified witch city you want, the default is Pelotas
+# paramater: 1 - the city (default is Pelotas) (optinal)
 getweather ()
 {
-  if [ -n "$@" ]; then
-    curl "http://wttr.in/$@";
-  else
-    curl "http://wttr.in/Pelotas";
-  fi
+  curl "http://wttr.in/${1:-Pelotas}";
 }
 
-# Check if ONE repositorie needs a commit and/or a pull
+# man: check if ONE repositorie needs a commit and/or a pull
+# TODO: cgit
 cgit ()
 {
   if [ -n "$1" ]; then
@@ -309,8 +322,9 @@ cgit ()
   fi;
 }
 
-# Check all gits repositories for missing commit/push and pull/fetch
-# Uses updategitvar
+# man: check all gits repositories for missing commit/push and pull/fetch
+# NOTE: uses updategitvar
+# TODO: checkgit
 checkgit ()
 {
   if [ -z "$GIT" ]; then
@@ -340,9 +354,10 @@ checkgit ()
   cd $BACK;
 }
 
-# Updates the GIT var, than contains all repositories,
-# Run after added a new one or remove an old one
-# It is used by checkgit function
+# man: updates the GIT var, than contains all repositories,
+# man: run after added a new one or remove an old one
+# NOTE: it is used by checkgit function
+# NOTE: updategitvar
 updategitvar ()
 {
   unset GIT ;
@@ -356,7 +371,7 @@ updategitvar ()
   export GIT;
 }
 
-# Top 10 CPU and memory eating process
+# man: top 10 CPU and memory eating process
 memcpu ()
 {
   echo -e "*** Top $RED ten $NC $PURPLE CPU $NC eating process ***"; ps aux | sort -nr -k 3 | head -10;
@@ -364,7 +379,9 @@ memcpu ()
   echo -e "*** Top $RED ten $NC $PURPLE MEMORY $NC eating process ***"; ps aux | sort -nr -k 4 | head -10;
 }
 
-# Automatically decompress some know types of files
+# man: automatically decompress some know types of files
+# paramater: 1 - the file to be decompressed (mandatory)
+# TODO: decompress
 decompress ()
 {
   if [ "$1" = "-bz2" ]; then
