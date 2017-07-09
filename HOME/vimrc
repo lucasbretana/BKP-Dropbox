@@ -39,21 +39,6 @@ command! MakeTags !ctags -R .
 " - no need to do any extra command
 " - vim already know how to read tags and know some stuff about languages
 
-
-" function to find the cursor
-noremap <C-K> :call HighlightNearCursor()<CR>
-function HighlightNearCursor()
-  if !exists("s:highlightcursor")
-    match Todo /\k*\%#\k*/
-    let s:highlightcursor=1
-  else
-    match None
-    unlet s:highlightcursor
-  endif
-endfunction
-" NOW WE CAN
-" - ^K or ^k to find the cursor
-"
 " THINGS TO CONSIDER
 " - you can use zt to move the current line to the top with scrolloff lines
 "   from the top
