@@ -123,10 +123,12 @@ get_color_from_file ()
             fi;
             ((i++));
         done;
-        if [ -n $color ]; then
+        if [ ${#color} != 0 ]; then
             var=`echo $color`;
             # echo "@@$BRANCH_WITH_EXTRA@@" > /tmp/BRANCH_WITH_EXTRA
             echo -e "${!var}""$_p_branch""$_p_extra""$NC";
+        else
+            echo -e "${DEFAULT_COLOR}""$_p_branch""$_p_extra""$NC";
         fi;
     else
         echo -e "$DEFAULT_COLOR""$_p_branch""$_p_extra""$NC";
