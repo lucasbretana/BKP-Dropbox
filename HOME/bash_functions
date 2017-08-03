@@ -58,7 +58,7 @@ deflocal ()
   fi
 }
 
-# man: if is inseide a git repositorie then this will return the branch name
+# man: if is inside a git repositorie then this will return the branch name
 # man: if inside a non-branches then this will return nothing
 # NOTE: you CANNOT use the * as unstaged_symbol, use + perhaps
 # parameters: 1 - must be a flag that indicates to print using atom colors or not (default no)
