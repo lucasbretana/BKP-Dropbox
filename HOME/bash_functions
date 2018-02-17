@@ -426,3 +426,9 @@ decompress ()
     *)         echoerr "decompress: error, unsuported";;
   esac
 }
+
+# man: morty quotes
+morty_says ()
+{
+  /bin/echo -e "$RED""$MORTY_QUOTE""$NC";
+}

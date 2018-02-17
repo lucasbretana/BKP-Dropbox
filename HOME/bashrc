@@ -143,3 +143,4 @@ if ! shopt -oq posix; then
   fi
 fi
 
+source /opt/intel/bin/iccvars.sh intel64
