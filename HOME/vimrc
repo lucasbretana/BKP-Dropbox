@@ -1,4 +1,4 @@
-t enter in the current millenium
+" enter in the current millenium
 set nocompatible
 
 " using vim natural plugins (and maybe more)
@@ -51,11 +51,15 @@ let g:netrw_winsize       = 99  " control initial window size
 let g:netrw_liststyle     = 3   " tree view
 let g:netrw_list_hide     = netrw_gitignore#Hide()
 let g:netrw_list_hide    .= ',\(^\|\s\s\)\zs\.\S\='
-noremap <C-1>      :tabfirst<CR>
+noremap <C-a>      :tabfirst<CR>
 noremap <C-h>      :tabprevious<CR>
 noremap <C-l>      :tabnext<CR>
 noremap <C-j>      :tabmove -1<CR>
 noremap <C-k>      :tabmove +1<CR>
+noremap <C-w>      :tabclose <CR>
+noremap <C-q>      :qall <CR>
+noremap <C-e>      :tabonly <CR>
+noremap <C-n>      :tabnew <CR>
 
 " NOW WE CAN
 " - :edit a folder to a file file browser
