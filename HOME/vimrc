@@ -1,4 +1,4 @@
-" enter in the current millenium
+t enter in the current millenium
 set nocompatible
 
 " using vim natural plugins (and maybe more)
@@ -51,9 +51,12 @@ let g:netrw_winsize       = 99  " control initial window size
 let g:netrw_liststyle     = 3   " tree view
 let g:netrw_list_hide     = netrw_gitignore#Hide()
 let g:netrw_list_hide    .= ',\(^\|\s\s\)\zs\.\S\='
-nnoremap <C-Left>   :tabprevious<CR>
-nnoremap <C-Right>  :tabnext<CR>
-nnoremap <C-1>      :tabfirst<CR>
+noremap <C-1>      :tabfirst<CR>
+noremap <C-h>      :tabprevious<CR>
+noremap <C-l>      :tabnext<CR>
+noremap <C-j>      :tabmove -1<CR>
+noremap <C-k>      :tabmove +1<CR>
+
 " NOW WE CAN
 " - :edit a folder to a file file browser
 " - <CR>/v/t to open in an h-split/h-split/tab
@@ -107,11 +110,6 @@ set scrolloff=5
 " contents. Use this to allow intelligent auto-indenting for each filetype,
 " and for plugins that are filetype specific.
 filetype indent plugin on
-" nnoremap c d "
-" BeginGuakeMode "
-" nnoremap a h "
-" nnoremap w k "
-" nnoremap s j "
-" nnoremap d l "
-" EndGuakeMode "
+
+" MANUAL
 
