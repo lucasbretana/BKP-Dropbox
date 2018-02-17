@@ -105,6 +105,7 @@ set autoindent
 set number
 set numberwidth=1
 set ignorecase
+set smartcase
 set shiftwidth=2
 set tabstop=2
 set expandtab
@@ -115,5 +116,8 @@ set scrolloff=5
 " and for plugins that are filetype specific.
 filetype indent plugin on
 
-" MANUAL
+" display the current mode and partially-typed commands in the status line:
+set showmode
+set showcmd
 
+execute 'set listchars+=tab:' . nr2char(187) . nr2char(183)
