@@ -61,6 +61,10 @@ noremap <C-q>      :qall <CR>
 noremap <C-e>      :tabonly <CR>
 noremap <C-n>      :tabnew <CR>
 
+noremap <Down> <Nop>
+noremap <Up> <Nop>
+noremap <Left> <Nop>
+noremap <Right> <Nop>
 " NOW WE CAN
 " - :edit a folder to a file file browser
 " - <CR>/v/t to open in an h-split/h-split/tab
