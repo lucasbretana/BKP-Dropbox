@@ -109,6 +109,7 @@ set autoindent
 
 set list
 set number
+set relativenumber
 set numberwidth=1
 
 set ignorecase
@@ -130,3 +131,13 @@ set showmode
 set showcmd
 
 execute 'set listchars+=tab:' . nr2char(187) . nr2char(183)
+
+call plug#begin('~/.vim/plugged')
+
+" Make sure you use single quotes
+"
+" Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
+" Plug 'junegunn/vim-easy-align'
+" Initialize plugin system
+Plug 'https://github.com/wakatime/vim-wakatime.git'
+call plug#end()

@@ -127,10 +127,10 @@ xterm*|rxvt*)
 esac
 
 # if is a gnome-termial, does not load the PS1, uses a default one
-term=$(ps -p $(ps -p $$ -o ppid=) -o args= | sed "s|/| |g" | spaceasenter | tail -n 1)
-if [ "$term" == "gnome-terminal-server" ];then
-  PS1=$DEFAULT_PS1
-fi
+#term=$(ps -p $(ps -p $$ -o ppid=) -o args= | sed "s|/| |g" | spaceasenter | tail -n 1)
+#if [ "$term" == "gnome-terminal-server" ];then
+#  PS1=$DEFAULT_PS1
+#fi
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
