@@ -130,6 +130,11 @@ filetype indent plugin on
 set showmode
 set showcmd
 
+" status line
+set laststatus=2
+"set statusline=%-5.20f:%-2.4L,%-2.4c[%-2.4p%%]w:%3.10m%-3.4r
+set statusline=%-5.20f:%-2.4L,%-2.4c[%-2.4p%%]
+
 execute 'set listchars+=tab:' . nr2char(187) . nr2char(183)
 
 call plug#begin('~/.vim/plugged')
