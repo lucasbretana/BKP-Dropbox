@@ -432,3 +432,11 @@ morty_says ()
 {
   /bin/echo -e "$RED""$MORTY_QUOTE""$NC";
 }
+
+# man: a function to connect to lups server
+# paramater 1: lups machine
+connectlups ()
+{
+  /usr/bin/ssh -l $LUPS_NAME $LUPS_SERVER -t "ssh $LUPS_HOST"
+}
+
