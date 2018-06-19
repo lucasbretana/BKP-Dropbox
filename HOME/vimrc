@@ -135,14 +135,27 @@ set laststatus=2
 "set statusline=%-5.20f:%-2.4L,%-2.4c[%-2.4p%%]w:%3.10m%-3.4r
 set statusline=%-5.20f:%-2.4L,%-2.4c[%-2.4p%%]
 
-execute 'set listchars+=tab:' . nr2char(187) . nr2char(183)
+" New characters for the list option
+set showbreak=↪\ 
+set listchars=tab:→\ ,eol:↲,nbsp:␣,trail:•,extends:⟩,precedes:⟨
+
+" Color
+" Is is all about using less lines, amirite?
+execute 'colorscheme ' . (strftime('%H') < 20 ? 'desert' : 'ron')
+"set background=dark
+"if strftime("%H") < 13
+"  colorscheme desert
+"else
+"  colorscheme desert
+"endif
+
 
 call plug#begin('~/.vim/plugged')
 
 " Make sure you use single quotes
 "
-" Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
-" Plug 'junegunn/vim-easy-align'
 " Initialize plugin system
+
+" Wakatime plugin
 Plug 'https://github.com/wakatime/vim-wakatime.git'
 call plug#end()
