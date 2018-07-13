@@ -149,7 +149,11 @@ execute 'colorscheme ' . (strftime('%H') < 20 ? 'desert' : 'ron')
 "  colorscheme desert
 "endif
 
+" Wrap
+set linebreak
+set columns=200
 
+" Plugins
 call plug#begin('~/.vim/plugged')
 " Make sure you use single quotes
 " Initialize plugin system

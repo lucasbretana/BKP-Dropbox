@@ -388,27 +388,27 @@ memcpu ()
 # TODO: decompress
 decompress ()
 {
-  if [ "$1" = "-bz2" ]; then
-    (bunzip2 "$2" && return 0) || (echoerr "bunzip2: error" && return 1);
-  elif [ "$1" = "-tar.bz2" ]; then
-    (tar -vxjpf "$2" && return 0) || (echoerr "tar: error" && return 1);
-  elif [ "$1" = "-tar.gz" ];then
-    (tar -vxjpf "$2" && return 0) || (echoerr "tar: error" && return 1);
-  elif [ "$1" = "-tgz" ];then
-    (tar -vxjpf "$2" && return 0) || (echoerr "tar: error" && return 1);
-  elif [ "$1" = "-gz" ];then
-    (tar -vxjpf "$2" && return 0) || (echoerr "tar: error" && return 1);
-  elif [ "$1" = "-tar" ];then
-    (tar xf "$2" && return 0) || (echoerr "tar: error" && return 1);
-  elif [ "$1" = "-tar.xz" ];then
-    (tar -xf "$2" && return 0) || (echoerr "tar: error" && return 1);
-  elif [ "$1" = "-zip" ];then
-    (unzip "$2" && return 0) || (echoerr "tar: error" && return 1);
-  elif [ "$1" = "-7z" ];then
-    (7z x -y "$2" && return 0) || (echoerr "tar: error" && return 1);
-  elif [ "$1" = "-rar" ];then
-    (unrar "$2" && return 0) || (echoerr "tar: error" && return 1);
-  fi
+#  if [ "$1" = "-bz2" ]; then
+#    (bunzip2 "$2" && return 0) || (echoerr "bunzip2: error" && return 1);
+#  elif [ "$1" = "-tar.bz2" ]; then
+#    (tar -vxjpf "$2" && return 0) || (echoerr "tar: error" && return 1);
+#  elif [ "$1" = "-tar.gz" ];then
+#    (tar -vxjpf "$2" && return 0) || (echoerr "tar: error" && return 1);
+#  elif [ "$1" = "-tgz" ];then
+#    (tar -vxjpf "$2" && return 0) || (echoerr "tar: error" && return 1);
+#  elif [ "$1" = "-gz" ];then
+#    (tar -vxjpf "$2" && return 0) || (echoerr "tar: error" && return 1);
+#  elif [ "$1" = "-tar" ];then
+#    (tar xf "$2" && return 0) || (echoerr "tar: error" && return 1);
+#  elif [ "$1" = "-tar.xz" ];then
+#    (tar -xf "$2" && return 0) || (echoerr "tar: error" && return 1);
+#  elif [ "$1" = "-zip" ];then
+#    (unzip "$2" && return 0) || (echoerr "tar: error" && return 1);
+#  elif [ "$1" = "-7z" ];then
+#    (7z x -y "$2" && return 0) || (echoerr "tar: error" && return 1);
+#  elif [ "$1" = "-rar" ];then
+#    (unrar "$2" && return 0) || (echoerr "tar: error" && return 1);
+#  fi
 
   filename=$(basename "$1");
 
