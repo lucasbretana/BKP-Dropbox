@@ -151,11 +151,11 @@ execute 'colorscheme ' . (strftime('%H') < 20 ? 'desert' : 'ron')
 
 
 call plug#begin('~/.vim/plugged')
-
 " Make sure you use single quotes
-"
 " Initialize plugin system
 
 " Wakatime plugin
 Plug 'https://github.com/wakatime/vim-wakatime.git'
+" gdscript syntax
+Plug 'calviken/vim-gdscript3'
 call plug#end()
