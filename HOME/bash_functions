@@ -1,11 +1,16 @@
 ##
 # overriding functions
 #
-# man: improves the man
+# mman: improves the man
 # TODO: man
-man ()
+mman ()
 {
-  /usr/bin/man "$@" 2> /dev/null || /usr/bin/man "$MYMANUAL"/"$@" 2> /dev/null || /usr/bin/less -x 2 "$MYHELP"/man_"$@".txt 2> /dev/null || /usr/bin/man "$MYMANUAL"/$(echo "$@" | tr -d  "=") 2> /dev/null || less -x 2 "$MYHELP"/man_"$(echo $@ | tr -d  '=')".txt 2> /dev/null || cowsay "No trace of manual page" 2> /dev/null || echoerr "No trace of manual page";
+  _target=$1;
+  if [[ $1 == "="* ]];
+  then
+    _target=$(echo "$1" | tr -d "=");
+  fi
+  /usr/bin/man "$MYMANUAL"/"$_target" 2> /dev/null || ] /usr/bin/less -x 2 "$MYHELP"/man_"$_target".txt 2> /dev/null || /usr/bin/man "$_target" 2> /dev/null || cowsay "No trace of manual page" 2> /dev/null || echoerr "No trace of manual page";
 }
 
 # man: change the cat to refuse to work without treats
