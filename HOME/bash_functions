@@ -1,11 +1,16 @@
 ##
 # overriding functions
 #
-# man: improves the man
+# mman: improves the man
 # TODO: man
-man ()
+mman ()
 {
-  /usr/bin/man "$@" 2> /dev/null || /usr/bin/man "$MYMANUAL"/"$@" 2> /dev/null || /usr/bin/less -x 2 "$MYHELP"/man_"$@".txt 2> /dev/null || /usr/bin/man "$MYMANUAL"/$(echo "$@" | tr -d  "=") 2> /dev/null || less -x 2 "$MYHELP"/man_"$(echo $@ | tr -d  '=')".txt 2> /dev/null || cowsay "No trace of manual page" 2> /dev/null || echoerr "No trace of manual page";
+  _target=$1;
+  if [[ $1 == "="* ]];
+  then
+    _target=$(echo "$1" | tr -d "=");
+  fi
+  /usr/bin/man "$MYMANUAL"/"$_target" 2> /dev/null || ] /usr/bin/less -x 2 "$MYHELP"/man_"$_target".txt 2> /dev/null || /usr/bin/man "$_target" 2> /dev/null || cowsay "No trace of manual page" 2> /dev/null || echoerr "No trace of manual page";
 }
 
 # man: change the cat to refuse to work without treats
@@ -72,6 +77,8 @@ getbranch ()
     if [ "$_atomColors" = "yes" ];then
       if [ -r "$HOME/.atom/styles.less" ];then
         echo `get_color_from_file $HOME/.atom/styles.less 2> /dev/null "$_ref" "$_extra"`;
+      else
+        echo "$_ref";
       fi
     else
       echo "$_ref";
@@ -386,27 +393,27 @@ memcpu ()
 # TODO: decompress
 decompress ()
 {
-  if [ "$1" = "-bz2" ]; then
-    (bunzip2 "$2" && return 0) || (echoerr "bunzip2: error" && return 1);
-  elif [ "$1" = "-tar.bz2" ]; then
-    (tar -vxjpf "$2" && return 0) || (echoerr "tar: error" && return 1);
-  elif [ "$1" = "-tar.gz" ];then
-    (tar -vxjpf "$2" && return 0) || (echoerr "tar: error" && return 1);
-  elif [ "$1" = "-tgz" ];then
-    (tar -vxjpf "$2" && return 0) || (echoerr "tar: error" && return 1);
-  elif [ "$1" = "-gz" ];then
-    (tar -vxjpf "$2" && return 0) || (echoerr "tar: error" && return 1);
-  elif [ "$1" = "-tar" ];then
-    (tar xf "$2" && return 0) || (echoerr "tar: error" && return 1);
-  elif [ "$1" = "-tar.xz" ];then
-    (tar -xf "$2" && return 0) || (echoerr "tar: error" && return 1);
-  elif [ "$1" = "-zip" ];then
-    (unzip "$2" && return 0) || (echoerr "tar: error" && return 1);
-  elif [ "$1" = "-7z" ];then
-    (7z x -y "$2" && return 0) || (echoerr "tar: error" && return 1);
-  elif [ "$1" = "-rar" ];then
-    (unrar "$2" && return 0) || (echoerr "tar: error" && return 1);
-  fi
+#  if [ "$1" = "-bz2" ]; then
+#    (bunzip2 "$2" && return 0) || (echoerr "bunzip2: error" && return 1);
+#  elif [ "$1" = "-tar.bz2" ]; then
+#    (tar -vxjpf "$2" && return 0) || (echoerr "tar: error" && return 1);
+#  elif [ "$1" = "-tar.gz" ];then
+#    (tar -vxjpf "$2" && return 0) || (echoerr "tar: error" && return 1);
+#  elif [ "$1" = "-tgz" ];then
+#    (tar -vxjpf "$2" && return 0) || (echoerr "tar: error" && return 1);
+#  elif [ "$1" = "-gz" ];then
+#    (tar -vxjpf "$2" && return 0) || (echoerr "tar: error" && return 1);
+#  elif [ "$1" = "-tar" ];then
+#    (tar xf "$2" && return 0) || (echoerr "tar: error" && return 1);
+#  elif [ "$1" = "-tar.xz" ];then
+#    (tar -xf "$2" && return 0) || (echoerr "tar: error" && return 1);
+#  elif [ "$1" = "-zip" ];then
+#    (unzip "$2" && return 0) || (echoerr "tar: error" && return 1);
+#  elif [ "$1" = "-7z" ];then
+#    (7z x -y "$2" && return 0) || (echoerr "tar: error" && return 1);
+#  elif [ "$1" = "-rar" ];then
+#    (unrar "$2" && return 0) || (echoerr "tar: error" && return 1);
+#  fi
 
   filename=$(basename "$1");
 
@@ -424,3 +431,17 @@ decompress ()
     *)         echoerr "decompress: error, unsuported";;
   esac
 }
+
+# man: morty quotes
+morty_says ()
+{
+  /bin/echo -e "$RED""$MORTY_QUOTE""$NC";
+}
+
+# man: a function to connect to lups server
+# paramater 1: lups machine
+connectlups ()
+{
+  /usr/bin/ssh -l $LUPS_NAME $LUPS_SERVER -t "ssh $LUPS_HOST"
+}
+

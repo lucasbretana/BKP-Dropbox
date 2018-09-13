@@ -1,0 +1,8 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =6
+let g:netrw_dirhist_1='/mnt/Data/Documents/Dropbox/Bretana/UFPel/2018/2018-1/Compiladores/SimpleCompiler/src'
+let g:netrw_dirhist_2='/mnt/Data/Documents/Dropbox/Bretana/UFPel/2018/2018-1/Compiladores/SimpleCompiler/src/modification'
+let g:netrw_dirhist_3='/mnt/Data/Documents/Dropbox/Bretana/UFPel/2018/2018-1/Compiladores/SimpleCompiler/src/test'
+let g:netrw_dirhist_4='/mnt/Data/Documents/Dropbox/Bretana/UFPel/2018/2018-1/Compiladores/SimpleCompiler'
+let g:netrw_dirhist_5='/mnt/Data/Documents/Dropbox/Bretana/UFPel/2018/2018-1/PeC-Jogos/PeC-Jogos-Projeto-1/projects/SoulsOfAlanis/addons/godot-spawn-area'
+let g:netrw_dirhist_6='/mnt/Data/Documents/Dropbox/Bretana/UFPel/Projetos/LUPS/ILUCTUS'
