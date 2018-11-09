@@ -72,7 +72,7 @@ getbranch ()
 {
   local _atomColors=${1:-"no"};
   local _extra="$2";
-  local _ref=`git branch -vv 2> /dev/null | grep "*" | cut -d " " -f 2`;
+  local _ref=`git branch --list 2> /dev/null | grep "*" | cut -d " " -f 2`;
   if [ ${#_ref} != 0 ]; then
     if [ "$_atomColors" = "yes" ];then
       if [ -r "$HOME/.atom/styles.less" ];then
@@ -442,6 +442,7 @@ morty_says ()
 # paramater 1: lups machine
 connectlups ()
 {
-  /usr/bin/ssh -l $LUPS_NAME $LUPS_SERVER -t "ssh $LUPS_HOST"
+  _host="${1:-$LUPS_HOST}";
+  /usr/bin/ssh -l $LUPS_NAME $LUPS_SERVER -t "ssh $_host";
 }
 
