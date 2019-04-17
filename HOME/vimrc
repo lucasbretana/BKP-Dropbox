@@ -51,15 +51,18 @@ let g:netrw_winsize       = 99  " control initial window size
 let g:netrw_liststyle     = 3   " tree view
 let g:netrw_list_hide     = netrw_gitignore#Hide()
 let g:netrw_list_hide    .= ',\(^\|\s\s\)\zs\.\S\='
+
+" tabs usefull remaps
+" DEFAULT: use gt, gT, #gt
 "noremap <C-a>      :tabfirst<CR>
-noremap <C-h>      :tabprevious<CR>
-noremap <C-l>      :tabnext<CR>
-noremap <C-j>      :tabmove -1<CR>
-noremap <C-k>      :tabmove +1<CR>
+"noremap <C-h>      :tabprevious<CR>
+"noremap <C-l>      :tabnext<CR>
+"noremap <C-j>      :tabmove -1<CR>
+"noremap <C-k>      :tabmove +1<CR>
 "noremap <C-w>      :tabclose <CR>
 "noremap <C-q>      :qall <CR>
 "noremap <C-e>      :tabonly <CR>
-noremap <C-n>      :tabnew <CR>
+"noremap <C-n>      :tabnew <CR>
 
 noremap <Down> <Nop>
 noremap <Up> <Nop>
@@ -160,6 +163,8 @@ call plug#begin('~/.vim/plugged')
 
 " Wakatime plugin
 Plug 'https://github.com/wakatime/vim-wakatime.git'
-" gdscript syntax
-Plug 'calviken/vim-gdscript3'
+
+" Java completion 2 plugin
+Plug 'artur-shaik/vim-javacomplete2'
+
 call plug#end()
