@@ -2,9 +2,6 @@
  * JavaScript function
 */
 function myFunction() {
-	/*
-	alert("TESTE");
-	var CEM = 100;
-	*/
-  
+	/* alert("TESTE"); var CEM = 100; */
+	
 }

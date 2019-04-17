@@ -1,10 +1,10 @@
-// package edu. ......;
+//package test;
 
 /**
- * Documentation
+ * Doc
  */
-public class Main{
-	public static void main(String...args){
-   
+public class Main {
+	public static void main(String...args) {
+		
 	}
 }

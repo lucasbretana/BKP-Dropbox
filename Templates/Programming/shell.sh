@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# @autor: Lucas Eduardo Bretana
+# @autor: Bretana
 # @date: -setdate- 
-# TODO: 
+# github: lucasbretana
+
 

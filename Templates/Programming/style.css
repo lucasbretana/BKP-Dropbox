@@ -1,18 +1,16 @@
-/*Usado para componentes do HTML*/
-div{ 
+/* used for all <div> */
+div {
 	height: 500px;
 	width: 200px;
 }
 
-/*Usado para um  componente especifico do HTML*/
-#divUm
-{
+/* used only for the single component called fstDiv */
+#fstDiv {
 	width: 100px;
 	height: 100px;
 }
-/*Usado para uma classe de componentes do HTML*/
-.divEsquerda
-{
+/* used for the whole class .left */
+.left {
 	width: 100px;
 	height: 100px;
 }
