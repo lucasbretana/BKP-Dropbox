@@ -64,10 +64,6 @@ let g:netrw_list_hide    .= ',\(^\|\s\s\)\zs\.\S\='
 "noremap <C-e>      :tabonly <CR>
 "noremap <C-n>      :tabnew <CR>
 
-noremap <Down> <Nop>
-noremap <Up> <Nop>
-noremap <Left> <Nop>
-noremap <Right> <Nop>
 " NOW WE CAN
 " - :edit a folder to a file file browser
 " - <CR>/v/t to open in an h-split/h-split/tab
@@ -81,14 +77,16 @@ noremap <Right> <Nop>
 "   - :tabclose and :tabonly
 
 " snippets: combine command
-nnoremap ,html        :-1read $TEMPLATES/Programming/index.html<CR>4jwf>a
-nnoremap ,php         :-1read $TEMPLATES/Programming/index.php<CR>1j a
-nnoremap ,mainC       :-1read $TEMPLATES/Programming/main.c<CR>5j a
-nnoremap ,mainJava    :-1read $TEMPLATES/Programming/Main.java<CR>7j    a
-nnoremap ,shell       :-1read $TEMPLATES/Programming/shell.sh<CR>3j:s/-setdate-/\=strftime("%c")<CR>1jE a
-nnoremap ,css         :-1read $TEMPLATES/Programming/style.css<CR>1ja
-nnoremap ,classJava   :-1read $TEMPLATES/Programming/Test.java<CR>3j a
-nnoremap ,js          :-1read $TEMPLATES/Programming/utils.js<CR>8j a
+nnoremap ,html        :-1read $TEMPLATES/Programming/index.html<CR>4jwf>
+nnoremap ,php         :-1read $TEMPLATES/Programming/index.php<CR>j$
+nnoremap ,mainC       :-1read $TEMPLATES/Programming/main.c<CR>10j$
+nnoremap ,mainCC      :-1read $TEMPLATES/Programming/main.cc<CR>10j$
+nnoremap ,classCC     :-1read $TEMPLATES/Programming/Test.cc<CR>2j$
+nnoremap ,mainJava    :-1read $TEMPLATES/Programming/Main.java<CR>7j$
+nnoremap ,classJava   :-1read $TEMPLATES/Programming/Test.java<CR>3j$
+nnoremap ,shell       :-1read $TEMPLATES/Programming/shell.sh<CR>3j:s/-setdate-/\=strftime("%c")<CR>3j$
+nnoremap ,css         :-1read $TEMPLATES/Programming/style.css<CR>
+nnoremap ,js          :-1read $TEMPLATES/Programming/utils.js<CR>6j
 " NOW WE CAN CONQUER THE WORLD!
 " - with much less keyword
 " 
@@ -121,7 +119,8 @@ set smartcase
 " set tabstop=2
 set shiftwidth=2
 set softtabstop=2
-set expandtab
+"set expandtab
+set noexpandtab
 
 set scrolloff=5
 " Attempt to determine the type of a file based on its name and possibly its

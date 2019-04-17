@@ -70,8 +70,8 @@ shopt -s extglob
 shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=-1
-HISTFILESIZE=-1
+HISTSIZE=100
+HISTFILESIZE=500
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -143,13 +143,11 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# if the intel files exists, load them
-if [ -f /opt/intel/bin/iccvars.sh ]; then
-  source /opt/intel/bin/iccvars.sh intel64
-fi
-
 # if there the daily quotes file existes, give me a quote
 if [ -f ~/.daily_quotes.txt ]; then
   head -$((${RANDOM} % `wc -l < ~/.daily_quotes.txt` + 1)) ~/.daily_quotes.txt | tail -1;
   #shuf -n1 ~/.daily_quotes.txt
 fi
+
+# vi compatibilitie
+set -o vi
