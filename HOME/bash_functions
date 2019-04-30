@@ -38,6 +38,22 @@ echoerr ()
   echo -e "$RED${@:-error}$NC" 1>&2;
 }
 
+# section: happy bash
+#
+# man: sets a nice PS1
+__prompt_command ()
+{
+    local curr_exit="$?"
+
+    PS1='\n${debian_chroot:+($debian_chroot)}[$(defuser) at $(defhost)]:$(deflocal)\n\$ '
+
+    if [ "$curr_exit" != 0 ]; then
+        PS1="$PS1${RED}_> ${NC} "
+    else
+        PS1="$PS1${CYAN}_>${NC} "
+    fi
+}
+
 # man: prints the current location in the format used by the PS1 variable
 # man: if is inside a git repo then prints with different color and prints the branch
 # man: if is inside a regular folder then prints it beaty only
